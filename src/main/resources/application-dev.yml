@@ -1,0 +1,4 @@
+sts:
+  url: https://security-token-service.dev.adeo.no
+joark:
+  url: https://dokarkiv-q2.nais.preprod.local

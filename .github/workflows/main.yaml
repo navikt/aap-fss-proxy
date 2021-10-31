@@ -1,0 +1,53 @@
+name: Bygg og deploy
+
+on:
+  push:
+    branches:
+      - main
+env:
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/aap-fss-proxy:${{ github.sha }}
+
+jobs:
+  bygg:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sjekk ut kode
+        uses: actions/checkout@v2
+      - name: Hent tag
+        run: |
+          echo 'TAG<<EOF' >> $GITHUB_ENV
+          git log -1 --pretty=%ad --date=format:%Y%m%d%H%M%S-`echo $GITHUB_SHA | cut -c1-7`  >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      - name: Sett opp Java 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: 'adopt'
+          cache: 'maven'
+      - name: Kompiler
+        run: |
+          mvn versions:set -DnewVersion=${TAG}
+          echo "IMAGE=$IMAGE_BASE:$TAG" >> $GITHUB_ENV
+          mvn package
+      - name: Bygg docker image
+        run: docker build -t $IMAGE .
+      - name: Login Github package registry
+        run: docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push docker image
+        run: docker push $IMAGE
+  deploytildev:
+    name: Deploy til dev
+    needs: bygg
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@master
+        name: Checkout code
+      - uses: nais/deploy/actions/deploy@master
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_API_KEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: .deploy/nais.yaml
+          VARS: .deploy/dev.yaml

@@ -1,0 +1,18 @@
+spring:
+  main:
+    banner-mode: off
+management:
+  health:
+    ping:
+      enabled: false
+    diskspace:
+      enabled: false
+no.nav.security.jwt:
+  issuer.aad:
+    discovery_url: https://login.microsoftonline.com/${AZURE_APP_TENANT_ID}/v2.0/.well-known/openid-configuration
+    accepted_audience: ${AZURE_APP_CLIENT_ID}, api://${AZURE_APP_CLIENT_ID}, ${ACCEPTED_AUDIENCE}
+    proxy-url: http://webproxy.nais:8088
+  issuer.tokenx:
+    discovery-url: ${token.x.well.known.url}
+    accepted-audience: ${token.x.client.id}
+    proxy-url: http://webproxy.nais:8088

@@ -1,0 +1,7 @@
+azure:
+  tenant: trygdeetaten.no
+ingresses:
+  - https://aap-fss-proxy.dev-fss-pub.nais.io
+  - https://aap-fss-proxy.dev.intern.nav.no
+vault:
+  kvPath: dev
