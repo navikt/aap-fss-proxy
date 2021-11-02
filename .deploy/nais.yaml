@@ -46,6 +46,9 @@ spec:
   {{#each ingresses as |url|}}
      - {{url}}
   {{/each}}
+  env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: {{springProfile}}
   vault:
     enabled: true
     paths:

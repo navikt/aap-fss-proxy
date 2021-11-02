@@ -48,6 +48,6 @@ jobs:
       - uses: nais/deploy/actions/deploy@master
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_API_KEY }}
-          CLUSTER: dev-gcp
+          CLUSTER: dev-fss
           RESOURCE: .deploy/nais.yaml
           VARS: .deploy/dev.yaml

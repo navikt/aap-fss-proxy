@@ -14,7 +14,7 @@ class JoarkClient(
     private val stsClient: StsClient
 ) {
 
-    fun opprettJournalpost(journalpost: Journalpost) {
+    fun opprettJournalpost(journalpost: Journalpost): String {
         val response = joarkWebClient.post()
             .header(HttpHeaders.AUTHORIZATION, "Bearer ${stsClient.oidcToken()}")
             .contentType(MediaType.APPLICATION_JSON)
@@ -23,6 +23,8 @@ class JoarkClient(
             .bodyToMono(JoarkResponse::class.java)
             .block()
             ?: throw RuntimeException("Klarte ikke opprette journalpost.")
+
+        return response.journalpostId
     }
 
 }

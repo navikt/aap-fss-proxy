@@ -3,5 +3,6 @@ azure:
 ingresses:
   - https://aap-fss-proxy.dev-fss-pub.nais.io
   - https://aap-fss-proxy.dev.intern.nav.no
+springProfile: dev
 vault:
   kvPath: dev
