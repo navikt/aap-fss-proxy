@@ -1,4 +1,4 @@
-package no.nav.aap.joark
+package no.nav.aap.joark.client
 
 import no.nav.aap.joark.domain.JoarkResponse
 import no.nav.aap.joark.domain.Journalpost

@@ -1,4 +1,5 @@
 package no.nav.aap.joark.domain
 
-class JoarkResponse {
-}
+data class JoarkResponse(
+    val journalpostId: String
+)
