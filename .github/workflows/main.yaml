@@ -38,7 +38,7 @@ jobs:
   deploytildev:
     name: Deploy til dev
     needs: bygg
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@master
