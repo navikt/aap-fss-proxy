@@ -27,7 +27,6 @@ jobs:
       - name: Kompiler
         run: |
           mvn versions:set -DnewVersion=${TAG}
-          echo "IMAGE=$IMAGE_BASE:$TAG" >> $GITHUB_ENV
           mvn package
       - name: Bygg og publiser Docker image
         env:
