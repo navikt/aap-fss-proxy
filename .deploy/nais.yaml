@@ -50,5 +50,5 @@ spec:
   vault:
     enabled: true
     paths:
-      - kvPath: /serviceuser/data/{{ vault.kvPath }}/srvaap-proxy
+      - kvPath: /serviceuser/data/{{kvPath}}/srvaap-proxy
         mountPath: /var/run/secrets/nais.io/srvaap-proxy
