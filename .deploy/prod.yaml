@@ -1,5 +1,4 @@
-azure:
-  tenant: nav.no
+tenant: nav.no
 ingresses:
   - https://aap-fss-proxy.fss-pub.nais.io
   - https://aap-fss-proxy.intern.nav.no

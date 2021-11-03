@@ -10,6 +10,5 @@ import org.springframework.context.annotation.Configuration
 class SecurityConfig {
     companion object {
         const val ISSUER_AAD = "aad"
-        const val ISSUER_IDPORTEN = "idporten"
     }
 }

@@ -16,9 +16,7 @@ spec:
   azure:
     application:
       enabled: true
-      tenant: { { azure.tenant } }
-  tokenx:
-    enabled: true
+      tenant: {{tenant}}
   port: 8080
   cpuThresholdPercentage: 50
   image: {{image}}
