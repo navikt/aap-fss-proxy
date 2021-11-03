@@ -5,7 +5,7 @@ on:
     branches:
       - main
 env:
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/aap-fss-proxy:${{ github.sha }}
+  IMAGE: ghcr.io/navikt/aap-fss-proxy:${{ github.sha }}
 
 jobs:
   bygg:
@@ -29,14 +29,13 @@ jobs:
           mvn versions:set -DnewVersion=${TAG}
           echo "IMAGE=$IMAGE_BASE:$TAG" >> $GITHUB_ENV
           mvn package
-      - name: Bygg docker image
-        run: docker build -t $IMAGE .
-      - name: Login Github package registry
-        run: docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+      - name: Bygg og publiser Docker image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Push docker image
-        run: docker push $IMAGE
+        run: |
+          echo ${GITHUB_TOKEN} | docker login ghcr.io --username ${GITHUB_REPOSITORY} --password-stdin
+          docker build --tag ${IMAGE} .
+          docker push ${IMAGE}
   deploytildev:
     name: Deploy til dev
     needs: bygg
