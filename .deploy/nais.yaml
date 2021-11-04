@@ -47,8 +47,5 @@ spec:
   env:
     - name: SPRING_PROFILES_ACTIVE
       value: {{springProfile}}
-  vault:
-    enabled: true
-    paths:
-      - kvPath: /serviceuser/data/{{kvPath}}/srvaap-proxy
-        mountPath: /var/run/secrets/nais.io/srvaap-proxy
+  envFrom:
+    - secret: srvaap-proxy
