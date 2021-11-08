@@ -8,6 +8,7 @@ import org.springframework.http.MediaType.*
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.ClientResponse
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.bodyToMono
 
 @Component
 class JoarkClient(
@@ -19,7 +20,7 @@ class JoarkClient(
             .bodyValue(journalpost)
             .retrieve()
             .onStatus({ obj: HttpStatus -> obj.isError }) { obj: ClientResponse -> obj.createException() }
-            .bodyToMono(JoarkResponse::class.java)
+            .bodyToMono<JoarkResponse>()
             .block()
         return response?.journalpostId ?: throw IntegrationException("Kunne ikke opprette journalpost")
     }
