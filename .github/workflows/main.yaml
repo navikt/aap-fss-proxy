@@ -27,7 +27,7 @@ jobs:
       - name: Kompiler
         run: |
           mvn versions:set -DnewVersion=${TAG}
-          mvn package
+          mvn package  --settings .github/.m2/settings.xml
       - name: Bygg og publiser Docker image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
