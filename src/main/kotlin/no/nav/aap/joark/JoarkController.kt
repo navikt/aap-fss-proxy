@@ -1,7 +1,7 @@
-package no.nav.aap.joark.controller
+package no.nav.aap.joark
 
 import no.nav.aap.config.SecurityConfig.Companion.ISSUER_AAD
-import no.nav.aap.joark.client.JoarkClient
+import no.nav.aap.joark.JoarkClient
 import no.nav.aap.joark.domain.Journalpost
 import no.nav.security.token.support.spring.ProtectedRestController
 import org.springframework.web.bind.annotation.PostMapping

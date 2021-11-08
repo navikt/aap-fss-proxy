@@ -1,7 +1,7 @@
 package no.nav.aap.sts
 
 import no.nav.aap.rest.RetryAware
-import no.nav.aap.sts.domain.OidcToken
+import no.nav.security.token.support.core.jwt.JwtToken
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
@@ -26,11 +26,11 @@ class StsClient(
                     .bodyToMono<OidcToken>()
                     .block()
             }.onFailure {
-                throw RuntimeException("STS er utilgjengelig")
+                throw RuntimeException("STS er utilgjengelig",it)
             }
         }
 
-        return cachedOidcToken!!.token
+        return cachedOidcToken!!.token.tokenAsString
     }
 
     private fun OidcToken?.shouldBeRenewed(): Boolean = this?.hasExpired() ?: true

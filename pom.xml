@@ -14,12 +14,24 @@
 	<name>aap-fss-proxy</name>
 	<description>Proxy for å kalle tjenester i FSS</description>
 	<properties>
+		<conditionals.version>2.0.13</conditionals.version>
 		<java.version>11</java.version>
 		<kotlin.version>1.5.31</kotlin.version>
-		<token.validation.version>1.3.9</token.validation.version>
+		<problem.version>0.27.0</problem.version>
 		<spring.retry.version>1.3.1</spring.retry.version>
+		<token.validation.version>1.3.9</token.validation.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.zalando</groupId>
+			<artifactId>problem-spring-web</artifactId>
+			<version>${problem.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.boot</groupId>
+			<artifactId>boot-conditionals</artifactId>
+			<version>${conditionals.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>

@@ -1,4 +1,4 @@
-package no.nav.aap.sts.config
+package no.nav.aap.sts
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
