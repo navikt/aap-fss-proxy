@@ -27,9 +27,8 @@ class ProxyExceptionHandler: ProblemHandling {
     @ExceptionHandler(WebClientResponseException::class)
     fun handleWebClientResponseException(e: WebClientResponseException, req: NativeWebRequest): ResponseEntity<Problem> {
         return when (e) {
-            is  Forbidden -> create(UNAUTHORIZED,e,req)
-            is  Unauthorized -> create(UNAUTHORIZED,e,req)
-            is  NotFound -> create(NOT_FOUND,e,req)
+            is Forbidden, is Unauthorized -> create(UNAUTHORIZED,e,req)
+            is NotFound -> create(NOT_FOUND,e,req)
             else -> create(INTERNAL_SERVER_ERROR,e,req)
         }
     }
