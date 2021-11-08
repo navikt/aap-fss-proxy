@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: "aap-fss-proxy"
   main:
     banner-mode: off
 management:
@@ -10,16 +12,16 @@ management:
 no.nav.security.jwt:
   issuer:
     aad:
-      discovery_url: https://login.microsoftonline.com/${AZURE_APP_TENANT_ID}/v2.0/.well-known/openid-configuration
-      accepted_audience: ${AZURE_APP_CLIENT_ID}, api://${AZURE_APP_CLIENT_ID}, ${ACCEPTED_AUDIENCE}
+      discovery_url: https://login.microsoftonline.com/${azure.app.tenant.id}/v2.0/.well-known/openid-configuration
+      accepted_audience:  api://${azure.app.client.id}, ${accepted.audience}
       proxy-url: http://webproxy.nais:8088
   client:
     registration:
       onbehalfof:
-        token-endpoint-url: https://login.microsoftonline.com/${AZURE_APP_TENANT_ID}/oauth2/v2.0/token
+        token-endpoint-url: https://login.microsoftonline.com/${azure.app.tenant.id}/oauth2/v2.0/token
         grant-type: urn:ietf:params:oauth:grant-type:jwt-bearer
         scope: https://graph.microsoft.com/.default
         authentication:
-          client-id: ${AZURE_APP_CLIENT_ID}
-          client-secret: ${AZURE_APP_CLIENT_SECRET}
+          client-id: ${azure.app.client.id}
+          client-secret: ${azure.app.client.secret}
           client-auth-method: client_secret_basic
