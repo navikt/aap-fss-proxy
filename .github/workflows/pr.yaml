@@ -5,6 +5,9 @@ on:
   push:
     branches-ignore:
       - main
+env:    
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
 jobs:
   kompiler:
     runs-on: ubuntu-latest
