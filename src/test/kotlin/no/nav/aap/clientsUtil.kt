@@ -33,15 +33,3 @@ fun createShortCircuitWebClientQueued(vararg jsonResponses: String): WebClient {
 
     return WebClient.builder().exchangeFunction(shortCircuitingExchangeFunction).build()
 }
-
-fun createFailingWebClient(): WebClient {
-    val clientResponse: ClientResponse = ClientResponse
-        .create(HttpStatus.INTERNAL_SERVER_ERROR)
-        .build()
-
-    val exchangeFunction = ExchangeFunction {
-        Mono.just(clientResponse)
-    }
-
-    return WebClient.builder().exchangeFunction(exchangeFunction).build()
-}
