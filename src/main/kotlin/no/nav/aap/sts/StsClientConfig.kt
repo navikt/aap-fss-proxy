@@ -4,8 +4,10 @@ import no.nav.aap.config.ServiceuserConfig
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
-import org.springframework.web.reactive.function.client.*
-import java.util.Base64.*
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction
+import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.ClientRequest
+import java.util.Base64.getEncoder
 
 @Configuration
 class StsClientConfig(private val cfg: ServiceuserConfig) {

@@ -1,8 +1,6 @@
 package no.nav.aap.sts
 
-import no.nav.aap.error.IntegrationException
 import no.nav.aap.rest.RetryAware
-import no.nav.security.token.support.core.jwt.JwtToken
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.ClientResponse

@@ -7,7 +7,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.retry.annotation.EnableRetry
 import no.nav.boot.conditionals.Cluster.profiler
-import no.nav.boot.conditionals.ConditionalOnDevOrLocal
 import no.nav.boot.conditionals.ConditionalOnNotProd
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository
 import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository

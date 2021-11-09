@@ -9,8 +9,9 @@ import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.reactive.function.client.WebClientResponseException
 import org.springframework.web.reactive.function.client.WebClientResponseException.*
 import org.zalando.problem.Problem
-import org.zalando.problem.Status
-import org.zalando.problem.Status.*
+import org.zalando.problem.Status.NOT_FOUND
+import org.zalando.problem.Status.UNAUTHORIZED
+import org.zalando.problem.Status.INTERNAL_SERVER_ERROR
 import org.zalando.problem.spring.web.advice.ProblemHandling
 
 @ControllerAdvice
