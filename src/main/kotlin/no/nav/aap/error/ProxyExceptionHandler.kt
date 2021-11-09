@@ -20,7 +20,7 @@ class ProxyExceptionHandler: ProblemHandling {
     fun handleMissingOrExpiredToken(e: java.lang.Exception, req: NativeWebRequest): ResponseEntity<Problem> {
         return create(UNAUTHORIZED,e,req)
     }
-   
+
     @ExceptionHandler(WebClientResponseException::class)
     fun handleWebClientResponseException(e: WebClientResponseException, req: NativeWebRequest): ResponseEntity<Problem> {
         return when (e) {

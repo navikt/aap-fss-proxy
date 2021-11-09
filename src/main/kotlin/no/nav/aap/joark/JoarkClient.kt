@@ -15,13 +15,12 @@ class JoarkClient(
     private val joarkWebClient: WebClient) {
 
     fun opprettJournalpost(journalpost: Journalpost): String {
-        val response = joarkWebClient.post()
+        return joarkWebClient.post()
             .contentType(APPLICATION_JSON)
             .bodyValue(journalpost)
             .retrieve()
             .onStatus({ obj: HttpStatus -> obj.isError }) { obj: ClientResponse -> obj.createException() }
             .bodyToMono<JoarkResponse>()
-            .block()
-        return response?.journalpostId ?: throw IntegrationException("Kunne ikke opprette journalpost")
+            .block()!!.journalpostId
     }
 }
