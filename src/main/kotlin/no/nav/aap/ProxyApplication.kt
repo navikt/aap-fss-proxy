@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.retry.annotation.EnableRetry
 import no.nav.boot.conditionals.Cluster.profiler
 import no.nav.boot.conditionals.ConditionalOnDevOrLocal
+import no.nav.boot.conditionals.ConditionalOnNotProd
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository
 import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository
 import org.springframework.context.annotation.Bean
@@ -17,17 +18,17 @@ import org.springframework.context.annotation.Bean
 @EnableRetry
 @EnableJwtTokenValidation(ignore = ["springfox.documentation", "org.springframework"])
 @EnableOAuth2Client(cacheEnabled = true)
-class Application
+class ProxyApplication
 
 fun main(args: Array<String>) {
-	SpringApplicationBuilder(Application::class.java)
+	SpringApplicationBuilder(ProxyApplication::class.java)
 		.profiles(*profiler())
-		.main(Application::class.java)
+		.main(ProxyApplication::class.java)
 		.run(*args)
 }
 
 @Bean
-@ConditionalOnDevOrLocal
+@ConditionalOnNotProd
 fun httpTraceRepository(): HttpTraceRepository {
 	return InMemoryHttpTraceRepository()
 }
