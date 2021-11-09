@@ -44,8 +44,5 @@ spec:
   {{#each ingresses as |url|}}
      - {{url}}
   {{/each}}
-  env:
-    - name: SPRING_PROFILES_ACTIVE
-      value: {{springProfile}}
   envFrom:
     - secret: srvaap-proxy
