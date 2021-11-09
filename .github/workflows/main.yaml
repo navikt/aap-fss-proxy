@@ -6,6 +6,7 @@ on:
       - main
 env:
   IMAGE: ghcr.io/navikt/aap-fss-proxy:${{ github.sha }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   bygg:
