@@ -1,6 +1,9 @@
 package no.nav.aap.joark
 
 import no.nav.aap.sts.StsClient
+import no.nav.boot.conditionals.ConditionalOnDevOrLocal
+import org.springframework.boot.actuate.trace.http.HttpTraceRepository
+import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders.AUTHORIZATION
@@ -16,6 +19,12 @@ class JoarkClientConfig(private val webClientBuilder: WebClient.Builder, private
             .baseUrl(joarkConfig.url)
             .filter(stsExchangeFilterFunction(stsClient))
             .build()
+    }
+
+    @Bean
+    @ConditionalOnDevOrLocal
+    fun httpTraceRepository(): HttpTraceRepository {
+        return InMemoryHttpTraceRepository()
     }
 
     private fun stsExchangeFilterFunction(stsClient: StsClient) =
