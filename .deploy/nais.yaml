@@ -12,7 +12,9 @@ spec:
   accessPolicy:
     inbound:
       rules:
-        - application: aap-soknad-api
+        - application: aap-soknad-konsument
+          namespace: aap
+          cluster: dev-gcp
   azure:
     application:
       enabled: true
