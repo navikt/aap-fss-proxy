@@ -2,3 +2,13 @@ sts:
   url: https://security-token-service.dev.adeo.no
 joark:
   url: https://dokarkiv-q2.nais.preprod.local
+management :
+  endpoints:
+    web:
+      exposure:
+        include:  '*'
+  endpoint:
+    health:
+      show-details : always
+mvc:
+  log-request-details : true
