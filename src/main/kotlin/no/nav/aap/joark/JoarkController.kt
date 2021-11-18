@@ -6,7 +6,8 @@ import no.nav.security.token.support.spring.ProtectedRestController
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 
-@ProtectedRestController(value = ["/joark"], issuer = ISSUER_AAD)
+
+@ProtectedRestController(value = ["/joark"], issuer = ISSUER_AAD, claimMap =[""] )
 class JoarkController(private val joarkClient: JoarkClient) {
 
     @PostMapping("/aad")
