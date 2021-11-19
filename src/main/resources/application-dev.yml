@@ -1,7 +1,7 @@
 sts:
   url: https://security-token-service.dev.adeo.no
 joark:
-  url: https://dokarkiv-q2.nais.preprod.local
+  url: https://dokarkiv-q2.nais.preprod.local/rest/journalpostapi/v1/journalpost
 management :
   endpoints:
     web:
