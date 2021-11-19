@@ -34,11 +34,11 @@ class HeadersToMDCFilterBean constructor(val generator: CallIdGenerator, @Value(
         try {
             val headerNames: Enumeration<String> = req.getHeaderNames()
 
-            if (headerNames != null) {
                 while (headerNames.hasMoreElements()) {
-                    LOG.info("Header: " + req.getHeader(headerNames.nextElement()))
+                    var next = headerNames.nextElement();
+                    LOG.info("Header: $next " + req.getHeader(next))
                 }
-            }
+
             toMDC(NAV_CONSUMER_ID, req.getHeader(NAV_CONSUMER_ID), applicationName)
             toMDC(NAV_CALL_ID, req.getHeader(NAV_CALL_ID), generator.create())
             LOG.info("Kjørt filter")
