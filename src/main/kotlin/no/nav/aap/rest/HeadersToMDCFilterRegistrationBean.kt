@@ -1,4 +1,4 @@
-package no.nav.aap.api.rest
+package no.nav.aap.rest
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

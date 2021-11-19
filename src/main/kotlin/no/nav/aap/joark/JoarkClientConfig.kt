@@ -1,6 +1,6 @@
 package no.nav.aap.joark
 
-import no.nav.aap.api.util.MDCUtil
+import no.nav.aap.util.MDCUtil
 import no.nav.aap.sts.StsClient
 import no.nav.boot.conditionals.ConditionalOnDevOrLocal
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository

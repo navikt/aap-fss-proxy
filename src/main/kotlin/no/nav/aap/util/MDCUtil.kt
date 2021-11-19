@@ -1,4 +1,4 @@
-package no.nav.aap.api.util
+package no.nav.aap.util
 
 import org.slf4j.MDC
 import java.util.*

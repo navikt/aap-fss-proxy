@@ -1,9 +1,9 @@
-package no.nav.aap.api.rest
+package no.nav.aap.rest
 
 import no.nav.aap.api.util.CallIdGenerator
-import no.nav.aap.api.util.MDCUtil.NAV_CALL_ID
-import no.nav.aap.api.util.MDCUtil.NAV_CONSUMER_ID
-import no.nav.aap.api.util.MDCUtil.toMDC
+import no.nav.aap.util.MDCUtil.NAV_CALL_ID
+import no.nav.aap.util.MDCUtil.NAV_CONSUMER_ID
+import no.nav.aap.util.MDCUtil.toMDC
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
