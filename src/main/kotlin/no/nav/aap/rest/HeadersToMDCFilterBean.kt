@@ -12,6 +12,7 @@ import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.GenericFilterBean
 import java.io.IOException
+import java.util.*
 import javax.servlet.FilterChain
 import javax.servlet.ServletException
 import javax.servlet.ServletRequest
@@ -31,7 +32,13 @@ class HeadersToMDCFilterBean constructor(val generator: CallIdGenerator, @Value(
 
     private fun putValues(req: HttpServletRequest) {
         try {
-            LOG.info("Kjører filter {}",req.getHeaders())
+            val headerNames: Enumeration<String> = req.getHeaderNames()
+
+            if (headerNames != null) {
+                while (headerNames.hasMoreElements()) {
+                    LOG.info("Header: " + req.getHeader(headerNames.nextElement()))
+                }
+            }
             toMDC(NAV_CONSUMER_ID, req.getHeader(NAV_CONSUMER_ID), applicationName)
             toMDC(NAV_CALL_ID, req.getHeader(NAV_CALL_ID), generator.create())
             LOG.info("Kjørt filter")
