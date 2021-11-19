@@ -21,7 +21,7 @@ data class Dokument(
     val dokumentVarianter: List<DokumentVariant> = mutableListOf()
 )
 
-data class DokumentVariant(
+class DokumentVariant(
     val filtype: String,
     val fysiskDokument: String,
     val variantformat: String
