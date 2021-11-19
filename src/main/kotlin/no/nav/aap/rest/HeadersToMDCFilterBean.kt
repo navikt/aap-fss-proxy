@@ -32,16 +32,8 @@ class HeadersToMDCFilterBean constructor(val generator: CallIdGenerator, @Value(
 
     private fun putValues(req: HttpServletRequest) {
         try {
-            val headerNames: Enumeration<String> = req.getHeaderNames()
-
-                while (headerNames.hasMoreElements()) {
-                    var next = headerNames.nextElement();
-                    LOG.info("Header: $next " + req.getHeader(next))
-                }
-
             toMDC(NAV_CONSUMER_ID, req.getHeader(NAV_CONSUMER_ID), applicationName)
             toMDC(NAV_CALL_ID, req.getHeader(NAV_CALL_ID), generator.create())
-            LOG.info("Kjørt filter")
         } catch (e: Exception) {
             LOG.warn("Feil ved setting av MDC-verdier for {}, MDC-verdier er inkomplette", req.requestURI, e)
         }
