@@ -34,7 +34,7 @@ class JoarkClientConfig(private val webClientBuilder: WebClient.Builder, private
          ExchangeFilterFunction { req: ClientRequest, next: ExchangeFunction ->
             next.exchange(
                 ClientRequest.from(req)
-                    .header(MDCUtil.NAV_CONSUMER_ID, MDCUtil.consumerId())
+                    .header(MDCUtil.NAV_CONSUMER_ID2, MDCUtil.consumerId())
                     .header(MDCUtil.NAV_CALL_ID2, MDCUtil.callId())
                     .build()
             )
