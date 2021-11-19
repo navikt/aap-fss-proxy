@@ -39,7 +39,6 @@ class JoarkClientConfig(private val webClientBuilder: WebClient.Builder, private
                     .build()
             )
         }
-    }
 
     private fun stsExchangeFilterFunction(stsClient: StsClient) =
         ExchangeFilterFunction { req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "Bearer ${stsClient.oidcToken()}").build()) }
