@@ -25,7 +25,9 @@ class HeadersToMDCFilterBean constructor(val generator: CallIdGenerator, @Value(
 
     @Throws(IOException::class, ServletException::class)
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
+        LOG.info("Kjører filter")
         putValues(HttpServletRequest::class.java.cast(request))
+        LOG.info("Kjørt filter")
         chain.doFilter(request, response)
     }
 
