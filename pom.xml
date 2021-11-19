@@ -79,12 +79,6 @@
 			<artifactId>spring-retry</artifactId>
 			<version>${spring.retry.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>no.nav.security</groupId>
-			<artifactId>token-client-spring</artifactId>
-			<version>${token.validation.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>no.nav.security</groupId>
 			<artifactId>token-validation-spring</artifactId>
