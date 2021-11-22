@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "joark.base-uri",
+      "type": "java.lang.String",
+      "description": "Description for joark.base-uri."
+  }
+] }

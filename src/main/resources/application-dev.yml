@@ -10,5 +10,6 @@ management :
   endpoint:
     health:
       show-details : always
-mvc:
-  log-request-details : true
+spring:
+  mvc:
+    log-request-details : true
