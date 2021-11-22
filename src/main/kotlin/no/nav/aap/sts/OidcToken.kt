@@ -14,4 +14,5 @@ data  class OidcToken(
 ) {
     private val expirationTime: LocalDateTime = LocalDateTime.now().plusSeconds(expiresIn - 20L)
     fun hasExpired() = expirationTime.isBefore(LocalDateTime.now())
+
 }
