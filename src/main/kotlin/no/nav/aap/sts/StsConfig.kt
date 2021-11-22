@@ -7,4 +7,4 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 import java.net.URI
 
 @ConfigurationProperties(prefix = "sts")
-class StsConfig @ConstructorBinding constructor(uri: URI,path: String,@DefaultValue("true") enabled: Boolean): AbstractRestConfig(uri,path,enabled)
+class StsConfig @ConstructorBinding constructor(baseUri: URI,path: String,@DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,path,enabled)
