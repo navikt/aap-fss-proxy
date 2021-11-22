@@ -7,4 +7,4 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 import java.net.URI
 
 @ConfigurationProperties("joark")
-class JoarkConfig @ConstructorBinding constructor(baseUri: URI?,path: String,@DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,path,enabled)
+class JoarkConfig @ConstructorBinding constructor(baseUri: URI,path: String,@DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,path,enabled)
