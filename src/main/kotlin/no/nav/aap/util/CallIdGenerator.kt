@@ -5,7 +5,5 @@ import java.util.*
 
 @Component
 class CallIdGenerator {
-    fun create(): String {
-        return UUID.randomUUID().toString()
-    }
+    fun create() = UUID.randomUUID().toString()
 }

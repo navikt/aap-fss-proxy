@@ -7,7 +7,11 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 @Retryable(
     include = [WebClientException::class],
-    exclude = [WebClientResponseException.NotFound::class, WebClientResponseException.Forbidden::class, WebClientResponseException.BadRequest::class, WebClientResponseException.Unauthorized::class],
+    exclude = [
+        WebClientResponseException.NotFound::class,
+        WebClientResponseException.Forbidden::class,
+        WebClientResponseException.BadRequest::class,
+        WebClientResponseException.Unauthorized::class],
     maxAttemptsExpression = "#{\${rest.retry.attempts:3}}",
     backoff = Backoff(delayExpression = "#{\${rest.retry.delay:1000}}")
 )

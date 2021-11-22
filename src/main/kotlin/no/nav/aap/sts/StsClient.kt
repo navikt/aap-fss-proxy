@@ -8,24 +8,6 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 
 @Component
-class StsClient(private val stsWebClient: WebClient): RetryAware {
-    private var cachedOidcToken: OidcToken? = null
-
-    fun oidcToken(): String {
-        if (cachedOidcToken.shouldBeRenewed()) {
-                cachedOidcToken = stsWebClient.get()
-                    .uri { uriBuilder ->
-                        uriBuilder
-                            .queryParam("grant_type", "client_credentials")
-                            .queryParam("scope", "openid")
-                            .build()
-                    }
-                    .retrieve()
-                    .onStatus({ obj: HttpStatus -> obj.isError }) { obj: ClientResponse -> obj.createException() }
-                    .bodyToMono<OidcToken>()
-                    .block()
-        }
-        return cachedOidcToken!!.token.tokenAsString
-    }
-    private fun OidcToken?.shouldBeRenewed(): Boolean = this?.hasExpired() ?: true
+class StsClient(private val adapter: StsWebClientAdapter): RetryAware {
+    fun oidcToken() = adapter.oidcToken();
 }

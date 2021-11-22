@@ -11,10 +11,8 @@ class HeadersToMDCFilterRegistrationBean(headersFilter: HeadersToMDCFilterBean?)
     init {
         filter = headersFilter
         urlPatterns =listOf(ALWAYS)
-        LOG.info("Registrert filter {}", this.javaClass.simpleName)
     }
     companion object {
         private const val ALWAYS = "/*"
-        private val LOG: Logger = LoggerFactory.getLogger(HeadersToMDCFilterRegistrationBean::class.java)
     }
 }

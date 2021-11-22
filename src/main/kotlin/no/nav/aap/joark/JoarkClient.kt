@@ -9,15 +9,6 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 
 @Component
-class JoarkClient(private val joarkWebClient: WebClient) {
-
-    fun opprettJournalpost(journalpost: Journalpost): String {
-        return joarkWebClient.post()
-            .contentType(APPLICATION_JSON)
-            .bodyValue(journalpost)
-            .retrieve()
-            .onStatus({ obj: HttpStatus -> obj.isError }) { obj: ClientResponse -> obj.createException() }
-            .bodyToMono<JoarkResponse>()
-            .block()!!.journalpostId
-    }
+class JoarkClient(private val adapter: JoarkWebClientAdapter) {
+    fun opprettJournalpost(journalpost: Journalpost)  = adapter.opprettJournalpost(journalpost)
 }

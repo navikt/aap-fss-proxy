@@ -9,8 +9,8 @@ import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 
 @ConditionalOnDevOrLocal
-class ActuatorIgnoringTraceRequestFilter(repository: HttpTraceRepository?, tracer: HttpExchangeTracer?) :
-    HttpTraceFilter(repository, tracer) {
+class ActuatorIgnoringTraceRequestFilter(repository: HttpTraceRepository?, tracer: HttpExchangeTracer?) : HttpTraceFilter(repository, tracer) {
+
     @Throws(ServletException::class)
     override fun shouldNotFilter(request: HttpServletRequest): Boolean {
         return request.servletPath.contains("actuator")

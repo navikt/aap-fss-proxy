@@ -13,13 +13,7 @@ object MDCUtil {
         return MDC.get(NAV_CALL_ID) ?: UUID.randomUUID().toString()
     }
 
-    fun consumerId(): String {
-        return MDC.get(NAV_CONSUMER_ID) ?: "aap-søknad-api"
-    }
-
-    fun toMDC(key: String, value: Any?) {
-        value?.let { v -> toMDC(key,v) }
-    }
+    fun consumerId() = MDC.get(NAV_CONSUMER_ID) ?: "aap-fss-proxy"
 
     fun toMDC(key: String, value: String?, defaultValue: String? = null) {
         MDC.put(key, value ?: defaultValue)
