@@ -7,6 +7,6 @@ import javax.inject.Inject
 
 @Component
 class StsClient @Inject constructor(private val adapter: StsWebClientAdapter): RetryAware {
-    constructor(webClient: WebClient, cfg: StsConfig) : this(StsWebClientAdapter(webClient,cfg))
+      constructor(webClient: WebClient, cfg: StsConfig) : this(StsWebClientAdapter(webClient,cfg))
     fun oidcToken() = adapter.oidcToken();
 }

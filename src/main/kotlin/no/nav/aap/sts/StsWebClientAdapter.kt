@@ -30,5 +30,10 @@ class StsWebClientAdapter internal constructor(@Qualifier(Constants.STS) webClie
         }
         return cachedOidcToken!!.token.tokenAsString
     }
+
+    override fun ping() {
+        oidcToken()
+    }
+
     private fun OidcToken?.shouldBeRenewed(): Boolean = this?.hasExpired() ?: true
 }
