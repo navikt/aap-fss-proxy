@@ -14,14 +14,9 @@ import org.zalando.problem.jackson.ProblemModule
 @Configuration
 class FellesRestBeanConfig {
 @Bean
-fun customizer(): Jackson2ObjectMapperBuilderCustomizer {
+ fun customizer(): Jackson2ObjectMapperBuilderCustomizer {
     return Jackson2ObjectMapperBuilderCustomizer { b: Jackson2ObjectMapperBuilder ->
         b.modules(ProblemModule(), JavaTimeModule(), KotlinModule())
     }
-}
-@Bean
-@ConditionalOnDevOrLocal
-fun httpTraceRepository(): HttpTraceRepository {
-    return InMemoryHttpTraceRepository()
-}
+  }
 }
