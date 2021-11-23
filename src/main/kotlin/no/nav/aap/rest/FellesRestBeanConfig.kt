@@ -2,9 +2,6 @@ package no.nav.aap.rest
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import no.nav.boot.conditionals.ConditionalOnDevOrLocal
-import org.springframework.boot.actuate.trace.http.HttpTraceRepository
-import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
