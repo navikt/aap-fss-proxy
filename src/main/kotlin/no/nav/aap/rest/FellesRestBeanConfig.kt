@@ -26,15 +26,10 @@ class FellesRestBeanConfig {
     fun springShopOpenAPI(): OpenAPI? {
         return OpenAPI()
             .info(
-                Info().title("SpringShop API")
-                    .description("Spring shop sample application")
+                Info().title("AAP fss proxy")
+                    .description("Proxy mot tjenster som ikke støtter AAD/TokenX")
                     .version("v0.0.1")
-                    .license(License().name("Apache 2.0").url("http://springdoc.org"))
-            )
-            .externalDocs(
-                ExternalDocumentation()
-                    .description("SpringShop Wiki Documentation")
-                    .url("https://springshop.wiki.github.org/docs")
+                    .license(License().name("MIT").url("http://nav.no"))
             )
     }
 }
