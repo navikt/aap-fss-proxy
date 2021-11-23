@@ -17,7 +17,7 @@ class JoarkController(private val joark: JoarkClient) {
     fun opprettJournalpostFraSaksbehandler(@RequestBody journalpost: Journalpost) : JoarkResponse?{
         log.info("oppretter journalpost $journalpost")
         var res =  joark.opprettJournalpost(journalpost)
-        log.info("opprettet journalpost OK $journalpost")
+        log.info("opprettet journalpost OK $res")
         return res;
     }
 }
