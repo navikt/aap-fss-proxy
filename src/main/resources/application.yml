@@ -29,4 +29,3 @@ no.nav.security.jwt:
       proxy-url: http://webproxy.nais:8088
   springdoc:
       packagesToScan: no.nav.aap
-      pathsToMatch: /**
