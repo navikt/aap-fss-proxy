@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.zalando.problem.jackson.ProblemModule
+
+@Configuration
+class FellesRestBeanConfig {
 @Bean
 fun customizer(): Jackson2ObjectMapperBuilderCustomizer {
     return Jackson2ObjectMapperBuilderCustomizer { b: Jackson2ObjectMapperBuilder ->
@@ -20,4 +23,5 @@ fun customizer(): Jackson2ObjectMapperBuilderCustomizer {
 @ConditionalOnDevOrLocal
 fun httpTraceRepository(): HttpTraceRepository {
     return InMemoryHttpTraceRepository()
+}
 }
