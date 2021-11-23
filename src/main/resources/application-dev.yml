@@ -1,3 +1,9 @@
+info:
+  cluster-name: ${nais.cluster.name}
+  image-name : ${nais.app.image}
+  app-name : ${nais.app.name}
+  java-version : ${java.version}
+  namespace-name: ${nais.namespace}
 sts:
   base-uri: https://security-token-service.dev.adeo.no
 joark:
