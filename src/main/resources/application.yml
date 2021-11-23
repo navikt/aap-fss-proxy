@@ -28,4 +28,6 @@ no.nav.security.jwt:
       accepted_audience:  api://${azure.app.client.id},${azure.app.client.id}
       proxy-url: http://webproxy.nais:8088
   springdoc:
-      packagesToScan: no.nav.aap
+    packagesToScan: no.nav.aap
+    swagger-ui:
+        disable-swagger-default-url: true
