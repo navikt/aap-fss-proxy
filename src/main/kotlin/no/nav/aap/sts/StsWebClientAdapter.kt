@@ -1,7 +1,6 @@
 package no.nav.aap.sts
 
 import no.nav.aap.config.Constants
-import no.nav.aap.joark.JoarkConfig
 import no.nav.aap.rest.AbstractWebClientAdapter
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
