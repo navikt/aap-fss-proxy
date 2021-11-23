@@ -21,29 +21,18 @@
 		<kotlin.version>1.5.31</kotlin.version>
 		<logstash.version>7.0</logstash.version>
 		<problem.version>0.27.0</problem.version>
-		<springfox.version>3.0.0</springfox.version>
 		<spring.retry.version>1.3.1</spring.retry.version>
 		<token.validation.version>1.3.9</token.validation.version>
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.5.12</version>
+		</dependency>
+		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-kotlin</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-boot-starter</artifactId>
-			<version>${springfox.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${springfox.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-bean-validators</artifactId>
-			<version>${springfox.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>
