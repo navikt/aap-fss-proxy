@@ -14,8 +14,10 @@ class JoarkController(private val joark: JoarkClient) {
     private val log = getLogger(javaClass)
 
     @PostMapping("/aad")
-    fun opprettJournalpostFraSaksbehandler(@RequestBody journalpost: Journalpost) {
+    fun opprettJournalpostFraSaksbehandler(@RequestBody journalpost: Journalpost) : JoarkResponse?{
         log.info("oppretter journalpost $journalpost")
-        joark.opprettJournalpost(journalpost)
+        var res =  joark.opprettJournalpost(journalpost)
+        log.info("opprettet journalpost OK $journalpost")
+        return res;
     }
 }
