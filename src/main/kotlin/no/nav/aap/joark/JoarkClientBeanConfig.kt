@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.web.reactive.function.client.WebClient
 
 @Configuration
-class JoarkClientConfig(private val webClientBuilder: WebClient.Builder, private val cfg: JoarkConfig) {
+class JoarkClientBeanConfig(private val webClientBuilder: WebClient.Builder, private val cfg: JoarkConfig) {
     @Bean
     @Qualifier(Constants.JOARK)
     fun joarkWebClient(stsClient: StsClient): WebClient {

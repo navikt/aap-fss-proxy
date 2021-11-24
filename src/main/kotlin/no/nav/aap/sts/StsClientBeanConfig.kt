@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.ClientRequest
 import java.util.Base64.getEncoder
 @Configuration
-class StsClientConfig(val cfg: ServiceuserConfig) {
+class StsClientBeanConfig(val cfg: ServiceuserConfig) {
 
     @Bean
     @Qualifier(Constants.STS)

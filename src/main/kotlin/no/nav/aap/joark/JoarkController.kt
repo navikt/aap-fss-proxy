@@ -15,9 +15,9 @@ class JoarkController(private val joark: JoarkClient) {
 
     @PostMapping("/aad")
     fun opprettJournalpostFraSaksbehandler(@RequestBody journalpost: Journalpost) : JoarkResponse?{
-        log.info("oppretter journalpost $journalpost")
+        log.trace("oppretter journalpost $journalpost")
         var res =  joark.opprettJournalpost(journalpost)
-        log.info("opprettet journalpost OK $res")
+        log.trace("opprettet journalpost OK $res")
         return res;
     }
 }
