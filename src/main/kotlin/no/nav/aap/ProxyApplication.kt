@@ -6,6 +6,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.retry.annotation.EnableRetry
 import no.nav.boot.conditionals.Cluster.profiler
+import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
@@ -15,6 +16,7 @@ class ProxyApplication
 fun main(args: Array<String>) {
 	SpringApplicationBuilder(ProxyApplication::class.java)
 		.profiles(*profiler())
-		.main(ProxyApplication::class.java)
+    	.applicationStartup(BufferingApplicationStartup(4096))
+    	.main(ProxyApplication::class.java)
 		.run(*args)
 }
