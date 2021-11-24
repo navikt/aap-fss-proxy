@@ -16,6 +16,7 @@ import no.nav.aap.config.Constants.JOARK
 
 @Configuration
 class JoarkClientBeanConfig(private val webClientBuilder: WebClient.Builder, private val cfg: JoarkConfig) {
+    @Bean
     @Qualifier(JOARK)
     fun joarkWebClient(stsClient: StsClient): WebClient {
         return webClientBuilder
