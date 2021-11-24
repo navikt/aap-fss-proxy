@@ -33,7 +33,7 @@ class FellesRestBeanConfig {
         return OpenAPI()
             .info(
                 Info().title("AAP fss proxy")
-                    .description("Proxy mot tjenster som ikke støtter AAD/TokenX")
+                    .description("Proxy mot tjenester som ikke støtter AAD/TokenX")
                     .version("v0.0.1")
                     .license(License().name("MIT").url("http://nav.no"))
             )
