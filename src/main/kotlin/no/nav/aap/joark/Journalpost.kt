@@ -14,24 +14,12 @@ data class Journalpost(
 )
 
 data class Tilleggsopplysning(val nokkel: String, val verdi: String)
-
-data class Dokument(
-    val tittel: String,
-    val brevkode: String? = null,
-    val dokumentVarianter: List<DokumentVariant> = mutableListOf()
-)
+data class Dokument(val tittel: String, val brevkode: String? = null, val dokumentVarianter: List<DokumentVariant> = mutableListOf())
  data class DokumentVariant(val filtype: String, val fysiskDokument: String, val variantformat: String) {
      override fun toString() = "${javaClass.simpleName} [variantformat=$variantformat,filtype=$filtype]"
  }
 
-data class Sak(
-    val sakstype: Sakstype,
-    val fagsaksystem: FagsaksSystem? = null,
-    val fagsakid: String? = null,
-    val arkivsaksystem: String? = null,
-    val arkivsaksnummer: String? = null
-)
-
+data class Sak(val sakstype: Sakstype, val fagsaksystem: FagsaksSystem? = null, val fagsakid: String? = null, val arkivsaksystem: String? = null, val arkivsaksnummer: String? = null)
 enum class Sakstype {
     FAGSAK,
     GENERELL_SAK,
@@ -59,18 +47,6 @@ enum class FagsaksSystem {
 
 // #team_dokumentløsninger sier at ID_TYPE skal være FNR
 private const val ID_TYPE = "FNR"
-
-data class Bruker(
-    val id: String,
-    val idType: String = ID_TYPE
-)
-
-data class AvsenderMottaker(
-    val id: String,
-    val idType: String = ID_TYPE,
-    val navn: String
-)
-
-data class KlageApiJournalpost(
-    val id: String
-)
+data class Bruker(val id: String, val idType: String = ID_TYPE)
+data class AvsenderMottaker(val id: String, val idType: String = ID_TYPE, val navn: String)
+data class KlageApiJournalpost(val id: String)

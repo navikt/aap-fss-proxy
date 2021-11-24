@@ -1,6 +1,6 @@
 package no.nav.aap.sts
 
-import no.nav.aap.config.Constants
+import no.nav.aap.config.Constants.STS
 import no.nav.aap.config.ServiceuserConfig
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
@@ -14,7 +14,7 @@ import java.util.Base64.getEncoder
 class StsClientBeanConfig(val cfg: ServiceuserConfig) {
 
     @Bean
-    @Qualifier(Constants.STS)
+    @Qualifier(STS)
     fun stsWebClient(builder: WebClient.Builder, stsCfg: StsConfig): WebClient {
         return builder
             .baseUrl("${stsCfg.baseUri}/rest/v1/sts/token")

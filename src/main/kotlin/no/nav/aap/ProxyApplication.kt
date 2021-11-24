@@ -10,9 +10,8 @@ import no.nav.boot.conditionals.Cluster.profiler
 @SpringBootApplication
 @ConfigurationPropertiesScan
 @EnableRetry
-@EnableJwtTokenValidation(ignore = ["io.swagger", "org.springdoc", "org.springframework"])
+@EnableJwtTokenValidation(ignore = ["org.springdoc", "org.springframework"])
 class ProxyApplication
-
 fun main(args: Array<String>) {
 	SpringApplicationBuilder(ProxyApplication::class.java)
 		.profiles(*profiler())

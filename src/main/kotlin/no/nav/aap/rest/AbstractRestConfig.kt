@@ -24,13 +24,5 @@ abstract class AbstractRestConfig  protected constructor(val baseUri: URI, prote
                         .build()
                 )
             }
-        fun temaFilterFunction()  =
-             ExchangeFilterFunction { req: ClientRequest, next: ExchangeFunction ->
-                next.exchange(
-                    ClientRequest.from(req)
-                        .header(Constants.TEMA, Constants.AAP)
-                        .build()
-                )
-        }
     }
 }

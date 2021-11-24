@@ -16,12 +16,7 @@ abstract class AbstractPingableHealthIndicator(private val pingable: Pingable) :
         }
     }
 
-    private fun up(): Health {
-        return Health.up()
-            .withDetail(pingable.name(), pingable.pingEndpoint())
-            .build()
-    }
-
+    private fun up()  = Health.up().withDetail(pingable.name(), pingable.pingEndpoint()).build()
     private fun down(e: Exception): Health {
         log.warn("Kunne ikke pinge {} på {}", pingable.name(), pingable.pingEndpoint(), e)
         return Health.down()

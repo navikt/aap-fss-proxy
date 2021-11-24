@@ -15,10 +15,7 @@ class JoarkWebClientAdapter internal constructor(@Qualifier(JOARK) webClient: We
     fun opprettJournalpost(journalpost: Journalpost): JoarkResponse? {
         return webClient
             .post()
-            .uri { b ->
-                    b.path(cfg.path)
-                    .build()
-            }
+            .uri { b -> b.path(cfg.path).build() }
             .contentType(APPLICATION_JSON)
             .bodyValue(journalpost)
             .retrieve()
