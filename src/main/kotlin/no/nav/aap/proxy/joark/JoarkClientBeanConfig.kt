@@ -34,11 +34,7 @@ class JoarkClientBeanConfig(private val webClientBuilder: WebClient.Builder, pri
 
     @Component
     class JoarkHealthIndicator(adapter: JoarkWebClientAdapter) : AbstractPingableHealthIndicator(adapter)
-
-    @Bean
-    @ConditionalOnDevOrLocal
-    fun httpTraceRepository(): HttpTraceRepository = InMemoryHttpTraceRepository()
-
+    
     private fun stsExchangeFilterFunction(stsClient: StsClient) =
         ExchangeFilterFunction { req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "Bearer ${stsClient.oidcToken()}").build()) }
 }
