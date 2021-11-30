@@ -19,7 +19,7 @@
 		<conditionals.version>2.0.13</conditionals.version>
 		<java.version>17</java.version>
                 <kotlin.version>1.6.0</kotlin.version>
-		<logstash.version>7.0</logstash.version>
+		<logstash.version>7.0.1</logstash.version>
 		<problem.version>0.27.0</problem.version>
 		<spring.retry.version>1.3.1</spring.retry.version>
 		<token.validation.version>1.3.9</token.validation.version>
