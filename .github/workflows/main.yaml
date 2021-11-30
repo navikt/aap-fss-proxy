@@ -5,7 +5,7 @@ on:
     branches:
       - main
 env:
-  IMAGE: ghcr.io/navikt/aap-fss-proxy:${{ github.sha }}
+  IMAGE_BASE: ghcr.io/${{ github.repository }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
@@ -29,22 +29,24 @@ jobs:
         run: |
           mvn versions:set -DnewVersion=${TAG}
           mvn package  --settings .github/.m2/settings.xml
-      - name: Bygg og publiser Docker image
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+   
+      - name: Setter IMAGE
+        run: echo "IMAGE=$(echo $IMAGE_BASE):$(echo $TAG)" >> $GITHUB_ENV
+        
+      - name: Login to GitHub Packages Docker Registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9 # Use commit-sha1 instead of tag for security concerns
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Bygg, tag og push Docker image
         run: |
-          echo ${GITHUB_TOKEN} | docker login ghcr.io --username ${GITHUB_REPOSITORY} --password-stdin
-          docker build --tag ${IMAGE} .
-          docker push ${IMAGE}
-  deploytildev:
-    name: Deploy til dev
-    needs: bygg
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@master
-        name: Checkout code
-      - uses: nais/deploy/actions/deploy@master
+          docker build --pull --tag ${IMAGE_BASE}:${TAG} --tag ${IMAGE_BASE}:latest .
+          docker push ${IMAGE_BASE} --all-tags
+          
+      - name: Deploy
+        uses: nais/deploy/actions/deploy@master
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-fss
