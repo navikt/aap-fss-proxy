@@ -19,7 +19,7 @@ class StsClientBeanConfig(val cfg: ServiceuserConfig) {
     @Qualifier(STS)
     fun stsWebClient(builder: WebClient.Builder, stsCfg: StsConfig): WebClient {
         return builder
-            .baseUrl("${stsCfg.baseUri}/rest/v1/sts/token")
+            .baseUrl("${stsCfg.tokenPath}")
             .filter(stsExchangeFilterFunction())
             .build()
     }
