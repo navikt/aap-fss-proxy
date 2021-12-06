@@ -24,8 +24,9 @@ class StsClientBeanConfig(val cfg: ServiceuserConfig) {
             .build()
     }
 
-    @Component
-    class StsHealthIndicator(adapter: StsWebClientAdapter) : AbstractPingableHealthIndicator(adapter)
+    @Bean
+    fun stsHealthIndicator(adapter: StsWebClientAdapter) = object : AbstractPingableHealthIndicator(adapter) {
+    }
 
     private fun stsExchangeFilterFunction() =
         ExchangeFilterFunction { req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "Basic ${credentials()}").build()) }
