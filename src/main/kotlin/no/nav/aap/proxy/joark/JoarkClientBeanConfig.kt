@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Configuration
-class JoarkClientBeanConfig(@Value("\${spring.application.name}") var applicationName: String, private val  private val cfg: JoarkConfig) {
+class JoarkClientBeanConfig(@Value("\${spring.application.name}") val applicationName: String,  val cfg: JoarkConfig) {
 
     @Bean
     @Qualifier(JOARK)
