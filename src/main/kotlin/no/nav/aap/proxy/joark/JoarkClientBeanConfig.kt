@@ -27,14 +27,10 @@ class JoarkClientBeanConfig(@Value("\${spring.application.name}") val applicatio
             .filter(correlatingFilterFunction(applicationName))
             .filter(stsExchangeFilterFunction(stsClient))
             .build()
-
-    @Bean
-    fun joarkHealthIndicator(adapter: JoarkWebClientAdapter) = object : AbstractPingableHealthIndicator(adapter)
-
-    /*
+    
     @Component
     class JoarkHealthIndicator(adapter: JoarkWebClientAdapter) : AbstractPingableHealthIndicator(adapter)
-*/
+
     private fun stsExchangeFilterFunction(stsClient: StsClient) =
         ExchangeFilterFunction { req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "${stsClient.oidcToken().asBearer()}").build()) }
 }
