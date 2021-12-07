@@ -17,7 +17,7 @@
 
 	<properties>
 		<conditionals.version>2.0.13</conditionals.version>
-		<domain.version>0.0.22</domain.version>
+		<domain.version>0.0.23</domain.version>
 		<java.version>17</java.version>
 		<logstash.version>7.0.1</logstash.version>
 		<kotlin.version>1.6.0</kotlin.version>
