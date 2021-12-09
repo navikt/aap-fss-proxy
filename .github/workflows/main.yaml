@@ -50,5 +50,5 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-fss
-          RESOURCE: .deploy/nais.yaml
+          RESOURCE: .deploy/nais.yaml,.deploy/alerts.yaml
           VARS: .deploy/dev.yaml
