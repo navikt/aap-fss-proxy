@@ -16,7 +16,7 @@
 	<description>Proxy for å kalle tjenester i FSS</description>
 
 	<properties>
-		<conditionals.version>2.0.13</conditionals.version>
+		<conditionals.version>2.0.16</conditionals.version>
 		<domain.version>0.0.27</domain.version>
 		<java.version>17</java.version>
 		<logstash.version>7.0.1</logstash.version>
