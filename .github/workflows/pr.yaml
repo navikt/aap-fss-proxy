@@ -2,8 +2,7 @@ name: Build PR or branch
 
 on:
   pull_request:
-  push:
-    branches-ignore:
+    branches:
       - main
 env:    
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
