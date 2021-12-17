@@ -8,6 +8,5 @@ import java.net.URI
 
 @ConfigurationProperties("joark")
 class JoarkConfig @ConstructorBinding constructor(baseUri: URI,
-                                                  @DefaultValue("rest/journalpostapi/v1/journalpost") val path: String,
                                                   @DefaultValue("isAlive") pingPath: String,
                                                   @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,pingPath,enabled)

@@ -7,7 +7,7 @@ info:
 sts:
   base-uri: https://security-token-service.dev.adeo.no
 joark:
-  base-uri: https://dokarkiv-q2.nais.preprod.local
+  base-uri: https://dokarkiv-q2.nais.preprod.local/rest/journalpostapi/v1/journalpost
 management :
   info:
     java:
