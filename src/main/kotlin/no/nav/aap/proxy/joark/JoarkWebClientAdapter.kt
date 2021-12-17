@@ -16,6 +16,7 @@ class JoarkWebClientAdapter (@Qualifier(JOARK) webClient: WebClient, val cf: Joa
     fun opprettJournalpost(journalpost: Journalpost): JoarkResponse? =
          webClient
             .post()
+            .uri { b -> b.path(cf.path).build() }
             .contentType(APPLICATION_JSON)
             .bodyValue(journalpost)
             .retrieve()

@@ -10,13 +10,13 @@ import org.springframework.web.reactive.function.client.bodyToMono
 import no.nav.aap.util.Constants.STS
 
 @Component
-class StsWebClientAdapter internal constructor(@Qualifier(STS) webClient: WebClient, cfg: StsConfig) : AbstractWebClientAdapter(webClient, cfg) {
+class StsWebClientAdapter internal constructor(@Qualifier(STS) webClient: WebClient, private val cf: StsConfig) : AbstractWebClientAdapter(webClient, cf) {
     private var cachedOidcToken: OidcToken? = null
 
     fun oidcToken(): String {
         if (cachedOidcToken.shouldBeRenewed()) {
             cachedOidcToken = webClient.get()
-                .uri { b -> b.queryParam("grant_type", "client_credentials").queryParam("scope", "openid").build() }
+                .uri { b -> b.path(cf.tokenPath).queryParam("grant_type", "client_credentials").queryParam("scope", "openid").build() }
                 .retrieve()
                 .onStatus({ obj: HttpStatus -> obj.isError }) { obj: ClientResponse -> obj.createException() }
                 .bodyToMono<OidcToken>()
