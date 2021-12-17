@@ -1,4 +1,9 @@
 spring:
+  cloud:
+    discovery:
+       client:
+         health-indicator:
+            enabled: false
   application:
     name: "aap-fss-proxy"
   main:
