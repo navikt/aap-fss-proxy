@@ -1,17 +1,15 @@
 info:
   nais:
-    cluster-name: ${nais.cluster.name}
-    image-name : ${nais.app.image}
-    app-name : ${nais.app.name}
-    namespace-name: ${nais.namespace}
+    cluster: ${nais.cluster.name}
+    image : ${nais.app.image}
+    app : ${nais.app.name}
+    namespace: ${nais.namespace}
 sts:
   base-uri: https://security-token-service.dev.adeo.no
 joark:
   base-uri: https://dokarkiv-q2.nais.preprod.local
 management :
   info:
-    java:
-       enabled: true
     env:
       enabled: true
   endpoints:
