@@ -23,6 +23,7 @@
 		<kotlin.version>1.6.10</kotlin.version>
 		<problem.version>0.27.0</problem.version>
 		<spring.retry.version>1.3.1</spring.retry.version>
+		<springdoc.version>1.6.2</springdoc.version>
 		<spring-cloud-sleuth.version>3.1.0</spring-cloud-sleuth.version>
 		<token.validation.version>1.3.9</token.validation.version>
 	</properties>
@@ -47,17 +48,17 @@
 		<dependency>
 		   <groupId>no.nav.aap</groupId>
 	           <artifactId>aap-domain</artifactId>
-			<version>${domain.version}</version>
+		   <version>${domain.version}</version>
 		</dependency>
 		<dependency>
-		<groupId>org.springdoc</groupId>
-		<artifactId>springdoc-openapi-kotlin</artifactId>
-		<version>1.6.2</version>
+		  <groupId>org.springdoc</groupId>
+		  <artifactId>springdoc-openapi-kotlin</artifactId>
+		   <version>${springdoc.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.6.2</version>
+		    <groupId>org.springdoc</groupId>
+		    <artifactId>springdoc-openapi-ui</artifactId>
+		   <version>${springdoc.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>
