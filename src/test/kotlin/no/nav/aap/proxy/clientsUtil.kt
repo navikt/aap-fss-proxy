@@ -1,6 +1,7 @@
 package no.nav.aap.proxy
 
 import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.*
 import org.springframework.web.reactive.function.client.ClientResponse
 import org.springframework.web.reactive.function.client.ExchangeFunction
 import org.springframework.web.reactive.function.client.WebClient
@@ -8,7 +9,7 @@ import reactor.core.publisher.Mono
 
 fun createShortCircuitWebClient(jsonResponse: String): WebClient {
     val clientResponse: ClientResponse = ClientResponse
-        .create(HttpStatus.OK)
+        .create(OK)
         .header("Content-Type","application/json")
         .body(jsonResponse).build()
 
@@ -22,7 +23,7 @@ fun createShortCircuitWebClient(jsonResponse: String): WebClient {
 fun createShortCircuitWebClientQueued(vararg jsonResponses: String): WebClient {
     val responseList = ArrayDeque(jsonResponses.map {
         ClientResponse
-            .create(HttpStatus.OK)
+            .create(OK)
             .header("Content-Type","application/json")
             .body(it).build()
     })

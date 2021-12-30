@@ -7,7 +7,8 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 import java.net.URI
 
 @ConfigurationProperties("sts")
-class StsConfig @ConstructorBinding constructor(baseUri: URI,
-                                                @DefaultValue("rest/v1/sts/token") val tokenPath: String,
-                                                @DefaultValue("") pingPath: String,
-                                                @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,pingPath,enabled)
+@ConstructorBinding
+class StsConfig (baseUri: URI,
+                 @DefaultValue("rest/v1/sts/token") val tokenPath: String,
+                 @DefaultValue("") pingPath: String,
+                 @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,pingPath,enabled)

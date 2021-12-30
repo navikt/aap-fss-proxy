@@ -10,24 +10,28 @@ import org.springframework.web.reactive.function.client.bodyToMono
 import no.nav.aap.util.Constants.STS
 
 @Component
-class StsWebClientAdapter internal constructor(@Qualifier(STS) webClient: WebClient, private val cf: StsConfig) : AbstractWebClientAdapter(webClient, cf) {
-    private var cachedOidcToken: OidcToken? = null
+class StsWebClientAdapter (@Qualifier(STS) webClient: WebClient, private val cf: StsConfig) : AbstractWebClientAdapter(webClient, cf) {
+    private var token: OidcToken? = null
 
     fun oidcToken(): String {
-        if (cachedOidcToken.shouldBeRenewed()) {
-            cachedOidcToken = webClient.get()
-                .uri { b -> b.path(cf.tokenPath).queryParam("grant_type", "client_credentials").queryParam("scope", "openid").build() }
+        if (token.shouldBeRenewed()) {
+            token = webClient.get()
+                .uri { b -> b.path(cf.tokenPath)
+                    .queryParam("grant_type", "client_credentials")
+                    .queryParam("scope", "openid")
+                    .build()
+                }
                 .retrieve()
                 .onStatus({ obj: HttpStatus -> obj.isError }) { obj: ClientResponse -> obj.createException() }
                 .bodyToMono<OidcToken>()
                 .block()
         }
-        return cachedOidcToken!!.token.tokenAsString
+        return token!!.token.tokenAsString
     }
 
     override fun ping() {
         oidcToken()
     }
 
-    private fun OidcToken?.shouldBeRenewed(): Boolean = this?.hasExpired() ?: true
+    private fun OidcToken?.shouldBeRenewed() = this?.hasExpired() ?: true
 }

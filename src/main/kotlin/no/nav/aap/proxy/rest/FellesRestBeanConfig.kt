@@ -62,7 +62,6 @@ class FellesRestBeanConfig {
     class HeadersToMDCFilterRegistrationBean(@Value("\${spring.application.name}") applicationName: String) :
         FilterRegistrationBean<HeadersToMDCFilter?>(HeadersToMDCFilter(applicationName)) {
         init {
-
             urlPatterns = listOf("/*")
         }
     }
