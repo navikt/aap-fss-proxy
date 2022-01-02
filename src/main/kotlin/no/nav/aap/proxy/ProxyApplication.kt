@@ -15,8 +15,8 @@ import org.springframework.boot.context.metrics.buffering.BufferingApplicationSt
 class ProxyApplication
 fun main(args: Array<String>) {
 	SpringApplicationBuilder(ProxyApplication::class.java)
-		.profiles(*profiler())
+	.profiles(*profiler())
     	.applicationStartup(BufferingApplicationStartup(4096))
     	.main(ProxyApplication::class.java)
-		.run(*args)
+	.run(*args)
 }
