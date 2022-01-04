@@ -18,6 +18,6 @@ class ProxyApplication
 fun main(args: Array<String>) {
 	runApplication<ProxyApplication>(*args) {
 		setAdditionalProfiles(*profiler())
-		setApplicationStartup(BufferingApplicationStartup(4096))
+		applicationStartup = BufferingApplicationStartup(4096)
 	}
 }
