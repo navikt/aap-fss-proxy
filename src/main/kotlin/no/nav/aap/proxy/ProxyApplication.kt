@@ -7,15 +7,17 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.retry.annotation.EnableRetry
 import no.nav.boot.conditionals.Cluster.profiler
 import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup
+import org.springframework.boot.runApplication
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
 @EnableRetry
 @EnableJwtTokenValidation(ignore = ["org.springdoc", "org.springframework"])
+
 class ProxyApplication
 fun main(args: Array<String>) {
-	SpringApplicationBuilder(ProxyApplication::class.java)
-		.profiles(*profiler())
-		.applicationStartup(BufferingApplicationStartup(4096))
-		.run(*args)
+	runApplication<ProxyApplication>(*args) {
+		setAdditionalProfiles(*profiler())
+		setApplicationStartup(BufferingApplicationStartup(4096))
+	}
 }
