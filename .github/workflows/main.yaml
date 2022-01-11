@@ -22,6 +22,11 @@ jobs:
           java-version: 17
           distribution: temurin
           cache: maven
+      - name: Cache jib
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/target/jib-cache     
 
       - name: Setter TAG
         run: echo "TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
