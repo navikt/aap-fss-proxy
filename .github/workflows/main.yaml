@@ -25,7 +25,7 @@ jobs:
       - name: Cache jib
         uses: actions/cache@v2
         with:
-         key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
           path: |
             ~/target/jib-cache     
 
