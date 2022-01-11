@@ -23,5 +23,4 @@ class JoarkWebClientAdapter (@Qualifier(JOARK) webClient: WebClient, private val
             .onStatus({ obj: HttpStatus -> obj.isError }) { obj: ClientResponse -> obj.createException() }
             .bodyToMono<JoarkResponse>()
             .block()
-
 }
