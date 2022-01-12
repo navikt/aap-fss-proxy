@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>no.nav.aap</groupId>
 	<artifactId>aap-fss-proxy</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${revision}</version>
 	<name>aap-fss-proxy</name>
 	<description>Proxy for å kalle tjenester i FSS</description>
 
@@ -23,6 +23,7 @@
 		<logstash.version>7.0.1</logstash.version>
 		<kotlin.version>1.6.10</kotlin.version>
 		<problem.version>0.27.0</problem.version>
+		<revision>0.0.1-SNAPSHOT</revision>
 		<spring.retry.version>1.3.1</spring.retry.version>
 		<springdoc.version>1.6.4</springdoc.version>
 		<spring-cloud-sleuth.version>3.1.0</spring-cloud-sleuth.version>
