@@ -1,12 +1,20 @@
 package no.nav.aap.proxy.sts
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import no.nav.aap.proxy.createShortCircuitWebClient
 import no.nav.aap.proxy.createShortCircuitWebClientQueued
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.json.JsonTest
+import org.springframework.test.context.ContextConfiguration
 import java.net.URI
-
+@JsonTest
+@ContextConfiguration(classes = arrayOf(ObjectMapper::class))
 class StsClientTest {
+
+    @Autowired
+    private lateinit var mapper: ObjectMapper
     @Test
     fun `henter ut riktig token`() {
         val stsClient = StsClient(createShortCircuitWebClient(defaultToken),cfg)
@@ -24,6 +32,14 @@ class StsClientTest {
     fun `token blir cachet`() {
         val stsDefaultClient = StsClient(createShortCircuitWebClientQueued(defaultToken, shortLivedToken),cfg)
         assertEquals(stsDefaultClient.oidcToken(), stsDefaultClient.oidcToken())
+    }
+
+    @Test
+    fun `deserialisering av snake case respons`() {
+        val token = mapper.readValue(defaultToken,OidcToken::class.java)
+        assertEquals(token.tokenType,"Bearer")
+        assertEquals(token.expiresIn,3600)
+        assertEquals(token.accessToken!!.tokenAsString, longLived)
     }
 
     companion object {

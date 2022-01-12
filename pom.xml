@@ -31,6 +31,12 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-test</artifactId>
+			<version>${kotlin.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 		   <groupId>no.nav.aap</groupId>
 	           <artifactId>aap-domain</artifactId>
 		   <version>${domain.version}</version>

@@ -26,7 +26,7 @@ class StsWebClientAdapter (@Qualifier(STS) webClient: WebClient, private val cf:
                 .bodyToMono<OidcToken>()
                 .block()
         }
-        return token!!.token.tokenAsString
+        return token!!.accessToken!!.tokenAsString
     }
 
     override fun ping() {
