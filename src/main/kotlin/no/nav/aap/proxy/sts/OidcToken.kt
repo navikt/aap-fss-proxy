@@ -7,11 +7,11 @@ import no.nav.security.token.support.core.jwt.JwtToken
 import java.time.LocalDateTime
 @JsonNaming(SnakeCaseStrategy::class)
 data  class OidcToken(
-    //@JsonProperty(value = "access_token", required = true)
+    @JsonProperty(value = "access_token", required = true)
     val token: JwtToken,
-    //@JsonProperty(value = "token_type", required = true)
+    @JsonProperty(value = "token_type", required = true)
     val type: String,
-   // @JsonProperty(value = "expires_in", required = true)
+   @JsonProperty(value = "expires_in", required = true)
     val expiresIn: Int
 ) {
     private val expirationTime: LocalDateTime = LocalDateTime.now().plusSeconds(expiresIn - 20L)
