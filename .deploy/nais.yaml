@@ -4,7 +4,7 @@ metadata:
   annotations:
     nais.io/read-only-file-system: "false"
     nais.io/run-as-user: "1001"
-  name: aap-fss-proxy
+  name: fss-proxy
   namespace: aap
   labels:
     team: aap
@@ -12,7 +12,7 @@ spec:
   accessPolicy:
     inbound:
       rules:
-        - application: aap-soknad-konsument
+        - application: soknad-konsument
           namespace: aap
           cluster: dev-gcp
   azure:
