@@ -5,7 +5,7 @@ spring:
          health-indicator:
             enabled: false
   application:
-    name: "aap-fss-proxy"
+    name: "fss-proxy"
   main:
     banner-mode: off
   jackson:
