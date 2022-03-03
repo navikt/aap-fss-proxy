@@ -135,12 +135,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>no.nav.security</groupId>
-			<artifactId>token-validation-test-support</artifactId>
-			<version>${token.validation.version}</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
