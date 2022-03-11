@@ -30,7 +30,7 @@ class ArbeidsforholdConfig(@DefaultValue(DEFAULT_URI) baseUri: URI,
              .build()
 
     companion object {
-        const val DEFAULT_PING = "/internal/isAlive"
+        const val DEFAULT_PING = "internal/isAlive"
         const val DEFAULT_URI  ="https://aareg-services-q1.dev.intern.nav.no/api"
         const val ARBEIDSFORHOLD = "arbeidsforhold"
         const val PATH = "/v1/arbeidstaker/arbeidsforhold"
