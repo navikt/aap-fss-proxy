@@ -22,6 +22,10 @@ management :
 no.nav:
   security:
     jwt:
+      issuer:
+        idporten:
+          discovery-url: ${token.x.well.known.url}
+          accepted-audience: ${token.x.client.id}
       client:
         registration:
           aareg-services-q1:
