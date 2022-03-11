@@ -7,8 +7,13 @@ import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.info.License
 import no.nav.aap.rest.ActuatorIgnoringTraceRequestFilter
+import no.nav.aap.rest.tokenx.TokenXFilterFunction
+import no.nav.aap.util.AuthContext
 import no.nav.aap.util.StartupInfoContributor
 import no.nav.boot.conditionals.ConditionalOnDevOrLocal
+import no.nav.security.token.support.client.core.oauth2.OAuth2AccessTokenService
+import no.nav.security.token.support.client.spring.ClientConfigurationProperties
+import no.nav.security.token.support.client.spring.oauth2.ClientConfigurationPropertiesMatcher
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.actuate.trace.http.HttpExchangeTracer
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository
@@ -56,6 +61,16 @@ class FellesRestBeanConfig {
     
     @Bean
     fun startupInfoContributor(ctx: ApplicationContext) = StartupInfoContributor(ctx)
+
+    @Bean
+    fun configMatcher() = object : ClientConfigurationPropertiesMatcher {}
+
+    @Bean
+    fun tokenXFilterFunction(configs: ClientConfigurationProperties,
+                             service: OAuth2AccessTokenService,
+                             matcher: ClientConfigurationPropertiesMatcher,
+                             authContext: AuthContext) = TokenXFilterFunction(configs, service, matcher, authContext)
+
 
     @Component
     @Order(LOWEST_PRECEDENCE)
