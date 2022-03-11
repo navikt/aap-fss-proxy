@@ -9,6 +9,8 @@ metadata:
   labels:
     team: aap
 spec:
+  tokenx:
+    enabled: true
   accessPolicy:
     inbound:
       rules:
