@@ -8,6 +8,8 @@ sts:
   base-uri: https://security-token-service.dev.adeo.no
 joark:
   base-uri: https://dokarkiv-q2.nais.preprod.local
+inntektskomponent:
+  base-uri: https://app-q1.adeo.no/inntektskomponenten-ws/rs
 management :
   info:
     env:
