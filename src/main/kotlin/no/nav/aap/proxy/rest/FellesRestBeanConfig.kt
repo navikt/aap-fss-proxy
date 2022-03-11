@@ -68,14 +68,7 @@ class FellesRestBeanConfig {
 
     @Bean
     fun configMatcher() = object : ClientConfigurationPropertiesMatcher {}
-
-    @Bean
-    fun tokenXFilterFunction(configs: ClientConfigurationProperties,
-                             service: OAuth2AccessTokenService,
-                             matcher: ClientConfigurationPropertiesMatcher,
-                             authContext: AuthContext) = TokenXFilterFunction(configs, service, matcher, authContext)
-
-
+    
     @Component
     @Order(LOWEST_PRECEDENCE)
     class HeadersToMDCFilterRegistrationBean(@Value("\${spring.application.name}") applicationName: String) :
