@@ -9,15 +9,10 @@ metadata:
   labels:
     team: aap
 spec:
-  tokenx:
-    enabled: true
   accessPolicy:
     inbound:
       rules:
         - application: soknad-konsument
-          namespace: aap
-          cluster: dev-gcp
-        - application: soknad-api
           namespace: aap
           cluster: dev-gcp
   azure:

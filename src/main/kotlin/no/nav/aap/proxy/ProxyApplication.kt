@@ -13,7 +13,6 @@ import org.springframework.boot.runApplication
 @SpringBootApplication
 @ConfigurationPropertiesScan
 @EnableRetry
-@EnableOAuth2Client
 @EnableJwtTokenValidation(ignore = ["org.springdoc", "org.springframework"])
 
 class ProxyApplication
