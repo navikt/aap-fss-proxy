@@ -2,6 +2,7 @@ package no.nav.aap.proxy.inntektskomponent
 
 import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.joark.JoarkWebClientAdapter
+import no.nav.aap.util.Constants.INNTEKTSKOMPONENT
 import no.nav.aap.rest.AbstractWebClientAdapter
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
@@ -17,7 +18,7 @@ class InntektskomponentClientBeanConfig(
 ) {
 
     @Bean
-    @Qualifier("INNTEKTSKOMPONENT")
+    @Qualifier(INNTEKTSKOMPONENT)
     fun joarkWebClient(builder: WebClient.Builder, stsExchangeFilterFunction: ExchangeFilterFunction) =
         builder
             .baseUrl(cfg.baseUri.toString())
