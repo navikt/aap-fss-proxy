@@ -1,31 +1,32 @@
-package no.nav.aap.proxy.joark
+package no.nav.aap.proxy.inntektskomponent
 
 import no.nav.aap.health.AbstractPingableHealthIndicator
-import no.nav.aap.rest.AbstractWebClientAdapter.Companion.correlatingFilterFunction
+import no.nav.aap.proxy.joark.JoarkWebClientAdapter
+import no.nav.aap.util.Constants.INNTEKTSKOMPONENT
+import no.nav.aap.rest.AbstractWebClientAdapter
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.web.reactive.function.client.WebClient
-import no.nav.aap.util.Constants.JOARK
-import org.springframework.beans.factory.annotation.Value
 
 @Configuration
-class JoarkClientBeanConfig(
+class InntektskomponentClientBeanConfig(
     @Value("\${spring.application.name}") val applicationName: String,
-    val cfg: JoarkConfig) {
+    val cfg: InntektskomponentConfig
+) {
 
     @Bean
-    @Qualifier(JOARK)
+    @Qualifier(INNTEKTSKOMPONENT)
     fun joarkWebClient(builder: WebClient.Builder, stsExchangeFilterFunction: ExchangeFilterFunction) =
         builder
             .baseUrl(cfg.baseUri.toString())
-            .filter(correlatingFilterFunction(applicationName))
+            .filter(AbstractWebClientAdapter.correlatingFilterFunction(applicationName))
             .filter(stsExchangeFilterFunction)
             .build()
 
     @Bean
-    fun joarkHealthIndicator(a: JoarkWebClientAdapter) = object : AbstractPingableHealthIndicator(a){
+    fun joarkHealthIndicator(a: JoarkWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {
     }
-
 }
