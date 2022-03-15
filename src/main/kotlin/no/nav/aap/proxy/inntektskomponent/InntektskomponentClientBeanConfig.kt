@@ -19,7 +19,7 @@ class InntektskomponentClientBeanConfig(
 
     @Bean
     @Qualifier(INNTEKTSKOMPONENT)
-    fun joarkWebClient(builder: WebClient.Builder, stsExchangeFilterFunction: ExchangeFilterFunction) =
+    fun inntektWebClient(builder: WebClient.Builder, stsExchangeFilterFunction: ExchangeFilterFunction) =
         builder
             .baseUrl(cfg.baseUri.toString())
             .filter(AbstractWebClientAdapter.correlatingFilterFunction(applicationName))
@@ -27,6 +27,6 @@ class InntektskomponentClientBeanConfig(
             .build()
 
     @Bean
-    fun joarkHealthIndicator(a: JoarkWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {
+    fun inntektHealthIndicator(a: InntektskomponentWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {
     }
 }
