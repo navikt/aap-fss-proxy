@@ -26,7 +26,7 @@ class InntektskomponentClientBeanConfig(
             .filter(stsExchangeFilterFunction)
             .build()
 
-    @Bean
+    //@Bean
     fun inntektHealthIndicator(a: InntektskomponentWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {
     }
 }

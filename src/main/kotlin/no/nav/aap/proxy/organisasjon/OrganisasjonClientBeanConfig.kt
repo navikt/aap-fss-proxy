@@ -21,7 +21,7 @@ class OrganisasjonClientBeanConfig(@Value("\${spring.application.name}") val app
             .filter(correlatingFilterFunction(applicationName))
             .build()
 
-    //@Bean Ser ikke ut til å ha noe ping-endepunkt.
+    @Bean
     fun organisasjonHealthIndicator(a: OrganisasjonWebClientAdapter) = object : AbstractPingableHealthIndicator(a){
     }
 }
