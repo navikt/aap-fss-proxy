@@ -28,7 +28,7 @@ class OrganisasjonConfig (baseUri: URI,
     companion object {
         const val ORGANISASJON = "Organisasjon"
         private const val HISTORIKK = "historikk"
-        private const val V1_ORGANISASJON = "v1/organisasjon/{orgnr}"
+        private const val V1_ORGANISASJON = "/v1/organisasjon/{orgnr}"
         private const val NAV = "998004993"
         private fun pingPath(organisasjonPath: String): String {
             return newInstance()
