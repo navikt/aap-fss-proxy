@@ -8,24 +8,21 @@ import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
+import java.util.*
 
 @Component
 class OrganisasjonWebClientAdapter(@Qualifier(ORGANISASJON)  val client: WebClient, private val cf: OrganisasjonConfig) : AbstractWebClientAdapter(client, cf) {
 
-
     @Cacheable(cacheNames = ["organisasjon"])
-    private fun orgNavn(orgnr: String?) : String? {
-            val navn = webClient
+    fun orgNavn(orgnr: String?)  =
+             webClient
                 .get()
                 .uri { b -> cf.getOrganisasjonURI(b, orgnr) }
                 .accept(APPLICATION_JSON)
                 .retrieve()
-                .toEntity(MutableMap::class.java)
+                .toEntity(OrganisasjonDTO::class.java)
                 .block()
-                ?.getBody()
-             return OrganisasjonMapper.tilOrganisasjonsnavn(navn)
-    }
-
-    open fun navn(orgnr: String?) = orgnr?.let(orgNavn(this)) ?: orgnr
-    override fun name() =  capitalize(ORGANISASJON.toLowerCase())
+                ?.body
+                ?.fulltNavn ?: orgnr
+    override fun name() =  capitalize(ORGANISASJON.lowercase(Locale.getDefault()))
 }

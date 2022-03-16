@@ -12,7 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder.newInstance
 @ConfigurationProperties(prefix = "organisasjon")
 @ConstructorBinding
 class OrganisasjonConfig (@DefaultValue(DEFAULT_BASE_URI) baseUri: URI,
-                                                         @param:DefaultValue(V1_ORGANISASJON) private val organisasjonPath: String,
+                                                         @DefaultValue(V1_ORGANISASJON) private val organisasjonPath: String,
                                                          @DefaultValue("true") enabled: Boolean) :
     AbstractRestConfig(baseUri, pingPath(organisasjonPath), enabled) {
     fun getOrganisasjonURI(b: UriBuilder, orgnr: String?): URI {
