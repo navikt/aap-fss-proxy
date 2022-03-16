@@ -28,7 +28,7 @@ class OrganisasjonConfig (@DefaultValue(DEFAULT_BASE_URI) baseUri: URI,
     companion object {
         const val ORGANISASJON = "Organisasjon"
         private const val HISTORIKK = "historikk"
-        private const val V1_ORGANISASJON = "/v1/organisasjon/{orgnr}"
+        private const val V1_ORGANISASJON = "v1/organisasjon/{orgnr}"
         private const val NAV = "998004993"
         private const val DEFAULT_BASE_URI = "http://must.be.set"
         private fun pingPath(organisasjonPath: String): String {
