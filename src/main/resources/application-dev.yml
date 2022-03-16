@@ -10,6 +10,8 @@ joark:
   base-uri: https://dokarkiv-q2.nais.preprod.local
 inntektskomponent:
   base-uri: https://app-q1.adeo.no/inntektskomponenten-ws/rs
+organisasjon:
+  base-uri: https://modapp-q1.adeo.no/ereg/api
 management :
   info:
     env:
