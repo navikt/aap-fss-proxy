@@ -15,6 +15,11 @@ spec:
         - application: soknad-konsument
           namespace: aap
           cluster: dev-gcp
+        - application: soknad-api
+          namespace: aap
+          cluster: dev-gcp
+  tokenx:
+    enabled: true
   azure:
     application:
       enabled: true
