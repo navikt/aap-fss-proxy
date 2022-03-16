@@ -5,19 +5,19 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.MediaType.*
+import no.nav.aap.util.Constants.INNTEKTSKOMPONENT
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.ClientResponse
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
-import java.time.YearMonth
 
 @Component
 class InntektskomponentWebClientAdapter(
-    @Qualifier("INNTEKTSKOMPONENT") webClient: WebClient,
+    @Qualifier(INNTEKTSKOMPONENT) webClient: WebClient,
     private val cf: InntektskomponentConfig
 ) :
     AbstractWebClientAdapter(webClient, cf) {
-    fun getInntekt(request: InntektskomponentRequest): String? =
+    fun getInntekt(request: InntektskomponentRequest) =
         webClient
             .post()
             .uri { b -> b.path(cf.path).build() }
@@ -25,19 +25,6 @@ class InntektskomponentWebClientAdapter(
             .bodyValue(request)
             .retrieve()
             .onStatus({ obj: HttpStatus -> obj.isError }) { obj: ClientResponse -> obj.createException() }
-            .bodyToMono<String>()
+            .bodyToMono<InntektskomponentResponse>()
             .block()
 }
-
-data class InntektskomponentRequest(
-    val ident: InntektskomponentIdent,
-    val ainntektsfilter: String,
-    val formaal: String,
-    val maanedFom: YearMonth,
-    val maanedTom: YearMonth
-)
-
-data class InntektskomponentIdent(
-    val identifikator: String,
-    val aktoerType: String
-)
