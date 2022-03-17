@@ -27,7 +27,7 @@ class OrganisasjonWebClientAdapter(@Qualifier(ORGANISASJON)  val client: WebClie
                 log.trace("Orgnavn $n")
                 val fn =  n?.fulltNavn() ?: orgnr
                 log.trace("Fullt Orgnavn $fn")
-                return fn
+                return fn 
     }
     override fun name() =  capitalize(ORGANISASJON.lowercase(Locale.getDefault()))
 }
