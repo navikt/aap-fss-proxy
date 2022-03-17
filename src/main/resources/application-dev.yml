@@ -11,7 +11,7 @@ joark:
 inntektskomponent:
   base-uri: https://app-q1.adeo.no/inntektskomponenten-ws/rs
 organisasjon:
-  base-uri: https://ereg-services.dev.intern.nav.no
+  base-uri: https://ereg-services-q1.dev.intern.nav.no
 management :
   info:
     env:
