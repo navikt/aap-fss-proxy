@@ -22,13 +22,11 @@ class OrganisasjonWebClientAdapter(@Qualifier(ORGANISASJON)  val client: WebClie
                 .uri { b -> cf.getOrganisasjonURI(b, orgnr) }
                 .accept(APPLICATION_JSON)
                 .retrieve()
-                .toEntity(OrganisasjonDTO::class.java)
+                 .bodyToMono(OrganisasjonDTO::class.java)
                 .block()
-                ?.body
-
                 log.trace("Orgnavn $n")
-                val fn =  n?.fulltNavn ?: orgnr
-                log.trace("Orgnavn fullt $fn")
+                val fn =  n?.fulltNavn() ?: orgnr
+                log.trace("Fullt Orgnavn $fn")
                 return fn
     }
     override fun name() =  capitalize(ORGANISASJON.lowercase(Locale.getDefault()))
