@@ -5,7 +5,7 @@
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
     <springProfile name="dev">
-        <logger name="no.nav.security.token.support" level="trace"/>
+        <logger name="no.nav.security.token.support" level="info"/>
         <logger name="reactor.netty.http.client.HttpClient" level="trace"/>
         <logger name="no.nav.aap" level="trace" />
     </springProfile>
