@@ -14,7 +14,7 @@ import java.util.*
 class OrganisasjonWebClientAdapter(@Qualifier(ORGANISASJON)  val client: WebClient, private val cf: OrganisasjonConfig) : AbstractWebClientAdapter(client, cf) {
 
     @Cacheable(cacheNames = ["organisasjon"])
-    fun orgNavn(orgnr: String?)  =
+    fun orgNavn(orgnr: String)  =
              webClient
                 .get()
                 .uri { b -> cf.getOrganisasjonURI(b, orgnr) }
