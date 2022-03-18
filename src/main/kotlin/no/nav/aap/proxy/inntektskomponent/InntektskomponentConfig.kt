@@ -10,5 +10,5 @@ import java.net.URI
 @ConstructorBinding
 class InntektskomponentConfig (baseUri: URI,
                                @DefaultValue("api/v1/hentinntektliste") val path: String,
-                               @DefaultValue("isAlive") pingPath: String,
+                               @DefaultValue("api/ping") pingPath: String,
                                @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,pingPath,enabled)

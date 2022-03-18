@@ -4,6 +4,7 @@ import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.joark.JoarkWebClientAdapter
 import no.nav.aap.util.Constants.INNTEKTSKOMPONENT
 import no.nav.aap.rest.AbstractWebClientAdapter
+import no.nav.aap.util.Constants
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -23,10 +24,11 @@ class InntektskomponentClientBeanConfig(
         builder
             .baseUrl(cfg.baseUri.toString())
             .filter(AbstractWebClientAdapter.correlatingFilterFunction(applicationName))
+            .filter(AbstractWebClientAdapter.headerFilterFunction(Constants.NAV_CONSUMER_ID,Constants.AAP))
             .filter(stsExchangeFilterFunction)
             .build()
 
-    //@Bean
+    @Bean
     fun inntektHealthIndicator(a: InntektskomponentWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {
     }
 }
