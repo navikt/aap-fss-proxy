@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered.LOWEST_PRECEDENCE
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpHeaders.*
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.ClientRequest
@@ -76,7 +77,10 @@ class FellesRestBeanConfig {
 
     @Bean
     fun stsExchangeFilterFunction(stsClient: StsClient) =
-        ExchangeFilterFunction { req, next -> next.exchange(ClientRequest.from(req).header(HttpHeaders.AUTHORIZATION, "${stsClient.oidcToken().asBearer()}").build()) }
+        ExchangeFilterFunction {
+            req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "${stsClient.oidcToken().asBearer()}")
+            .build())
+        }
 
 
     @Component
