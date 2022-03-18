@@ -20,7 +20,7 @@ data class Arbeidsforhold(
 data class Inntekt(
     val beløp: Double,
     val inntektstype: Inntektstype,
-    val orgnummer: String?,
+    val orgnummer: OrgNummer?,
     val fødselsnummer: Fødselsnummer?,
     val aktørId: String?,
     val beskrivelse: String?,
