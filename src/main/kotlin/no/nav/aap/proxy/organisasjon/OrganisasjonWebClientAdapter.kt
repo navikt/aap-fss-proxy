@@ -17,7 +17,7 @@ class OrganisasjonWebClientAdapter(@Qualifier(ORGANISASJON)  val client: WebClie
 
 
 
-    
+
     //@Cacheable(cacheNames = ["organisasjon"])
     fun orgNavn(orgnr: String) : String {
              var n = webClient
@@ -28,7 +28,7 @@ class OrganisasjonWebClientAdapter(@Qualifier(ORGANISASJON)  val client: WebClie
                  .bodyToMono(OrganisasjonDTO::class.java)
                 .block()
                 log.trace("Orgnavn $n")
-                val fn =  n?.fulltNavn() ?: orgnr
+                val fn =  n?.fulltNavn ?: orgnr
                 log.trace("Fullt Orgnavn $fn")
                 return fn
     }
