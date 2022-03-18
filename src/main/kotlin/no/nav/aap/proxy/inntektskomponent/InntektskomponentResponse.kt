@@ -1,5 +1,7 @@
 package no.nav.aap.proxy.inntektskomponent
 
+import no.nav.aap.api.felles.Fødselsnummer
+import no.nav.aap.api.felles.OrgNummer
 import java.time.YearMonth
 
 data class InntektskomponentResponse(
@@ -13,13 +15,13 @@ data class Måned(
 )
 data class Arbeidsforhold(
     val type: String?,
-    val orgnummer: String?
+    val orgnummer: OrgNummer?
 )
 data class Inntekt(
     val beløp: Double,
     val inntektstype: Inntektstype,
     val orgnummer: String?,
-    val fødselsnummer: String?,
+    val fødselsnummer: Fødselsnummer?,
     val aktørId: String?,
     val beskrivelse: String?,
     val fordel: String?
