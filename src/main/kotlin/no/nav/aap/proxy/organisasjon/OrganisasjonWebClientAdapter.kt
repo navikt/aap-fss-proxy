@@ -15,22 +15,16 @@ import java.util.*
 class OrganisasjonWebClientAdapter(@Qualifier(ORGANISASJON)  val client: WebClient, private val cf: OrganisasjonConfig) : AbstractWebClientAdapter(client, cf) {
     private val log = LoggerUtil.getLogger(javaClass)
 
-
-
-
     //@Cacheable(cacheNames = ["organisasjon"])
-    fun orgNavn(orgnr: String) : String {
-             var n = webClient
+    fun orgNavn(orgnr: String) =
+              webClient
                 .get()
                 .uri { b -> cf.getOrganisasjonURI(b, orgnr) }
                 .accept(APPLICATION_JSON)
                 .retrieve()
                  .bodyToMono(OrganisasjonDTO::class.java)
                 .block()
-                log.trace("Orgnavn $n")
-                val fn =  n?.fulltNavn ?: orgnr
-                log.trace("Fullt Orgnavn $fn")
-                return fn
-    }
+                  ?.fulltNavn ?: orgnr
+
     override fun name() =  capitalize(ORGANISASJON.lowercase(Locale.getDefault()))
 }
