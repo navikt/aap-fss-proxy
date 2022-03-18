@@ -24,7 +24,7 @@ class InntektskomponentClientBeanConfig(
         builder
             .baseUrl(cfg.baseUri.toString())
             .filter(AbstractWebClientAdapter.correlatingFilterFunction(applicationName))
-            .filter(AbstractWebClientAdapter.headerFilterFunction(Constants.NAV_CONSUMER_ID,Constants.AAP))
+            .filter(AbstractWebClientAdapter.consumerFilterFunction())
             .filter(stsExchangeFilterFunction)
             .build()
 
