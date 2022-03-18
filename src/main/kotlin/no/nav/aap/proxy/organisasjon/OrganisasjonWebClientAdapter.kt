@@ -15,6 +15,9 @@ import java.util.*
 class OrganisasjonWebClientAdapter(@Qualifier(ORGANISASJON)  val client: WebClient, private val cf: OrganisasjonConfig) : AbstractWebClientAdapter(client, cf) {
     private val log = LoggerUtil.getLogger(javaClass)
 
+
+
+    
     //@Cacheable(cacheNames = ["organisasjon"])
     fun orgNavn(orgnr: String) : String {
              var n = webClient
@@ -27,7 +30,7 @@ class OrganisasjonWebClientAdapter(@Qualifier(ORGANISASJON)  val client: WebClie
                 log.trace("Orgnavn $n")
                 val fn =  n?.fulltNavn() ?: orgnr
                 log.trace("Fullt Orgnavn $fn")
-                return fn 
+                return fn
     }
     override fun name() =  capitalize(ORGANISASJON.lowercase(Locale.getDefault()))
 }
