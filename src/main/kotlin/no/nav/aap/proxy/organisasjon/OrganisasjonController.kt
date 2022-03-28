@@ -11,17 +11,20 @@ import org.springframework.web.bind.annotation.RequestParam
 @ProtectedRestController(value = ["/organisasjon"], issuer = IDPORTEN)
 class OrganisasjonController(val orgClient: OrganisasjonClient) {
 
-    private  val NAV = "998004993"
     private val log = LoggerUtil.getLogger(javaClass)
 
 
     @GetMapping
-    fun navn(@RequestParam("orgnummer") orgnummer: String): String {
+    fun navn(@RequestParam("orgnummer") orgnummer: String): String? {
         log.info("Henter orgnavn for $orgnummer")
         return  orgClient.orgNavn(orgnummer)
     }
 
     @GetMapping("/ping")
     @Unprotected
-    fun ping() = orgClient.orgNavn(NAV)
+    fun ping() = orgClient.orgNavn(Companion.NAV)
+
+    companion object {
+        private const val NAV = "998004993"
+    }
 }
