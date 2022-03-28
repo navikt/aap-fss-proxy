@@ -17,7 +17,7 @@ class OrganisasjonController(val orgClient: OrganisasjonClient) {
     @GetMapping
     fun navn(@RequestParam("orgnummer") orgnummer: String) =
           orgClient.orgNavn(orgnummer)
-              .also {  log.info("Hentet orgnavn for $orgnummer")}
+              .also {  log.info("Hentet orgnavn $it for $orgnummer")}
 
     @GetMapping("/ping")
     @Unprotected
