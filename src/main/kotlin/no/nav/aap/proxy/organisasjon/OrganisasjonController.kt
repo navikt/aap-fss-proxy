@@ -15,14 +15,13 @@ class OrganisasjonController(val orgClient: OrganisasjonClient) {
 
 
     @GetMapping
-    fun navn(@RequestParam("orgnummer") orgnummer: String): String? {
-        log.info("Henter orgnavn for $orgnummer")
-        return  orgClient.orgNavn(orgnummer)
-    }
+    fun navn(@RequestParam("orgnummer") orgnummer: String) =
+          orgClient.orgNavn(orgnummer)
+              .also {  log.info("Hentet orgnavn for $orgnummer")}
 
     @GetMapping("/ping")
     @Unprotected
-    fun ping() = orgClient.orgNavn(Companion.NAV)
+    fun ping() = navn(NAV)
 
     companion object {
         private const val NAV = "998004993"
