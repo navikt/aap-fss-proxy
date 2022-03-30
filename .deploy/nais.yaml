@@ -18,6 +18,9 @@ spec:
         - application: soknad-api
           namespace: aap
           cluster: dev-gcp
+        - application: norg
+          namespace: aap
+          cluster: dev-gcp
   tokenx:
     enabled: true
   azure:
