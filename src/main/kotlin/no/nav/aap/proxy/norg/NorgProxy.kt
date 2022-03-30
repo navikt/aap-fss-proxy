@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -26,7 +25,7 @@ import java.net.URI
 @RestController("/norg")
 class NorgController(private val norg: NorgClient) {
 
-    @PostMapping
+    @PostMapping("/arbeidsfordeling")
     fun hentArbeidsfordeling(@RequestBody request: Arbeidsfordeling.Request) =
         norg.hentArbeidsfordeling(request).block()
 }
