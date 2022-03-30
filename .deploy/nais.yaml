@@ -18,7 +18,7 @@ spec:
         - application: soknad-api
           namespace: aap
           cluster: dev-gcp
-        - application: norg
+        - application: personopplysninger
           namespace: aap
           cluster: dev-gcp
   tokenx:
