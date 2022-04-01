@@ -17,7 +17,7 @@
 
 	<properties>
 		<conditionals.version>3.0.0</conditionals.version>
-		<domain.version>0.0.60</domain.version>
+		<domain.version>0.0.61</domain.version>
 		<jib.version>3.2.1</jib.version>
 		<java.version>17</java.version>
 		<logstash.version>7.0.1</logstash.version>
@@ -205,4 +205,11 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>nav-github-mirror</id>
+			<url>https://github-package-registry-mirror.gc.nav.no/cached/maven-release</url>
+		</repository>
+	</repositories>
 </project>
