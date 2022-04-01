@@ -35,7 +35,7 @@ import kotlin.text.Charsets.UTF_8
 class StsClientBeanConfig
     @Component
     class StsClient @Inject constructor(private val a: StsWebClientAdapter)  {
-        constructor(webClient: WebClient, cfg: StsConfig) : this(StsWebClientAdapter(webClient,cfg))
+        constructor(builder: WebClient.Builder, cfg: StsConfig) : this(StsWebClientAdapter(builder.build(),cfg))
         fun oidcToken() = a.oidcToken()
     }
 
