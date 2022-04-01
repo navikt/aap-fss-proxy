@@ -62,7 +62,7 @@ class NorgBeanConfig(@Value("\${spring.application.name}") val appName: String, 
 class NorgConfig(
     baseUri: URI,
     @DefaultValue("/api/v1/arbeidsfordeling/enheter/bestmatch") val path: String,
-    @DefaultValue("isAlive") pingPath: String,
+    @DefaultValue("internal/isAlive") pingPath: String,
     @DefaultValue("true") enabled: Boolean
 ) : AbstractRestConfig(baseUri, pingPath, enabled)
 
