@@ -4,6 +4,7 @@ import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.rest.AbstractRestConfig
 import no.nav.aap.rest.AbstractWebClientAdapter
 import no.nav.aap.rest.AbstractWebClientAdapter.Companion.correlatingFilterFunction
+import no.nav.aap.util.Constants.NORG
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -11,7 +12,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.MediaType
+import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -19,30 +20,30 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
-import reactor.core.publisher.Mono
 import java.net.URI
 
 @RestController("/norg")
 class NorgController(private val norg: NorgClient) {
 
     @PostMapping("/arbeidsfordeling")
-    fun hentArbeidsfordeling(@RequestBody request: Arbeidsfordeling.Request) =
-        norg.hentArbeidsfordeling(request).block()
+    fun hentArbeidsfordeling(@RequestBody request: ArbeidsfordelingRequest) =
+        norg.hentArbeidsfordeling(request)
 }
 
 @Component
 class NorgClient(
-    @Qualifier("NORG") client: WebClient,
+    @Qualifier(NORG) client: WebClient,
     config: NorgConfig,
 ) : AbstractWebClientAdapter(client, config) {
-    fun hentArbeidsfordeling(request: Arbeidsfordeling.Request): Mono<Arbeidsfordeling.Response> =
+    fun hentArbeidsfordeling(request: ArbeidsfordelingRequest) =
         webClient
             .post()
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
+            .accept(APPLICATION_JSON)
+            .contentType(APPLICATION_JSON)
             .bodyValue(request)
             .retrieve()
-            .bodyToMono()
+            .bodyToMono<ArbeidsfordelingResponse>()
+            .block()
 }
 
 @Component
@@ -51,7 +52,7 @@ class NorgHealthIndicator(client: NorgClient) : AbstractPingableHealthIndicator(
 @Configuration
 class NorgBeanConfig(@Value("\${spring.application.name}") val appName: String, val config: NorgConfig) {
     @Bean
-    @Qualifier("NORG")
+    @Qualifier(NORG)
     fun client(builder: WebClient.Builder, stsExchange: ExchangeFilterFunction): WebClient =
         builder.baseUrl("${config.baseUri}").filter(correlatingFilterFunction(appName)).filter(stsExchange).build()
 }
@@ -65,14 +66,12 @@ class NorgConfig(
     @DefaultValue("true") enabled: Boolean
 ) : AbstractRestConfig(baseUri, pingPath, enabled)
 
-object Arbeidsfordeling {
-    data class Request(
-        val geografiskOmraade: String,
-        val tema: String,
-        val behandlingstema: String,
-        val skjermet: Boolean,
-        val diskresjonskode: String,
-    )
+data class ArbeidsfordelingRequest(
+    val geografiskOmraade: String,
+    val tema: String,
+    val behandlingstema: String,
+    val skjermet: Boolean,
+    val diskresjonskode: String,
+)
 
-    data class Response(val enhetNr: String)
-}
+data class ArbeidsfordelingResponse(val enhetNr: String)
