@@ -8,10 +8,13 @@ import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.info.License
 import no.nav.aap.proxy.sts.StsClient
 import no.nav.aap.rest.ActuatorIgnoringTraceRequestFilter
+import no.nav.aap.rest.tokenx.TokenXFilterFunction
 import no.nav.aap.util.AuthContext
 import no.nav.aap.util.StartupInfoContributor
 import no.nav.aap.util.StringExtensions.asBearer
 import no.nav.boot.conditionals.ConditionalOnDevOrLocal
+import no.nav.security.token.support.client.core.oauth2.OAuth2AccessTokenService
+import no.nav.security.token.support.client.spring.ClientConfigurationProperties
 import no.nav.security.token.support.client.spring.oauth2.ClientConfigurationPropertiesMatcher
 import no.nav.security.token.support.core.context.TokenValidationContextHolder
 import org.springframework.beans.factory.annotation.Value
@@ -24,8 +27,12 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.Ordered.HIGHEST_PRECEDENCE
-import org.springframework.http.HttpHeaders.AUTHORIZATION
+import org.springframework.core.Ordered.LOWEST_PRECEDENCE
+import org.springframework.core.annotation.Order
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpHeaders.*
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
+import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.zalando.problem.jackson.ProblemModule
@@ -34,8 +41,10 @@ import org.zalando.problem.jackson.ProblemModule
 @Configuration
 class FellesRestBeanConfig {
 @Bean
- fun customizer(): Jackson2ObjectMapperBuilderCustomizer = Jackson2ObjectMapperBuilderCustomizer {
-    b  -> b.modules(ProblemModule(), JavaTimeModule(), KotlinModule.Builder().build())
+ fun customizer(): Jackson2ObjectMapperBuilderCustomizer {
+    return Jackson2ObjectMapperBuilderCustomizer { b: Jackson2ObjectMapperBuilder ->
+        b.modules(ProblemModule(), JavaTimeModule(), KotlinModule.Builder().build())
+    }
   }
 
     @Bean
@@ -69,15 +78,19 @@ class FellesRestBeanConfig {
     fun configMatcher() = object : ClientConfigurationPropertiesMatcher {}
 
     @Bean
-    fun stsExchangeFilterFunction(sts: StsClient) =
+    fun stsExchangeFilterFunction(stsClient: StsClient) =
         ExchangeFilterFunction {
-            req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "${sts.oidcToken().asBearer()}")
+            req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "${stsClient.oidcToken().asBearer()}")
             .build())
         }
-    @Bean
-    fun headersToMDCFilterRegistrationBean(@Value("\${spring.application.name}") applicationName: String) =
-        FilterRegistrationBean(HeadersToMDCFilter(applicationName)).apply {
+
+
+    @Component
+    @Order(LOWEST_PRECEDENCE)
+    class HeadersToMDCFilterRegistrationBean(@Value("\${spring.application.name}") applicationName: String) :
+        FilterRegistrationBean<HeadersToMDCFilter?>(HeadersToMDCFilter(applicationName)) {
+        init {
             urlPatterns = listOf("/*")
-            setOrder(HIGHEST_PRECEDENCE)
+        }
     }
 }
