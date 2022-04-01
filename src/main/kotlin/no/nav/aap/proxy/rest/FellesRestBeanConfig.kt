@@ -50,11 +50,13 @@ class FellesRestBeanConfig {
     @Bean
     fun awagger(p: BuildProperties): OpenAPI {
         return OpenAPI()
-            .info(
-                Info().title("AAP fss proxy")
+            .info(Info()
+                .title("AAP fss proxy")
                     .description("Proxy mot tjenester som ikke støtter AAD/TokenX")
                     .version(p.version)
-                    .license(License().name("MIT").url("http://nav.no"))
+                    .license(License()
+                        .name("MIT")
+                        .url("https://nav.no"))
             )
     }
 
