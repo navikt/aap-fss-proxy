@@ -1,20 +1,16 @@
 package no.nav.aap.proxy.inntektskomponent
 
 import no.nav.aap.health.AbstractPingableHealthIndicator
-import no.nav.aap.proxy.joark.JoarkWebClientAdapter
 import no.nav.aap.util.Constants.INNTEKTSKOMPONENT
-import no.nav.aap.rest.AbstractWebClientAdapter
 import no.nav.aap.rest.AbstractWebClientAdapter.Companion.consumerFilterFunction
-import no.nav.aap.util.Constants
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient
 
 @Configuration
-class InntektskomponentClientBeanConfig(val cfg: InntektskomponentConfig) {
+class InntektClientBeanConfig(val cfg: InntektConfig) {
 
     @Bean
     @Qualifier(INNTEKTSKOMPONENT)
@@ -26,6 +22,6 @@ class InntektskomponentClientBeanConfig(val cfg: InntektskomponentConfig) {
             .build()
 
     @Bean
-    fun inntektHealthIndicator(a: InntektskomponentWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {
+    fun inntektHealthIndicator(a: InntektWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {
     }
 }

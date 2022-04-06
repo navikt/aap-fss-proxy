@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 
 @ProtectedRestController(value = ["/inntektskomponent"], issuer = Constants.AAD, claimMap =[""])
-class InntektskomponentController(private val inntektskomponent: InntektClient) {
+class InntektController(private val inntekt: InntektClient) {
     @PostMapping("/")
-    fun getInntekt(@RequestBody request: InntektskomponentRequest) = inntektskomponent.getInntekt(request)
+    fun getInntekt(@RequestBody request: InntektRequest) = inntekt.getInntekt(request)
 }

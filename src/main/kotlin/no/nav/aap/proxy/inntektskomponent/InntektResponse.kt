@@ -4,9 +4,9 @@ import no.nav.aap.api.felles.Fødselsnummer
 import no.nav.aap.api.felles.OrgNummer
 import java.time.YearMonth
 
-data class InntektskomponentResponse(
+data class InntektResponse(
     val arbeidsInntektMaaned: List<Måned>
-)
+                          )
 
 data class Måned(
     val årMåned: YearMonth,

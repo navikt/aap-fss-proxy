@@ -26,7 +26,7 @@ import java.net.URI
 class NorgController(private val norg: NorgClient) {
 
     @PostMapping("/arbeidsfordeling")
-    fun hentArbeidsfordeling(@RequestBody request: ArbeidsfordelingRequest) =
+    fun hentArbeidsfordeling(@RequestBody request: ArbeidRequest) =
         norg.hentArbeidsfordeling(request)
 }
 
@@ -35,14 +35,14 @@ class NorgClient(
     @Qualifier(NORG) client: WebClient,
     config: NorgConfig,
 ) : AbstractWebClientAdapter(client, config) {
-    fun hentArbeidsfordeling(request: ArbeidsfordelingRequest) =
+    fun hentArbeidsfordeling(request: ArbeidRequest) =
         webClient
             .post()
             .accept(APPLICATION_JSON)
             .contentType(APPLICATION_JSON)
             .bodyValue(request)
             .retrieve()
-            .bodyToMono<ArbeidsfordelingResponse>()
+            .bodyToMono<ArbeidsResponse>()
             .block()
 }
 
@@ -66,12 +66,11 @@ class NorgConfig(
     @DefaultValue("true") enabled: Boolean
 ) : AbstractRestConfig(baseUri, pingPath, enabled)
 
-data class ArbeidsfordelingRequest(
+data class ArbeidRequest(
     val geografiskOmraade: String,
     val tema: String,
     val behandlingstema: String,
     val skjermet: Boolean,
-    val diskresjonskode: String,
-)
+    val diskresjonskode: String)
 
-data class ArbeidsfordelingResponse(val enhetNr: String)
+data class ArbeidsResponse(val enhetNr: String)
