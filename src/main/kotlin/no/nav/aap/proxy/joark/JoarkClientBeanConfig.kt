@@ -11,16 +11,13 @@ import no.nav.aap.util.Constants.JOARK
 import org.springframework.beans.factory.annotation.Value
 
 @Configuration
-class JoarkClientBeanConfig(
-    @Value("\${spring.application.name}") val applicationName: String,
-    val cfg: JoarkConfig) {
+class JoarkClientBeanConfig(val cfg: JoarkConfig) {
 
     @Bean
     @Qualifier(JOARK)
     fun joarkWebClient(builder: WebClient.Builder, stsExchangeFilterFunction: ExchangeFilterFunction) =
         builder
             .baseUrl(cfg.baseUri.toString())
-            .filter(correlatingFilterFunction(applicationName))
             .filter(stsExchangeFilterFunction)
             .build()
 

@@ -15,18 +15,15 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import reactor.netty.http.client.HttpClient
 
 @Configuration
-class OrganisasjonClientBeanConfig(@Value("\${spring.application.name}") val applicationName: String, val cfg: OrganisasjonConfig) {
+class OrganisasjonClientBeanConfig(val cfg: OrganisasjonConfig) {
 
     @Bean
     @Qualifier(ORGANISASJON)
     fun organisasjonWebClient(stsClient: StsClient,builder: WebClient.Builder, env: Environment) =
         builder
-            .clientConnector(ReactorClientHttpConnector(HttpClient.create().wiretap(EnvUtil.isDevOrLocal(env))))
             .baseUrl(cfg.baseUri.toString())
-            .filter(correlatingFilterFunction(applicationName))
             .build()
 
     @Bean
-    fun organisasjonHealthIndicator(a: OrganisasjonWebClientAdapter) = object : AbstractPingableHealthIndicator(a){
-    }
+    fun organisasjonHealthIndicator(a: OrganisasjonWebClientAdapter) = object : AbstractPingableHealthIndicator(a){}
 }
