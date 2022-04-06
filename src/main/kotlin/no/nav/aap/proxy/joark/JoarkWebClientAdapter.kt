@@ -19,5 +19,7 @@ class JoarkWebClientAdapter (@Qualifier(JOARK) webClient: WebClient, private val
             .bodyValue(journalpost)
             .retrieve()
             .bodyToMono<JoarkResponse>()
+             .doOnError { t: Throwable -> log.warn("Joark lagring feilet", t) }
             .block()
+             .also { log.trace("Joark respons $it") }
 }

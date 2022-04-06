@@ -11,12 +11,13 @@ import no.nav.aap.proxy.sts.StsClient
 import no.nav.aap.rest.AbstractWebClientAdapter.Companion.correlatingFilterFunction
 import no.nav.aap.rest.ActuatorIgnoringTraceRequestFilter
 import no.nav.aap.util.AuthContext
+import no.nav.aap.util.Constants.STS
 import no.nav.aap.util.StartupInfoContributor
 import no.nav.aap.util.StringExtensions.asBearer
-import no.nav.boot.conditionals.ConditionalOnDevOrLocal
 import no.nav.boot.conditionals.EnvUtil.isDevOrLocal
 import no.nav.security.token.support.client.spring.oauth2.ClientConfigurationPropertiesMatcher
 import no.nav.security.token.support.core.context.TokenValidationContextHolder
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.actuate.trace.http.HttpExchangeTracer
 import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository
@@ -73,6 +74,7 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
     fun configMatcher() = object : ClientConfigurationPropertiesMatcher {}
 
     @Bean
+    @Qualifier(STS)
     fun stsExchangeFilterFunction(stsClient: StsClient) =
         ExchangeFilterFunction {
             req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "${stsClient.oidcToken().asBearer()}")
