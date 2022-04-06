@@ -21,7 +21,7 @@ class OrganisasjonClientBeanConfig(val cfg: OrganisasjonConfig) {
     @Qualifier(ORGANISASJON)
     fun organisasjonWebClient(stsClient: StsClient,builder: WebClient.Builder, env: Environment) =
         builder
-            .baseUrl(cfg.baseUri.toString())
+            .baseUrl("${cfg.baseUri}")
             .build()
 
     @Bean

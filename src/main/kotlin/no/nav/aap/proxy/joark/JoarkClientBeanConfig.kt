@@ -17,7 +17,7 @@ class JoarkClientBeanConfig(val cfg: JoarkConfig) {
     @Qualifier(JOARK)
     fun joarkWebClient(builder: WebClient.Builder, stsExchangeFilterFunction: ExchangeFilterFunction) =
         builder
-            .baseUrl(cfg.baseUri.toString())
+            .baseUrl("${cfg.baseUri}")
             .filter(stsExchangeFilterFunction)
             .build()
 

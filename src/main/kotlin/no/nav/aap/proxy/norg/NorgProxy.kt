@@ -3,10 +3,8 @@ package no.nav.aap.proxy.norg
 import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.rest.AbstractRestConfig
 import no.nav.aap.rest.AbstractWebClientAdapter
-import no.nav.aap.rest.AbstractWebClientAdapter.Companion.correlatingFilterFunction
 import no.nav.aap.util.Constants.NORG
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
@@ -23,18 +21,15 @@ import org.springframework.web.reactive.function.client.bodyToMono
 import java.net.URI
 
 @RestController("/norg")
-class NorgController(private val norg: NorgClient) {
+class NorgController(private val norg: NorgWebClientAdapter) {
 
     @PostMapping("/arbeidsfordeling")
-    fun hentArbeidsfordeling(@RequestBody request: ArbeidRequest) =
-        norg.hentArbeidsfordeling(request)
+    fun hentArbeidsfordeling(@RequestBody request: ArbeidRequest) = norg.hentArbeidsfordeling(request)
 }
 
 @Component
-class NorgClient(
-    @Qualifier(NORG) client: WebClient,
-    config: NorgConfig,
-) : AbstractWebClientAdapter(client, config) {
+class NorgWebClientAdapter(
+    @Qualifier(NORG) client: WebClient, config: NorgConfig) : AbstractWebClientAdapter(client, config) {
     fun hentArbeidsfordeling(request: ArbeidRequest) =
         webClient
             .post()
@@ -46,25 +41,27 @@ class NorgClient(
             .block()
 }
 
-@Component
-class NorgHealthIndicator(client: NorgClient) : AbstractPingableHealthIndicator(client)
-
 @Configuration
-class NorgBeanConfig(@Value("\${spring.application.name}") val appName: String, val config: NorgConfig) {
+class NorgBeanConfig(val config: NorgConfig) {
+
+    @Bean
+    fun norgHealthIndicator(a: NorgWebClientAdapter) =  object : AbstractPingableHealthIndicator(a){}
+
     @Bean
     @Qualifier(NORG)
     fun client(builder: WebClient.Builder, stsExchange: ExchangeFilterFunction): WebClient =
-        builder.baseUrl("${config.baseUri}").filter(correlatingFilterFunction(appName)).filter(stsExchange).build()
+        builder
+            .baseUrl("${config.baseUri}")
+            .filter(stsExchange).build()
 }
 
 @ConstructorBinding
 @ConfigurationProperties("norg")
 class NorgConfig(
-    baseUri: URI,
-    @DefaultValue("/api/v1/arbeidsfordeling/enheter/bestmatch") val path: String,
-    @DefaultValue("internal/isAlive") pingPath: String,
-    @DefaultValue("true") enabled: Boolean
-) : AbstractRestConfig(baseUri, pingPath, enabled)
+        baseUri: URI,
+        @DefaultValue("/api/v1/arbeidsfordeling/enheter/bestmatch") val path: String,
+        @DefaultValue("internal/isAlive") pingPath: String,
+        @DefaultValue("true") enabled: Boolean) : AbstractRestConfig(baseUri, pingPath, enabled)
 
 data class ArbeidRequest(
     val geografiskOmraade: String,

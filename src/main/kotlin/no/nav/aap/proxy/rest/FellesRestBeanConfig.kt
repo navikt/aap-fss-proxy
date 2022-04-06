@@ -32,6 +32,8 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.Ordered
+import org.springframework.core.Ordered.HIGHEST_PRECEDENCE
 import org.springframework.core.Ordered.LOWEST_PRECEDENCE
 import org.springframework.core.annotation.Order
 import org.springframework.core.env.Environment
@@ -94,14 +96,14 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
         }
 
 
-    @Component
-    @Order(LOWEST_PRECEDENCE)
-    class HeadersToMDCFilterRegistrationBean(@Value("\${spring.application.name}") applicationName: String) :
-        FilterRegistrationBean<HeadersToMDCFilter?>(HeadersToMDCFilter(applicationName)) {
-        init {
-            urlPatterns = listOf("/*")
-        }
-    }
+    @Bean
+    fun headersToMDCFilterRegistrationBean() =
+        FilterRegistrationBean(HeadersToMDCFilter(applicationName))
+            .apply {
+                urlPatterns = listOf("/*")
+                setOrder(HIGHEST_PRECEDENCE)
+            }
+
     @Bean
     fun webClientCustomizer(env: Environment) =
         WebClientCustomizer { b ->

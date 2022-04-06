@@ -16,12 +16,11 @@ class InntektClientBeanConfig(val cfg: InntektConfig) {
     @Qualifier(INNTEKTSKOMPONENT)
     fun inntektWebClient(builder: WebClient.Builder, stsExchangeFilterFunction: ExchangeFilterFunction) =
         builder
-            .baseUrl(cfg.baseUri.toString())
+            .baseUrl("${cfg.baseUri}")
             .filter(consumerFilterFunction())
             .filter(stsExchangeFilterFunction)
             .build()
 
     @Bean
-    fun inntektHealthIndicator(a: InntektWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {
-    }
+    fun inntektHealthIndicator(a: InntektWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {}
 }

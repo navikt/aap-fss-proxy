@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders.AUTHORIZATION
-import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.ClientRequest
@@ -17,20 +16,20 @@ class StsClientBeanConfig(private val cfg: ServiceuserConfig) {
 
     @Bean
     @Qualifier(STS)
-    fun stsWebClient(builder: WebClient.Builder, stsCfg: StsConfig): WebClient {
-        return builder
-            .baseUrl(stsCfg.baseUri.toString())
+    fun stsWebClient(builder: WebClient.Builder, stsCfg: StsConfig) =
+         builder
+            .baseUrl("${stsCfg.baseUri}")
             .filter(stsExchangeFilterFunction())
             .build()
-    }
 
     @Bean
-    fun stsHealthIndicator(adapter: StsWebClientAdapter) = object : AbstractPingableHealthIndicator(adapter) {
-    }
+    fun stsHealthIndicator(a: StsWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {}
 
     private fun stsExchangeFilterFunction() =
-        ExchangeFilterFunction { req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "Basic ${credentials()}").build()) }
+        ExchangeFilterFunction {
+            req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "Basic ${credentials()}")
+            .build())
+        }
 
-    private fun credentials() =
-        getEncoder().encodeToString("${cfg.username}:${cfg.password}".toByteArray(Charsets.UTF_8))
+    private fun credentials() = getEncoder().encodeToString("${cfg.username}:${cfg.password}".toByteArray(Charsets.UTF_8))
 }
