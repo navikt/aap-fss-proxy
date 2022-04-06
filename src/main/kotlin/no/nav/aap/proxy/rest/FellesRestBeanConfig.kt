@@ -59,8 +59,8 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
             )
     }
 
-    @ConditionalOnDevOrLocal
-    @Bean
+    //@ConditionalOnDevOrLocal
+    //@Bean
     fun actuatorIgnoringTraceRequestFilter(tracer: HttpExchangeTracer) = ActuatorIgnoringTraceRequestFilter(InMemoryHttpTraceRepository(),tracer)
     
     @Bean
