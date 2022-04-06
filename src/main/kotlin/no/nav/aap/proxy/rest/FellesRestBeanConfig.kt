@@ -8,22 +8,17 @@ import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.info.License
 import no.nav.aap.proxy.sts.StsClient
-import no.nav.aap.rest.AbstractWebClientAdapter
-import no.nav.aap.rest.AbstractWebClientAdapter.Companion
+import no.nav.aap.rest.AbstractWebClientAdapter.Companion.correlatingFilterFunction
 import no.nav.aap.rest.ActuatorIgnoringTraceRequestFilter
-import no.nav.aap.rest.tokenx.TokenXFilterFunction
 import no.nav.aap.util.AuthContext
 import no.nav.aap.util.StartupInfoContributor
 import no.nav.aap.util.StringExtensions.asBearer
 import no.nav.boot.conditionals.ConditionalOnDevOrLocal
-import no.nav.boot.conditionals.EnvUtil
-import no.nav.security.token.support.client.core.oauth2.OAuth2AccessTokenService
-import no.nav.security.token.support.client.spring.ClientConfigurationProperties
+import no.nav.boot.conditionals.EnvUtil.isDevOrLocal
 import no.nav.security.token.support.client.spring.oauth2.ClientConfigurationPropertiesMatcher
 import no.nav.security.token.support.core.context.TokenValidationContextHolder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.actuate.trace.http.HttpExchangeTracer
-import org.springframework.boot.actuate.trace.http.HttpTraceRepository
 import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.boot.info.BuildProperties
@@ -32,31 +27,24 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.Ordered
 import org.springframework.core.Ordered.HIGHEST_PRECEDENCE
-import org.springframework.core.Ordered.LOWEST_PRECEDENCE
-import org.springframework.core.annotation.Order
 import org.springframework.core.env.Environment
-import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpHeaders.*
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
-import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.zalando.problem.jackson.ProblemModule
 import reactor.netty.http.client.HttpClient
 import reactor.netty.transport.logging.AdvancedByteBufFormat.TEXTUAL
 
-
 @Configuration
 class FellesRestBeanConfig(@Value("\${spring.application.name}") val applicationName: String) {
 @Bean
- fun customizer(): Jackson2ObjectMapperBuilderCustomizer {
-    return Jackson2ObjectMapperBuilderCustomizer { b: Jackson2ObjectMapperBuilder ->
-        b.modules(ProblemModule(), JavaTimeModule(), KotlinModule.Builder().build())
+ fun jacksonCustumizer(): Jackson2ObjectMapperBuilderCustomizer =
+     Jackson2ObjectMapperBuilderCustomizer {
+         b: Jackson2ObjectMapperBuilder -> b.modules(ProblemModule(), JavaTimeModule(), KotlinModule.Builder().build())
     }
-  }
 
     @Bean
     fun awagger(p: BuildProperties): OpenAPI {
@@ -71,13 +59,9 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
             )
     }
 
-    @Bean
-    @ConditionalOnDevOrLocal
-    fun httpTraceRepository(): HttpTraceRepository = InMemoryHttpTraceRepository()
-
     @ConditionalOnDevOrLocal
     @Bean
-    fun actuatorIgnoringTraceRequestFilter(repository: HttpTraceRepository, tracer: HttpExchangeTracer) = ActuatorIgnoringTraceRequestFilter(repository,tracer)
+    fun actuatorIgnoringTraceRequestFilter(tracer: HttpExchangeTracer) = ActuatorIgnoringTraceRequestFilter(InMemoryHttpTraceRepository(),tracer)
     
     @Bean
     fun startupInfoContributor(ctx: ApplicationContext) = StartupInfoContributor(ctx)
@@ -95,7 +79,6 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
             .build())
         }
 
-
     @Bean
     fun headersToMDCFilterRegistrationBean() =
         FilterRegistrationBean(HeadersToMDCFilter(applicationName))
@@ -108,11 +91,11 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
     fun webClientCustomizer(env: Environment) =
         WebClientCustomizer { b ->
             b.clientConnector(ReactorClientHttpConnector(client(env)))
-                .filter(AbstractWebClientAdapter.correlatingFilterFunction(applicationName))
+                .filter(correlatingFilterFunction(applicationName))
         }
 
     private fun client(env: Environment) =
-        if (EnvUtil.isDevOrLocal(env))
+        if (isDevOrLocal(env))
             HttpClient.create().wiretap(javaClass.canonicalName, TRACE, TEXTUAL)
         else HttpClient.create()
 }
