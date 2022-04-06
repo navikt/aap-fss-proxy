@@ -1,5 +1,6 @@
 package no.nav.aap.proxy.error
 
+import no.nav.aap.util.LoggerUtil
 import no.nav.security.token.support.core.exceptions.JwtTokenMissingException
 import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnauthorizedException
 import org.springframework.http.ResponseEntity
@@ -18,6 +19,7 @@ import org.zalando.problem.spring.web.advice.ProblemHandling
 @ControllerAdvice
 class ProxyExceptionHandler: ProblemHandling {
 
+    private val log = LoggerUtil.getLogger(javaClass)
     @ExceptionHandler(JwtTokenUnauthorizedException::class, JwtTokenMissingException::class)
     fun handleMissingOrExpiredToken(e: java.lang.Exception, req: NativeWebRequest): ResponseEntity<Problem> {
         return create(UNAUTHORIZED,e,req)
@@ -25,6 +27,7 @@ class ProxyExceptionHandler: ProblemHandling {
 
     @ExceptionHandler(WebClientResponseException::class)
     fun handleWebClientResponseException(e: WebClientResponseException, req: NativeWebRequest): ResponseEntity<Problem> {
+        log.warn("FEIL",e)
         return when (e) {
             is BadRequest -> create(BAD_REQUEST,e,req)
             is Forbidden, is Unauthorized -> create(UNAUTHORIZED,e,req)
