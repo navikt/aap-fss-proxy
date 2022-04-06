@@ -41,7 +41,7 @@ import reactor.netty.transport.logging.AdvancedByteBufFormat.TEXTUAL
 @Configuration
 class FellesRestBeanConfig(@Value("\${spring.application.name}") val applicationName: String) {
 @Bean
- fun jacksonCustumizer(): Jackson2ObjectMapperBuilderCustomizer =
+ fun jacksonCustumizer()  =
      Jackson2ObjectMapperBuilderCustomizer {
          b: Jackson2ObjectMapperBuilder -> b.modules(ProblemModule(), JavaTimeModule(), KotlinModule.Builder().build())
     }
