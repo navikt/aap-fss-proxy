@@ -24,7 +24,7 @@
 		<kotlin.version>1.6.20</kotlin.version>
 		<problem.version>0.27.0</problem.version>
 		<revision>0.0.1-SNAPSHOT</revision>
-		<spring.retry.version>1.3.2</spring.retry.version>
+		<spring.retry.version>1.3.3</spring.retry.version>
 		<springdoc.version>1.6.7</springdoc.version>
 		<spring-cloud-sleuth.version>3.1.0</spring-cloud-sleuth.version>
 		<token.validation.version>2.0.14</token.validation.version>
