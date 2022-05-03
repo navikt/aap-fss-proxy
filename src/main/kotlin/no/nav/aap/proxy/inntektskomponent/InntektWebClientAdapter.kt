@@ -19,5 +19,8 @@ class InntektWebClientAdapter(@Qualifier(INNTEKTSKOMPONENT) webClient: WebClient
             .bodyValue(request)
             .retrieve()
             .bodyToMono<InntektResponse>()
+            .doOnError { t: Throwable -> log.warn("Innteksoppslag  feilet", t) }
+            .doOnSuccess { log.trace("Innteksoppslag OK") }
             .block()
+            .also { log.trace("Inntekt response $it") }
 }

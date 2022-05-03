@@ -4,6 +4,7 @@ import no.nav.aap.joark.JoarkResponse
 import no.nav.aap.joark.Journalpost
 import no.nav.aap.rest.AbstractWebClientAdapter
 import no.nav.aap.util.Constants.JOARK
+import org.aspectj.weaver.tools.cache.SimpleCacheFactory.path
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Component
@@ -19,7 +20,7 @@ class JoarkWebClientAdapter (@Qualifier(JOARK) webClient: WebClient, private val
             .bodyValue(journalpost)
             .retrieve()
             .bodyToMono<JoarkResponse>()
-             .doOnError { t: Throwable -> log.warn("Joark lagring feilet", t) }
-            .block()
+             .doOnError { t: Throwable -> log.warn("Joark  feilet", t) }
+             .block()
              .also { log.trace("Joark respons $it") }
 }

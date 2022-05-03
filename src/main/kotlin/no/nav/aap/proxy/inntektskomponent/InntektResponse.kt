@@ -1,35 +1,13 @@
 package no.nav.aap.proxy.inntektskomponent
 
-import no.nav.aap.api.felles.Fødselsnummer
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import no.nav.aap.api.felles.OrgNummer
 import java.time.YearMonth
 
-data class InntektResponse(
-    val arbeidsInntektMaaned: List<Måned>
-                          )
-
-data class Måned(
-    val årMåned: YearMonth,
-    val arbeidsforholdliste: List<Arbeidsforhold>,
-    val inntektsliste: List<Inntekt>
-)
-data class Arbeidsforhold(
-    val type: String?,
-    val orgnummer: OrgNummer?
-)
-data class Inntekt(
-    val beløp: Double,
-    val inntektstype: Inntektstype,
-    val orgnummer: OrgNummer?,
-    val fødselsnummer: Fødselsnummer?,
-    val aktørId: String?,
-    val beskrivelse: String?,
-    val fordel: String?
-)
-
-enum class Inntektstype {
-    LOENNSINNTEKT,
-    NAERINGSINNTEKT,
-    PENSJON_ELLER_TRYGD,
-    YTELSE_FRA_OFFENTLIGE
+data class InntektResponse(val arbeidsInntektMaaned: List<Måned>) {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    data class Måned(val årMåned: YearMonth,  val inntektsliste: List<Inntekt>) {
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        data class Inntekt(val beløp: Double, val orgnummer: OrgNummer?)
+    }
 }

@@ -38,12 +38,14 @@ class NorgWebClientAdapter(
             .bodyValue(request)
             .retrieve()
             .bodyToMono<ArbeidsResponse>()
+            .doOnError { t: Throwable -> log.warn("Norg feilet", t) }
+            .doOnSuccess { log.trace("Norg OK") }
             .block()
+            .also { log.trace("Norg response $it") }
 }
 
 @Configuration
 class NorgBeanConfig(val config: NorgConfig) {
-
     @Bean
     fun norgHealthIndicator(a: NorgWebClientAdapter) =  object : AbstractPingableHealthIndicator(a){}
 
@@ -56,7 +58,7 @@ class NorgBeanConfig(val config: NorgConfig) {
 }
 
 @ConstructorBinding
-@ConfigurationProperties("norg")
+@ConfigurationProperties(NORG)
 class NorgConfig(
         baseUri: URI,
         @DefaultValue("/api/v1/arbeidsfordeling/enheter/bestmatch") val path: String,

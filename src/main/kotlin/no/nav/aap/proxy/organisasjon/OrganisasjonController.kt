@@ -1,5 +1,6 @@
 package no.nav.aap.proxy.organisasjon
 
+import no.nav.aap.api.felles.OrgNummer
 import no.nav.aap.util.Constants.IDPORTEN
 import no.nav.aap.util.LoggerUtil
 import no.nav.security.token.support.core.api.Unprotected
@@ -15,13 +16,13 @@ class OrganisasjonController(val orgClient: OrganisasjonClient) {
 
 
     @GetMapping
-    fun navn(@RequestParam("orgnummer") orgnummer: String) =
+    fun navn(@RequestParam("orgnummer") orgnummer: OrgNummer) =
           orgClient.orgNavn(orgnummer)
               .also {  log.info("Hentet orgnavn $it for $orgnummer")}
 
     @GetMapping("/ping")
     @Unprotected
-    fun ping() = navn(NAV)
+    fun ping() = navn(OrgNummer(NAV))
 
     companion object {
         private const val NAV = "998004993"
