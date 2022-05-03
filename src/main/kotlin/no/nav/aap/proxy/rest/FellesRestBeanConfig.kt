@@ -14,6 +14,8 @@ import no.nav.aap.util.AuthContext
 import no.nav.aap.util.Constants.STS
 import no.nav.aap.util.StartupInfoContributor
 import no.nav.aap.util.StringExtensions.asBearer
+import no.nav.boot.conditionals.ConditionalOnDevOrLocal
+import no.nav.boot.conditionals.ConditionalOnNotProd
 import no.nav.boot.conditionals.EnvUtil.isDevOrLocal
 import no.nav.security.token.support.client.spring.oauth2.ClientConfigurationPropertiesMatcher
 import no.nav.security.token.support.core.context.TokenValidationContextHolder
@@ -48,7 +50,7 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
     }
 
     @Bean
-    fun awagger(p: BuildProperties): OpenAPI {
+    fun swagger(p: BuildProperties): OpenAPI {
         return OpenAPI()
             .info(Info()
                 .title("AAP fss proxy")
@@ -60,8 +62,8 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
             )
     }
 
-    //@ConditionalOnDevOrLocal
-    //@Bean
+    @ConditionalOnNotProd
+    @Bean
     fun actuatorIgnoringTraceRequestFilter(tracer: HttpExchangeTracer) = ActuatorIgnoringTraceRequestFilter(InMemoryHttpTraceRepository(),tracer)
     
     @Bean

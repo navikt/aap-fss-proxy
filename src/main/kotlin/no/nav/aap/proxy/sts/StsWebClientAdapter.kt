@@ -22,8 +22,9 @@ class StsWebClientAdapter (@Qualifier(STS) webClient: WebClient, private val cf:
                     .build()
                 }
                 .retrieve()
-                .onStatus({ obj: HttpStatus -> obj.isError }) { obj: ClientResponse -> obj.createException() }
                 .bodyToMono<OidcToken>()
+                .doOnError { t: Throwable -> log.warn("STS oppslag feilet", t) }
+                .doOnSuccess { log.trace("STS oppslag OK") }
                 .block()
         }
         return token!!.accessToken!!.tokenAsString

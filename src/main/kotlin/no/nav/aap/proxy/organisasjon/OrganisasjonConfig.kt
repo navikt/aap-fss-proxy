@@ -1,5 +1,6 @@
 package no.nav.aap.proxy.organisasjon
 
+import no.nav.aap.api.felles.OrgNummer
 import no.nav.aap.rest.AbstractRestConfig
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
@@ -16,14 +17,13 @@ class OrganisasjonConfig (baseUri: URI,
                           @DefaultValue("true") enabled: Boolean) :
     AbstractRestConfig(baseUri, pingPath(organisasjonPath), enabled) {
 
-    fun getOrganisasjonURI(b: UriBuilder, orgnr: String) = b.path(organisasjonPath).build(orgnr)
+    fun getOrganisasjonURI(b: UriBuilder, orgnr: OrgNummer) = b.path(organisasjonPath).build(orgnr.orgnr)
 
     override fun toString(): String {
         return javaClass.simpleName + "[organisasjonPath=" + organisasjonPath + ", pingEndpoint=" + pingEndpoint + "]"
     }
 
     companion object {
-        const val ORGANISASJON = "Organisasjon"
         private const val V1_ORGANISASJON = "v1/organisasjon/{orgnr}"
         private const val TESTORG = "947064649"
         private fun pingPath(organisasjonPath: String): String {
