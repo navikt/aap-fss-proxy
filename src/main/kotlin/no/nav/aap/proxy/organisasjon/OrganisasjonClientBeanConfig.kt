@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.core.env.Environment
 
 @Configuration
 class OrganisasjonClientBeanConfig(val cfg: OrganisasjonConfig) {
