@@ -22,6 +22,7 @@ import no.nav.security.token.support.core.context.TokenValidationContextHolder
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.actuate.trace.http.HttpExchangeTracer
+import org.springframework.boot.actuate.trace.http.HttpTraceRepository
 import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.boot.info.BuildProperties
@@ -62,10 +63,14 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
             )
     }
 
-    @ConditionalOnNotProd
     @Bean
-    fun actuatorIgnoringTraceRequestFilter(tracer: HttpExchangeTracer) = ActuatorIgnoringTraceRequestFilter(InMemoryHttpTraceRepository(),tracer)
-    
+    @ConditionalOnDevOrLocal
+    fun httpTraceRepository() = InMemoryHttpTraceRepository()
+
+    @Bean
+    @ConditionalOnDevOrLocal
+    fun actuatorIgnoringTraceRequestFilter(repo: HttpTraceRepository, tracer: HttpExchangeTracer) =
+        ActuatorIgnoringTraceRequestFilter(repo, tracer)
     @Bean
     fun startupInfoContributor(ctx: ApplicationContext) = StartupInfoContributor(ctx)
 
