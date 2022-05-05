@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.ClientRequest
+import java.nio.charset.StandardCharsets.UTF_8
 import java.util.Base64.getEncoder
 @Configuration
 class StsClientBeanConfig(private val cfg: ServiceuserConfig) {
@@ -31,5 +32,5 @@ class StsClientBeanConfig(private val cfg: ServiceuserConfig) {
             .build())
         }
 
-    private fun credentials() = getEncoder().encodeToString("${cfg.username}:${cfg.password}".toByteArray(Charsets.UTF_8))
+    private fun credentials() = getEncoder().encodeToString("${cfg.username}:${cfg.password}".toByteArray(UTF_8))
 }
