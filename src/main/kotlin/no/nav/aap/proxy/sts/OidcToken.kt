@@ -8,9 +8,9 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming
 import no.nav.security.token.support.core.jwt.JwtToken
 import java.time.LocalDateTime
 @JsonNaming(SnakeCaseStrategy::class)
-  data class OidcToken(@JsonAlias("access_token") val accessToken: JwtToken? = null ,
-                       @JsonAlias("token_type") val tokenType: String? = null ,
-                       @JsonAlias("expires_in")  val expiresIn: Int? = null) {
+  data class OidcToken(val accessToken: JwtToken? = null ,
+                       val tokenType: String? = null ,
+                       val expiresIn: Int? = null) {
     fun hasExpired() = LocalDateTime.now().plusSeconds(expiresIn!! - 20L).isBefore(LocalDateTime.now())
 
 }
