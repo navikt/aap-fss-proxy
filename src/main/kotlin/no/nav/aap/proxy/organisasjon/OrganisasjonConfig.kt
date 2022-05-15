@@ -2,6 +2,7 @@ package no.nav.aap.proxy.organisasjon
 
 import no.nav.aap.api.felles.OrgNummer
 import no.nav.aap.rest.AbstractRestConfig
+import no.nav.aap.util.Constants.ORGANISASJON
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
@@ -10,12 +11,12 @@ import java.net.URI
 import org.springframework.web.util.UriComponentsBuilder.newInstance
 
 
-@ConfigurationProperties(prefix = "organisasjon")
+@ConfigurationProperties(ORGANISASJON)
 @ConstructorBinding
 class OrganisasjonConfig (baseUri: URI,
                           @DefaultValue(V1_ORGANISASJON) private val organisasjonPath: String,
                           @DefaultValue("true") enabled: Boolean) :
-    AbstractRestConfig(baseUri, pingPath(organisasjonPath), enabled) {
+    AbstractRestConfig(baseUri, pingPath(organisasjonPath), ORGANISASJON,enabled) {
 
     fun getOrganisasjonURI(b: UriBuilder, orgnr: OrgNummer) = b.path(organisasjonPath).build(orgnr.orgnr)
 

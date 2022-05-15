@@ -13,4 +13,4 @@ import java.net.URI
 class InntektConfig(baseUri: URI,
                     @DefaultValue("api/v1/hentinntektliste") val path: String,
                     @DefaultValue("api/ping") pingPath: String,
-                    @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,pingPath,enabled)
+                    @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,pingPath, INNTEKTSKOMPONENT,enabled)

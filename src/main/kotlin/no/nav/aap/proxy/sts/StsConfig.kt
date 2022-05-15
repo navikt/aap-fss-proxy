@@ -12,4 +12,4 @@ import java.net.URI
 class StsConfig (baseUri: URI,
                  @DefaultValue("rest/v1/sts/token") val tokenPath: String,
                  @DefaultValue("") pingPath: String,
-                 @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,pingPath,enabled)
+                 @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,pingPath,STS,enabled)

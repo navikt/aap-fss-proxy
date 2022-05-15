@@ -14,4 +14,4 @@ class NorgConfig(
         baseUri: URI,
         @DefaultValue("/api/v1/arbeidsfordeling/enheter/bestmatch") val path: String,
         @DefaultValue("internal/isAlive") pingPath: String,
-        @DefaultValue("true") enabled: Boolean) : AbstractRestConfig(baseUri, pingPath, enabled)
+        @DefaultValue("true") enabled: Boolean) : AbstractRestConfig(baseUri, pingPath, NORG,enabled)

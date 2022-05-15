@@ -12,4 +12,4 @@ import java.net.URI
 class JoarkConfig (baseUri: URI,
                    @DefaultValue("rest/journalpostapi/v1/journalpost") val path: String,
                    @DefaultValue("isAlive") pingPath: String,
-                   @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,pingPath,enabled)
+                   @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,pingPath, JOARK,enabled)
