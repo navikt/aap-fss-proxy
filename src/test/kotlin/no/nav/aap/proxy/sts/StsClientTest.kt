@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.json.JsonTest
 import org.springframework.test.context.ContextConfiguration
 import java.net.URI
 @JsonTest
-@ContextConfiguration(classes = arrayOf(ObjectMapper::class))
+@ContextConfiguration(classes = [ObjectMapper::class])
 class StsClientTest {
 
     @Autowired
@@ -20,7 +20,6 @@ class StsClientTest {
         val stsClient = StsClient(createShortCircuitWebClient(defaultToken),cfg)
         assertEquals(longLived, stsClient.oidcToken())
     }
-
     @Test
     fun `refresh token riktig`() {
         val stsDefaultClient = StsClient(createShortCircuitWebClientQueued(shortLivedToken, defaultToken),cfg)
