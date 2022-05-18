@@ -15,6 +15,7 @@ class NorgClientBeanConfig(val config: NorgConfig) {
     @Bean
     fun norgHealthIndicator(a: NorgWebClientAdapter) =  object : AbstractPingableHealthIndicator(a){}
 
+    
     @Bean
     @Qualifier(NORG)
     fun norgClient(builder: Builder, stsExchange: ExchangeFilterFunction): WebClient =
