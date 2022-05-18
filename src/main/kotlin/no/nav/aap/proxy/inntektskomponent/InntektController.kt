@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.RequestBody
 @ProtectedRestController(value = ["/inntektskomponent"], issuer = AAD, claimMap =[""])
 class InntektController(private val inntekt: InntektClient) {
     @PostMapping("/")
-    fun getInntekt(@RequestBody request: InntektRequest) = inntekt.getInntekt(request)
+    fun getInntekt(@RequestBody req: InntektRequest) = inntekt.getInntekt(req)
 }

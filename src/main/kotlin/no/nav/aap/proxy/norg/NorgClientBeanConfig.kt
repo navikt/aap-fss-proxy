@@ -17,7 +17,7 @@ class NorgClientBeanConfig(val config: NorgConfig) {
 
     @Bean
     @Qualifier(NORG)
-    fun client(builder: Builder, stsExchange: ExchangeFilterFunction): WebClient =
+    fun norgClient(builder: Builder, stsExchange: ExchangeFilterFunction): WebClient =
         builder
             .baseUrl("${config.baseUri}")
             .filter(stsExchange).build()

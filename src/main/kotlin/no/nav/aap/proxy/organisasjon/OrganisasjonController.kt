@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam
 @ProtectedRestController(value = ["/organisasjon"], issuer = IDPORTEN)
 class OrganisasjonController(val orgClient: OrganisasjonClient) {
 
-
-
     @GetMapping
     fun navn(@RequestParam("orgnummer") orgnummer: OrgNummer) = orgClient.orgNavn(orgnummer)
 
