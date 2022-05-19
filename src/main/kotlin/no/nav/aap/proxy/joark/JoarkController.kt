@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody
 @ProtectedRestController(value = ["/joark"], issuer = IDPORTEN)
 class JoarkController(private val joark: JoarkClient) {
 
-    @PostMapping("/aad")
+    @PostMapping("/opprett")
     fun opprettJournalpost(@RequestBody p: Journalpost) = joark.opprettJournalpost(p)
     @GetMapping("/ping")
     @Unprotected
