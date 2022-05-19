@@ -22,6 +22,8 @@ spring:
       fail-on-empty-beans: false
 management:
   info:
+    os:
+      enabled: true
     java:
       enabled: true
   health:
