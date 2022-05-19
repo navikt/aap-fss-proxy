@@ -20,18 +20,16 @@ class OrganisasjonConfig (baseUri: URI,
 
     fun getOrganisasjonURI(b: UriBuilder, orgnr: OrgNummer) = b.path(organisasjonPath).build(orgnr.orgnr)
 
-    override fun toString(): String {
-        return javaClass.simpleName + "[organisasjonPath=" + organisasjonPath + ", pingEndpoint=" + pingEndpoint + "]"
-    }
+    override fun toString() = "${javaClass.simpleName} [organisasjonPath=" + organisasjonPath + ", pingEndpoint=" + pingEndpoint + "]"
+
 
     companion object {
         private const val V1_ORGANISASJON = "v1/organisasjon/{orgnr}"
         private const val TESTORG = "947064649"
-        private fun pingPath(organisasjonPath: String): String {
-            return newInstance()
+        private fun pingPath(organisasjonPath: String) =
+            newInstance()
                 .path(organisasjonPath)
                 .build(TESTORG)
                 .toString()
-        }
     }
 }

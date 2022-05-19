@@ -17,6 +17,7 @@ class JoarkController(private val joark: JoarkClient) {
 
     @PostMapping("/opprett")
     fun opprettJournalpost(@RequestBody p: Journalpost) = joark.opprettJournalpost(p)
+
     @GetMapping("/ping")
     @Unprotected
     fun ping() = joark.ping()
