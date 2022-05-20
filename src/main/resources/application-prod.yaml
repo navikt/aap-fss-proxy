@@ -4,5 +4,3 @@ joark:
   url: https://dokarkiv.nais.adeo.no
 inntektskomponent:
   base-uri: https://app.adeo.no/inntektskomponenten-ws/rs
-norg:
-  base-uri: https://norg2.nais.adeo.no/norg2
