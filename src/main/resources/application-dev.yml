@@ -7,7 +7,7 @@ info:
 sts:
   base-uri: https://security-token-service.dev.adeo.no
 joark:
-  base-uri: https://dokarkiv-q2.nais.preprod.local
+  base-uri: https://dokarkiv-q2.dev.intern.nav.no/
 inntektskomponent:
   base-uri: https://app-q2.adeo.no/inntektskomponenten-ws/rs
 organisasjon:
