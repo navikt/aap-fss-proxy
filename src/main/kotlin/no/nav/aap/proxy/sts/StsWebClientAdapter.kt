@@ -9,11 +9,11 @@ import no.nav.aap.util.Constants.STS
 
 @Component
 class StsWebClientAdapter (@Qualifier(STS) webClient: WebClient, private val cf: StsConfig) : AbstractWebClientAdapter(webClient, cf) {
-    private var token: OidcToken? = null
+    //private var token: OidcToken? = null
 
     fun oidcToken(): String {
-        if (token.shouldBeRenewed()) {
-            token = webClient.get()
+       // if (token.shouldBeRenewed()) {
+            val token = webClient.get()
                 .uri { b -> b.path(cf.tokenPath)
                     .queryParam("grant_type", "client_credentials")
                     .queryParam("scope", "openid")
@@ -22,9 +22,9 @@ class StsWebClientAdapter (@Qualifier(STS) webClient: WebClient, private val cf:
                 .retrieve()
                 .bodyToMono<OidcToken>()
                 .doOnError { t: Throwable -> log.warn("STS oppslag feilet", t) }
-                .doOnSuccess { log.trace("STS oppslag OK") }
+                .doOnSuccess { log.trace("STS oppslag OK, utgår om ${it.expiresIn}s") }
                 .block()
-        }
+        //}
         return token!!.accessToken!!.tokenAsString
     }
 
