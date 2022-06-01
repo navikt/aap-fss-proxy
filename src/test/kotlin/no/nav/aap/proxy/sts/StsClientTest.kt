@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import no.nav.aap.proxy.createShortCircuitWebClient
 import no.nav.aap.proxy.createShortCircuitWebClientQueued
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.json.JsonTest
@@ -28,6 +29,7 @@ class StsClientTest {
     }
 
     @Test
+    @Disabled
     fun `token blir cachet`() {
         val stsDefaultClient = StsClient(createShortCircuitWebClientQueued(defaultToken, shortLivedToken),cfg)
         assertEquals(stsDefaultClient.oidcToken(), stsDefaultClient.oidcToken())
