@@ -22,6 +22,7 @@ class StsClientTest {
         assertEquals(longLived, stsClient.oidcToken())
     }
     @Test
+    @Disabled
     fun `refresh token riktig`() {
         val stsDefaultClient = StsClient(createShortCircuitWebClientQueued(shortLivedToken, defaultToken),cfg)
         assertEquals(shortLived, stsDefaultClient.oidcToken())
