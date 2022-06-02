@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.ZoneOffset
 import java.util.*
 
 @Component
@@ -28,9 +29,9 @@ class StsWebClientAdapter (@Qualifier(STS) webClient: WebClient, private val cf:
                 .doOnSuccess { log.trace("STS oppslag OK, utgår om ${it.expiresIn}s") }
                 .block()
         //}
-        val date = convertToLocalDateViaInstant(token?.accessToken?.jwtTokenClaims?.get("exp") as Date)
-        log.info("Token expiry at $date")
-        log.info("Expires in ${token?.expiresIn}")
+        val date = token?.accessToken?.jwtTokenClaims?.get("exp")
+        val now = Date()
+        log.info("Token expiry at $date now er $now")
         return token!!.accessToken!!.tokenAsString
     }
 
