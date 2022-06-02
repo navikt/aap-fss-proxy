@@ -1,12 +1,15 @@
 package no.nav.aap.proxy.sts
 
-import com.nimbusds.jwt.util.DateUtils
 import no.nav.aap.rest.AbstractWebClientAdapter
+import no.nav.aap.util.Constants.STS
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
-import no.nav.aap.util.Constants.STS
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
 @Component
 class StsWebClientAdapter (@Qualifier(STS) webClient: WebClient, private val cf: StsConfig) : AbstractWebClientAdapter(webClient, cf) {
@@ -26,12 +29,17 @@ class StsWebClientAdapter (@Qualifier(STS) webClient: WebClient, private val cf:
                 .doOnSuccess { log.trace("STS oppslag OK, utgår om ${it.expiresIn}s") }
                 .block()
         //}
-        val date = token?.accessToken?.jwtTokenClaims?.get("exp")
+        val date = convertToLocalDateViaInstant(token?.accessToken?.jwtTokenClaims?.get("exp"))
         log.info("Token expiry at $date")
         log.info("Expires in ${token?.expiresIn}")
         return token!!.accessToken!!.tokenAsString
     }
 
+    fun convertToLocalDateViaInstant(dateToConvert: Date): LocalDateTime {
+        return dateToConvert.toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDateTime()
+    }
     override fun ping() {
         oidcToken()
     }
