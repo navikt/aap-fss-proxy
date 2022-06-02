@@ -1,5 +1,6 @@
 package no.nav.aap.proxy.sts
 
+import com.nimbusds.jwt.util.DateUtils
 import no.nav.aap.rest.AbstractWebClientAdapter
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
@@ -25,6 +26,9 @@ class StsWebClientAdapter (@Qualifier(STS) webClient: WebClient, private val cf:
                 .doOnSuccess { log.trace("STS oppslag OK, utgår om ${it.expiresIn}s") }
                 .block()
         //}
+        val date = DateUtils.fromSecondsSinceEpoch(token?.accessToken?.jwtTokenClaims.getStringClaim("exp").toLong())
+        log.info("Token expiry at $date")
+        log.info("Expires in ${token.expiresIn}")
         return token!!.accessToken!!.tokenAsString
     }
 

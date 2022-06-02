@@ -1,9 +1,6 @@
 package no.nav.aap.proxy.joark
 
-import no.nav.aap.api.felles.OrgNummer
 import no.nav.aap.joark.Journalpost
-import no.nav.aap.proxy.organisasjon.OrganisasjonController
-import no.nav.aap.proxy.organisasjon.OrganisasjonController.Companion
 import no.nav.aap.util.Constants.IDPORTEN
 import no.nav.security.token.support.core.api.Unprotected
 import no.nav.security.token.support.spring.ProtectedRestController
