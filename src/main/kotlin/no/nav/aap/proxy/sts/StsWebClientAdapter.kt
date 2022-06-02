@@ -29,7 +29,7 @@ class StsWebClientAdapter (@Qualifier(STS) webClient: WebClient, private val cf:
                 .doOnSuccess { log.trace("STS oppslag OK, utgår om ${it.expiresIn}s") }
                 .block()
         //}
-        val date = convertToLocalDateViaInstant(token?.accessToken?.jwtTokenClaims?.get("exp"))
+        val date = convertToLocalDateViaInstant(token?.accessToken?.jwtTokenClaims?.get("exp") as Date)
         log.info("Token expiry at $date")
         log.info("Expires in ${token?.expiresIn}")
         return token!!.accessToken!!.tokenAsString
