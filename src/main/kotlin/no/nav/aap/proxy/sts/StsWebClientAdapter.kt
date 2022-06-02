@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
@@ -35,9 +34,9 @@ class StsWebClientAdapter (@Qualifier(STS) webClient: WebClient, private val cf:
         return token!!.accessToken!!.tokenAsString
     }
 
-    fun convertToLocalDateViaInstant(dateToConvert: Date): LocalDateTime {
-        return dateToConvert.toInstant()
-            .atZone(ZoneId.systemDefault())
+    fun convertToLocalDateViaInstant(d: Date): LocalDateTime {
+        return d.toInstant()
+            .atZone(ZoneId.of("GMT+1"))
             .toLocalDateTime()
     }
     override fun ping() {
