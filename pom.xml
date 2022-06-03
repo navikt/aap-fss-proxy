@@ -165,9 +165,9 @@
 						</auth>
 					</to>
 					<container>
-						<jvmFlags>
-							<jvmFlag>--enable-preview</jvmFlag>
-						</jvmFlags>
+						<environment>
+							<TZ>CET</TZ>
+						</environment>
 					</container>
 				</configuration>
 			</plugin>

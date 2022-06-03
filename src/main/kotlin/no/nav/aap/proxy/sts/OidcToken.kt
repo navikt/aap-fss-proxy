@@ -2,6 +2,8 @@ package no.nav.aap.proxy.sts
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming
+import com.nimbusds.jwt.JWTClaimNames
+import com.nimbusds.jwt.JWTClaimNames.*
 import no.nav.aap.util.LoggerUtil
 import no.nav.security.token.support.core.jwt.JwtToken
 import java.time.LocalDateTime.now
@@ -14,11 +16,11 @@ import java.util.*
                        val tokenType: String? = null,
                        val expiresIn: Int? = null) {
 
-  val log = LoggerUtil.getLogger(javaClass)
+  private val log = LoggerUtil.getLogger(javaClass)
     fun hasExpired() =
-       with(ofInstant((accessToken?.jwtTokenClaims?.get("exp") as Date).toInstant(), systemDefault())) {
+       with(ofInstant((accessToken!!.jwtTokenClaims!!.expirationTime).toInstant(), systemDefault())) {
          now().minusSeconds(30).isAfter(this).also {
-           log.info("${now().minusSeconds(30)} Token expiry at $this -> expired =  $it  ${systemDefault()} ")
+           log.info("${now().minusSeconds(30)} Token utløper $this -> utløpt = $it")
          }
        }
 }
