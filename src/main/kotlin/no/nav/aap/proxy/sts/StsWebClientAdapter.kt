@@ -13,7 +13,7 @@ class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: 
     private var token: OidcToken? = null
 
     fun oidcToken(): String {
-        token.shouldBeRenewed())
+        token.shouldBeRenewed()
         token = webClient.get()
             .uri { b ->
                 b.path(cf.tokenPath)
