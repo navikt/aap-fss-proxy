@@ -10,11 +10,11 @@ import org.springframework.web.reactive.function.client.bodyToMono
 @Component
 class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: StsConfig) :
     AbstractWebClientAdapter(webClient, cf) {
-    private var token: OidcToken? = null
 
-    fun oidcToken(): String {
-        token.shouldBeRenewed()
-        token = webClient.get()
+    fun oidcToken() = getToken().accessToken!!.tokenAsString
+
+    private fun getToken() =
+         webClient.get()
             .uri { b ->
                 b.path(cf.tokenPath)
                     .queryParam("grant_type", "client_credentials")
@@ -25,12 +25,10 @@ class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: 
             .bodyToMono<OidcToken>()
             .doOnError { t: Throwable -> log.warn("STS oppslag feilet", t) }
             .doOnSuccess { log.trace("STS oppslag OK, utgår om ${it.expiresIn}s") }
-            .block()
-        return token!!.accessToken!!.tokenAsString
-    }
+            .block() ?: throw java.lang.IllegalStateException("Ingen respons fra STS")
 
     override fun ping() {
-        oidcToken()
+        getToken().shouldBeRenewed()
     }
 
     private fun OidcToken?.shouldBeRenewed() = this?.hasExpired() ?: true
