@@ -4,11 +4,9 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 import no.nav.aap.util.LoggerUtil
 import no.nav.security.token.support.core.jwt.JwtToken
-import sun.jvm.hotspot.code.CompressedStream.L
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.*
+import java.util.Date
 
 @JsonNaming(SnakeCaseStrategy::class)
   data class OidcToken(val accessToken: JwtToken? = null ,
