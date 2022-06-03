@@ -13,7 +13,6 @@ import java.util.Date
 
   val log = LoggerUtil.getLogger(javaClass)
     fun hasExpired(): Boolean {
-      //now().plusSeconds(expiresIn!! - 20L).isBefore(now())
       val date = this.accessToken?.jwtTokenClaims?.get("exp") as Date
       val now = Date()
       val expired = now.after(date)
