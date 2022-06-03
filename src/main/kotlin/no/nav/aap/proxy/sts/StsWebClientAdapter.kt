@@ -14,7 +14,7 @@ class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: 
 
     var token  = getTheToken()
 
-    fun oidcToken(): String? {
+    fun oidcToken(): String {
         if (token.shouldBeRenewed()) {
             log.trace("Fornyer token")
             token = getTheToken()
