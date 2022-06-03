@@ -20,7 +20,7 @@ import java.util.*
     fun hasExpired() =
        with(ofInstant((accessToken!!.jwtTokenClaims!!.expirationTime).toInstant(), systemDefault())) {
          now().minusSeconds(30).isAfter(this).also {
-           log.info("${now().minusSeconds(30)} Token utløper $this -> utløpt = $it ${systemDefault()}")
+           log.info("${now().minusSeconds(30)} Token utløper $this -> utløpt = $it")
          }
        }
 }
