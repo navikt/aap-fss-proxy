@@ -7,7 +7,7 @@ import no.nav.security.token.support.core.jwt.JwtToken
 import java.time.LocalDateTime.now
 import java.time.LocalDateTime.ofInstant
 import java.time.ZoneId.systemDefault
-import java.util.Date
+import java.util.*
 
 @JsonNaming(SnakeCaseStrategy::class)
   data class OidcToken(val accessToken: JwtToken? = null,
@@ -18,7 +18,7 @@ import java.util.Date
     fun hasExpired() =
        with(ofInstant((accessToken?.jwtTokenClaims?.get("exp") as Date).toInstant(), systemDefault())) {
          now().minusSeconds(30).isAfter(this).also {
-           log.info("${now().minusSeconds(30)} Token expiry at $this -> expired =  $it")
+           log.info("${now().minusSeconds(30)} Token expiry at $this -> expired =  $it  ${systemDefault()} ")
          }
        }
 }
