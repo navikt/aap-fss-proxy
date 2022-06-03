@@ -15,7 +15,7 @@ class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: 
     var token  = getTheToken()
 
     fun oidcToken(): String {
-        if (token.shouldBeRenewed()) {
+        if (token.hasExpired()) {
             log.trace("Fornyer token")
             token = getTheToken()
         }
@@ -39,6 +39,4 @@ class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: 
     override fun ping() {
        oidcToken()
     }
-
-    private fun OidcToken?.shouldBeRenewed() = this?.hasExpired() ?: true
 }

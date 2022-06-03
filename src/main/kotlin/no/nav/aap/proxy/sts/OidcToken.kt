@@ -12,11 +12,10 @@ import java.util.Date
                        val expiresIn: Int? = null) {
 
   val log = LoggerUtil.getLogger(javaClass)
-    fun hasExpired(): Boolean {
-      val date = this.accessToken?.jwtTokenClaims?.get("exp") as Date
-      val now = Date()
-      val expired = now.after(date)
-      log.info("Token expiry at $date now er $now expired $expired")
-      return expired
-    }
+    fun hasExpired() =
+       with(accessToken?.jwtTokenClaims?.get("exp") as Date) {
+         Date().after(this).also {
+           log.info("Token expiry at $this -> expired =  $it")
+         }
+       }
 }
