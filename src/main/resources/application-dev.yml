@@ -25,4 +25,4 @@ sts:
 joark:
   base-uri: https://dokarkiv.dev.intern.nav.no/
 inntektskomponent:
-  base-uri: https://app-q2.adeo.no/inntektskomponenten-ws/rs
+  base-uri: https://app-q2.adeo.no/inntektskomponenten-ws/rs/
