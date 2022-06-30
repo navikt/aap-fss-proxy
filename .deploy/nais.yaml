@@ -18,6 +18,9 @@ spec:
         - application: personopplysninger
           namespace: aap
           cluster: dev-gcp
+        - application: inntekt
+          namespace: aap
+          cluster: dev-gcp
   tokenx:
     enabled: true
   azure:
