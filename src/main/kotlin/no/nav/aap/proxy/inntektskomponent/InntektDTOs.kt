@@ -14,8 +14,10 @@ data class InntektRequest(val ident: InntektIdent, val ainntektsfilter: String, 
 }
 data class InntektResponse(val arbeidsInntektMaaned: List<Måned>) {
     @JsonIgnoreProperties(ignoreUnknown = true)
-    data class Måned(val årMåned: YearMonth,  val inntektsliste: List<Inntekt>) {
+    data class Måned(val aarMaaned: YearMonth,  val arbeidsInntektInformasjon: ArbeidsInntektInformasjon)
+
+    data class ArbeidsInntektInformasjon(val inntektsliste: List<Inntekt>) {
         @JsonIgnoreProperties(ignoreUnknown = true)
-        data class Inntekt(val beløp: Double, val orgnummer: OrgNummer?)
+        data class Inntekt(val beloep: Double, val orgnummer: OrgNummer?)
     }
 }
