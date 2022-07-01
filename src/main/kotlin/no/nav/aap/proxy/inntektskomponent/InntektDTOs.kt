@@ -12,6 +12,8 @@ data class InntektRequest(val ident: InntektIdent, val ainntektsfilter: String, 
         enum class AktørType { NATURLIG_IDENT }
     }
 }
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class InntektResponse(val arbeidsInntektMaaned: List<Måned>) {
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class Måned(val aarMaaned: YearMonth,  val arbeidsInntektInformasjon: ArbeidsInntektInformasjon)
