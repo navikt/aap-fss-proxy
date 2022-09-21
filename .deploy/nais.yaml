@@ -14,9 +14,6 @@ spec:
   accessPolicy:
     inbound:
       rules:
-        - application: soknad-api
-          namespace: aap
-          cluster: dev-gcp
         - application: personopplysninger
           namespace: aap
           cluster: dev-gcp
