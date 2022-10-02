@@ -43,7 +43,7 @@ jobs:
       PRINT_PAYLOAD: true
       CLUSTER: dev-fss
       RESOURCE: .deploy/nais.yaml,.deploy/alerts.yaml
-      VARS: .deploy/dev.json
+      VARS: .deploy/dev.yaml
       IMAGE: ${{needs.bygg.outputs.image}}
     runs-on: ubuntu-latest
     outputs:
@@ -59,7 +59,7 @@ jobs:
         PRINT_PAYLOAD: true
         CLUSTER: prod-fss
         RESOURCE: .deploy/naiserator.yaml,.deploy/alerts.yaml
-        VARS: .deploy/prod.json
+        VARS: .deploy/prod.yaml
         IMAGE: ${{needs.dev-deploy.outputs.image}}
       runs-on: ubuntu-latest
       needs: dev-deploy
