@@ -35,7 +35,7 @@ jobs:
         id: kompiler
         run: |
           echo "::set-output name=image::${{ env.IMAGE }}"                              
-          mvn --settings .github/.m2/settings.xml -Drevision=${TAG} package jib:build
+          ./mvnw --settings .github/.m2/settings.xml -Drevision=${TAG} package jib:build
 
   dev-deploy:
     name: Deploy to dev
