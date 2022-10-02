@@ -12,6 +12,8 @@ env:
 jobs:
   bygg:
     runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.kompiler.outputs.image }}
     steps:
       - name: Sjekk ut kode
         uses: actions/checkout@v3
@@ -30,11 +32,37 @@ jobs:
         run: echo "IMAGE=$(echo $IMAGE_BASE):$(echo $TAG)" >> $GITHUB_ENV
 
       - name: Kompiler og deploy image med jib
-        run: mvn --settings .github/.m2/settings.xml -Drevision=${TAG} package jib:build
+        id: kompiler
+        run: |
+          echo "::set-output name=image::${{ env.IMAGE }}"                              
+          mvn --settings .github/.m2/settings.xml -Drevision=${TAG} package jib:build
 
-      - name: Deploy
-        uses: nais/deploy/actions/deploy@master
-        env:
-          CLUSTER: dev-fss
-          RESOURCE: .deploy/nais.yaml,.deploy/alerts.yaml
-          VARS: .deploy/dev.yaml
+  dev-deploy:
+    name: Deploy to dev
+    env:
+      PRINT_PAYLOAD: true
+      CLUSTER: dev-fss
+      RESOURCE: .deploy/nais.yaml,.deploy/alerts.yaml
+      VARS: .deploy/dev.json
+      IMAGE: ${{needs.bygg.outputs.image}}
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ env.IMAGE }}
+    needs: bygg
+    steps:
+      -   uses: actions/checkout@v3
+      -   uses: nais/deploy/actions/deploy@master
+
+  prod-deploy:
+      name: Deploy to prod
+      env:
+        PRINT_PAYLOAD: true
+        CLUSTER: prod-fss
+        RESOURCE: .deploy/naiserator.yaml,.deploy/alerts.yaml
+        VARS: .deploy/prod.json
+        IMAGE: ${{needs.dev-deploy.outputs.image}}
+      runs-on: ubuntu-latest
+      needs: dev-deploy
+      steps:
+        -   uses: actions/checkout@v3
+        -   uses: nais/deploy/actions/deploy@master
