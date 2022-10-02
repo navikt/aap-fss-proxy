@@ -30,4 +30,4 @@ jobs:
 
       - name: Kompiler
         run: |
-          mvn test  --settings .github/.m2/settings.xml
+          ./mvnw test  --settings .github/.m2/settings.xml
