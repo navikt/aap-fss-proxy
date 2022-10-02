@@ -58,7 +58,7 @@ jobs:
       env:
         PRINT_PAYLOAD: true
         CLUSTER: prod-fss
-        RESOURCE: .deploy/naiserator.yaml,.deploy/alerts.yaml
+        RESOURCE: .deploy/nais.yaml,.deploy/alerts.yaml
         VARS: .deploy/prod.yaml
         IMAGE: ${{needs.dev-deploy.outputs.image}}
       runs-on: ubuntu-latest
