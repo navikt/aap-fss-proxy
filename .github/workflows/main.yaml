@@ -54,6 +54,7 @@ jobs:
       -   uses: nais/deploy/actions/deploy@master
 
   prod-deploy:
+      environment: prod-fss:aap
       name: Deploy to prod
       env:
         PRINT_PAYLOAD: true
