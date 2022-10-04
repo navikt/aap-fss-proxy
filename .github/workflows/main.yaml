@@ -36,34 +36,22 @@ jobs:
         run: |
           echo "::set-output name=image::${{ env.IMAGE }}"                              
           ./mvnw --settings .github/.m2/settings.xml -Drevision=${TAG} package jib:build
+          
 
-  dev-deploy:
-    name: Deploy to dev
-    env:
-      PRINT_PAYLOAD: true
-      CLUSTER: dev-fss
-      RESOURCE: .deploy/nais.yaml,.deploy/alerts.yaml
-      VARS: .deploy/dev.yaml
-      IMAGE: ${{needs.bygg.outputs.image}}
-    runs-on: ubuntu-latest
-    outputs:
-      image: ${{ env.IMAGE }}
-    needs: bygg
-    steps:
-      -   uses: actions/checkout@v3
-      -   uses: nais/deploy/actions/deploy@master
-
-  prod-deploy:
-      environment: prod-fss:aap
-      name: Deploy to prod
+  deploy:
+      strategy:
+        matrix:
+          cluster: [ dev-fss,prod-fss ]
+      environment: ${{ matrix.cluster }}:aap
+      name: Deploy til ${{ matrix.cluster }}
+      needs: bygg
+      runs-on: ubuntu-latest
       env:
         PRINT_PAYLOAD: true
-        CLUSTER: prod-fss
         RESOURCE: .deploy/nais.yaml,.deploy/alerts.yaml
-        VARS: .deploy/prod.yaml
-        IMAGE: ${{needs.dev-deploy.outputs.image}}
-      runs-on: ubuntu-latest
-      needs: dev-deploy
+        CLUSTER: ${{ matrix.cluster }}
+        VARS: .deploy/${{ matrix.cluster }}.yaml
+        IMAGE: ${{needs.bygg.outputs.image}}
       steps:
-        -   uses: actions/checkout@v3
-        -   uses: nais/deploy/actions/deploy@master
+        - uses: actions/checkout@v3
+        - uses: nais/deploy/actions/deploy@master
