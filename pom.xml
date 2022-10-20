@@ -16,7 +16,7 @@
 
 	<properties>
 		<conditionals.version>4.0.1</conditionals.version>
-		<domain.version>1.0.15</domain.version>
+		<domain.version>1.0.17</domain.version>
 		<jib.version>3.3.0</jib.version>
 		<java.version>17</java.version>
 		<logstash.version>7.2</logstash.version>
