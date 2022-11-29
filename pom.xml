@@ -15,7 +15,7 @@
 	<description>Proxy for å kalle tjenester i FSS</description>
 
 	<properties>
-		<conditionals.version>4.0.5</conditionals.version>
+		<conditionals.version>5.0.0</conditionals.version>
 		<domain.version>1.0.28</domain.version>
 		<jib.version>3.3.1</jib.version>
 		<java.version>17</java.version>
