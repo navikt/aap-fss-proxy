@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 import java.net.URI
 
 @ConfigurationProperties(STS)
-@ConstructorBinding
 class StsConfig (baseUri: URI,
                  @DefaultValue("rest/v1/sts/token") val tokenPath: String,
                  @DefaultValue("") pingPath: String,
