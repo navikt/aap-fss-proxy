@@ -9,21 +9,15 @@ import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.info.License
 import no.nav.aap.proxy.sts.StsClient
 import no.nav.aap.rest.AbstractWebClientAdapter.Companion.correlatingFilterFunction
-import no.nav.aap.rest.ActuatorIgnoringTraceRequestFilter
 import no.nav.aap.util.AuthContext
 import no.nav.aap.util.Constants.STS
 import no.nav.aap.util.StartupInfoContributor
 import no.nav.aap.util.StringExtensions.asBearer
-import no.nav.boot.conditionals.ConditionalOnDevOrLocal
-import no.nav.boot.conditionals.ConditionalOnNotProd
 import no.nav.boot.conditionals.EnvUtil.isDevOrLocal
 import no.nav.security.token.support.client.spring.oauth2.ClientConfigurationPropertiesMatcher
 import no.nav.security.token.support.core.context.TokenValidationContextHolder
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.actuate.trace.http.HttpExchangeTracer
-import org.springframework.boot.actuate.trace.http.HttpTraceRepository
-import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.boot.info.BuildProperties
 import org.springframework.boot.web.reactive.function.client.WebClientCustomizer
@@ -63,15 +57,7 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
             )
     }
 
-    @Bean
-    @ConditionalOnDevOrLocal
-    fun httpTraceRepository() = InMemoryHttpTraceRepository()
-
-    @Bean
-    @ConditionalOnDevOrLocal
-    fun actuatorIgnoringTraceRequestFilter(repo: HttpTraceRepository, tracer: HttpExchangeTracer) =
-        ActuatorIgnoringTraceRequestFilter(repo, tracer)
-    @Bean
+   @Bean
     fun startupInfoContributor(ctx: ApplicationContext) = StartupInfoContributor(ctx)
 
     @Bean

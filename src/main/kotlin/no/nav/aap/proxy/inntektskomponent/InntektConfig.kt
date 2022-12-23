@@ -9,7 +9,6 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 import java.net.URI
 
 @ConfigurationProperties(INNTEKTSKOMPONENT)
-@ConstructorBinding
 class InntektConfig(baseUri: URI,
                     @DefaultValue("api/v1/hentinntektliste") val path: String,
                     @DefaultValue("api/ping") pingPath: String,

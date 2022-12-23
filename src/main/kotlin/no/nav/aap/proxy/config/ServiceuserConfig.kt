@@ -7,7 +7,6 @@ import java.util.*
 import java.util.Base64.*
 
 @ConfigurationProperties("serviceuser")
-@ConstructorBinding
 data class ServiceuserConfig (val username: String, val password: String) {
     val credentials = getEncoder().encodeToString("$username:$password".toByteArray(UTF_8))
 }
