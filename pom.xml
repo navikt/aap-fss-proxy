@@ -23,7 +23,6 @@
 		<kotlin.version>1.7.22</kotlin.version>
 		<problem.version>0.27.0</problem.version>
 		<revision>0.0.1-SNAPSHOT</revision>
-		<spring.retry.version>1.3.4</spring.retry.version>
 		<springdoc.version>1.6.14</springdoc.version>
 		<spring-cloud-sleuth.version>3.1.0</spring-cloud-sleuth.version>
 		<token.validation.version>3.0.0</token.validation.version>
@@ -110,16 +109,10 @@
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.retry</groupId>
-			<artifactId>spring-retry</artifactId>
-			<version>${spring.retry.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>no.nav.security</groupId>
 			<artifactId>token-validation-spring</artifactId>
 			<version>${token.validation.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-reflect</artifactId>

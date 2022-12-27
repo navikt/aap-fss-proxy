@@ -2,7 +2,6 @@ package no.nav.aap.proxy.sts
 
 import no.nav.aap.rest.AbstractWebClientAdapter
 import no.nav.aap.util.Constants.STS
-import no.nav.aap.util.LoggerUtil
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient

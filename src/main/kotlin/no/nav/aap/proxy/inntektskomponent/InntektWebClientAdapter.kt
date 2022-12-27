@@ -1,9 +1,9 @@
 package no.nav.aap.proxy.inntektskomponent
 
 import no.nav.aap.rest.AbstractWebClientAdapter
+import no.nav.aap.util.Constants.INNTEKTSKOMPONENT
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.MediaType.*
-import no.nav.aap.util.Constants.INNTEKTSKOMPONENT
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
@@ -19,7 +19,8 @@ class InntektWebClientAdapter(@Qualifier(INNTEKTSKOMPONENT) webClient: WebClient
             .bodyValue(request)
             .retrieve()
             .bodyToMono<InntektResponse>()
-            .doOnError { t: Throwable -> log.warn("Inntektsoppslag  feilet", t) }
+            .retryWhen(cf.retrySpec(log))
+            .doOnError { t: Throwable -> log.warn("Inntektsoppslag feilet", t) }
             .doOnSuccess { log.trace("Inntektsoppslag OK") }
             .block()
             .also { log.trace("Inntekt response $it") }

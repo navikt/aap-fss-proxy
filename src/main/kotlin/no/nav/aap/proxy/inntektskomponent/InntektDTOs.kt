@@ -1,9 +1,8 @@
 package no.nav.aap.proxy.inntektskomponent
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import no.nav.aap.api.felles.Fødselsnummer
-import no.nav.aap.api.felles.OrgNummer
 import java.time.YearMonth
+import no.nav.aap.api.felles.Fødselsnummer
 
 data class InntektRequest(val ident: InntektIdent, val ainntektsfilter: String, val formaal: String, val maanedFom: YearMonth, val maanedTom: YearMonth)
 

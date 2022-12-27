@@ -1,8 +1,8 @@
 package no.nav.aap.proxy.sts
 
+import javax.inject.Inject
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
-import javax.inject.Inject
 
 @Component
 class StsClient @Inject constructor(private val a: StsWebClientAdapter)  {

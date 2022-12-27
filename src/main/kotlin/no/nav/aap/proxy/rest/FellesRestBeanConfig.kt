@@ -2,13 +2,15 @@ package no.nav.aap.proxy.rest
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import io.micrometer.observation.ObservationRegistry
+import io.micrometer.observation.aop.ObservedAspect
 import io.netty.handler.logging.LogLevel.TRACE
-import no.nav.aap.rest.HeadersToMDCFilter
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.info.License
 import no.nav.aap.proxy.sts.StsClient
 import no.nav.aap.rest.AbstractWebClientAdapter.Companion.correlatingFilterFunction
+import no.nav.aap.rest.HeadersToMDCFilter
 import no.nav.aap.util.AuthContext
 import no.nav.aap.util.Constants.STS
 import no.nav.aap.util.StartupInfoContributor
@@ -56,6 +58,9 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
                         .url("https://nav.no"))
             )
     }
+
+    @Bean
+    fun observedAspect(observationRegistry: ObservationRegistry) = ObservedAspect(observationRegistry)
 
    @Bean
     fun startupInfoContributor(ctx: ApplicationContext) = StartupInfoContributor(ctx)
