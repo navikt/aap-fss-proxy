@@ -4,6 +4,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import io.micrometer.observation.ObservationRegistry
 import io.micrometer.observation.aop.ObservedAspect
+import io.netty.handler.logging.LogLevel.DEBUG
 import io.netty.handler.logging.LogLevel.TRACE
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
@@ -105,6 +106,6 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
 
     private fun client(env: Environment) =
         if (isDevOrLocal(env))
-            HttpClient.create().wiretap(javaClass.canonicalName, TRACE, TEXTUAL)
+            HttpClient.create().wiretap(javaClass.canonicalName, DEBUG, TEXTUAL)
         else HttpClient.create()
 }
