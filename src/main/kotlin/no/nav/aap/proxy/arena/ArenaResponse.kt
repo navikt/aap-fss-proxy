@@ -1,5 +1,7 @@
 package no.nav.aap.proxy.arena
 
+import no.nav.aap.api.felles.Periode
+
 data class ArenaResponse (
     val aapSak: AapSak,
     val ytelsesvedtak: Ytelsesvedtak,
@@ -13,20 +15,15 @@ data class AapSak(
 )
 
 data class Ytelsesvedtak(
-    val vedtakstype: String,
-    val aktivitetsfase: String,
-    val vedtaksperiode: Periode,
-    val beslutningsdato: String,
-    val status: String,
-    val unntaksvedtak: String,
-    val sisteMeldekort: SisteMeldekort,
-    val meldedato: String,
-    val utbetaling: String
-)
-
-data class Periode(
-    val fom: String,
-    val tom: String,
+        val vedtakstype: String,
+        val aktivitetsfase: String,
+        val vedtaksperiode: Periode,
+        val beslutningsdato: String,
+        val status: String,
+        val unntaksvedtak: String,
+        val sisteMeldekort: SisteMeldekort,
+        val meldedato: String,
+        val utbetaling: String
 )
 
 data class SisteMeldekort(

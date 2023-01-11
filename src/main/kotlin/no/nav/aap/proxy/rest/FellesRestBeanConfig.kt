@@ -80,13 +80,6 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
             .build())
         }
 
-    @Bean
-    @Qualifier("arenaoidc")
-    fun arenaOIDCExchangeFilterFunction(arenaOIDCClient: ArenaOIDCClient) =
-        ExchangeFilterFunction {
-                req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "${arenaOIDCClient.oidcToken().asBearer()}")
-            .build())
-        }
 
     @Bean
     fun headersToMDCFilterRegistrationBean() =

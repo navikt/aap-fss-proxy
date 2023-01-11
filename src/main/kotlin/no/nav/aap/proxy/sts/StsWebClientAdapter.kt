@@ -1,5 +1,6 @@
 package no.nav.aap.proxy.sts
 
+import no.nav.aap.proxy.rest.AbstractRestConfigExtensions.retrySpec
 import no.nav.aap.rest.AbstractWebClientAdapter
 import no.nav.aap.util.Constants.STS
 import org.springframework.beans.factory.annotation.Qualifier
@@ -31,6 +32,7 @@ class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: 
             }
             .retrieve()
             .bodyToMono<OidcToken>()
+            .retryWhen(cf.retrySpec(log))
             .doOnError { t: Throwable -> log.warn("STS oppslag feilet", t) }
             .doOnSuccess { log.trace("STS oppslag OK, utgår om ${it.expiresIn}s") }
             .block() ?: throw IllegalStateException("Ingen respons fra STS")
