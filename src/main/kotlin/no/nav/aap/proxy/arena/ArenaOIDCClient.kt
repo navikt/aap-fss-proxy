@@ -68,18 +68,16 @@ class ArenaOIDCWebClientAdapter(@Qualifier("arenaoidc") webClient: WebClient, pr
     }
 
     private fun getTheToken() =
-        webClient.get()
+        webClient.post()
             .uri { b ->
-                b.path("")
-                    .queryParam("grant_type", "client_credentials")
-                    .queryParam("scope", "openid")
-                    .build()
+                b.path("oauth/token").build()
             }
+            .bodyValue("grant_type=client_credentials")
             .retrieve()
             .bodyToMono<OidcToken>()
-            .doOnError { t: Throwable -> log.warn("STS oppslag feilet", t) }
-            .doOnSuccess { log.trace("STS oppslag OK, utgår om ${it.expiresIn}s") }
-            .block() ?: throw IllegalStateException("Ingen respons fra STS")
+            .doOnError { t: Throwable -> log.warn("Arena OIDC oppslag feilet", t) }
+            .doOnSuccess { log.trace("Arena OIDC oppslag OK, utgår om ${it.expiresIn}s") }
+            .block() ?: throw IllegalStateException("Ingen respons fra Arena OIDC")
 
     override fun ping() = mapOf("status" to "OK")  // TODO hvordan pinge denne
 }
