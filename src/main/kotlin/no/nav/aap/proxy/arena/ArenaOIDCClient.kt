@@ -70,7 +70,7 @@ class ArenaOIDCWebClientAdapter(@Qualifier("arenaoidc") webClient: WebClient, pr
     private fun getTheToken() =
         webClient.post()
             .uri { b ->
-                b.path("oauth/token").build()
+                b.path("/oauth/token").build()
             }
             .bodyValue("grant_type=client_credentials")
             .retrieve()
