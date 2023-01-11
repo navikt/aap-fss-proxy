@@ -6,7 +6,7 @@
     </appender>
     <springProfile name="dev">
         <logger name="no.nav.security" level="info"/>
-        <logger name="reactor.netty.http.client.HttpClient" level="trace"/>
+        <logger name="reactor.netty.http.client.HttpClient" level="debug"/>
         <logger name="no.nav.aap" level="trace" />
     </springProfile>
     <springProfile name="local,test">

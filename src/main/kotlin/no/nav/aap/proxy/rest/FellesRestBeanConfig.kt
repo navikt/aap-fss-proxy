@@ -106,6 +106,6 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
 
     private fun client(env: Environment) =
         if (isDevOrLocal(env))
-            HttpClient.create().wiretap(javaClass.canonicalName, DEBUG, TEXTUAL)
+            HttpClient.create().wiretap(javaClass.canonicalName, TRACE, TEXTUAL)
         else HttpClient.create()
 }
