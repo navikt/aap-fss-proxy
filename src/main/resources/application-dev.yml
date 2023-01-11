@@ -24,3 +24,7 @@ sts:
   base-uri: https://security-token-service.dev.adeo.no
 inntektskomponent:
   base-uri: https://app-q2.adeo.no/inntektskomponenten-ws/rs/
+arenaoidc:
+  base-uri: https://arena-ords-q1.nais.preprod.local/arena/api/oauth/token
+arena:
+  base-uri: https://arena-ords-<env>.nais.preprod.local/arena/api/v1

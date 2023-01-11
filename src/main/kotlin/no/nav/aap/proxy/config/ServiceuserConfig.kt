@@ -9,3 +9,4 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 data class ServiceuserConfig (val username: String, val password: String) {
     val credentials = getEncoder().encodeToString("$username:$password".toByteArray(UTF_8))
 }
+

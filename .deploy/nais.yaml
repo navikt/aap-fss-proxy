@@ -55,3 +55,4 @@ spec:
   {{/each}}
   envFrom:
     - secret: srvaap-proxy
+    - secret: arenalogin

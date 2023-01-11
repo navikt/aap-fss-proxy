@@ -8,6 +8,7 @@ import io.netty.handler.logging.LogLevel.TRACE
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.info.License
+import no.nav.aap.proxy.arena.ArenaOIDCClient
 import no.nav.aap.proxy.sts.StsClient
 import no.nav.aap.rest.AbstractWebClientAdapter.Companion.correlatingFilterFunction
 import no.nav.aap.rest.HeadersToMDCFilter
@@ -76,6 +77,14 @@ class FellesRestBeanConfig(@Value("\${spring.application.name}") val application
     fun stsExchangeFilterFunction(stsClient: StsClient) =
         ExchangeFilterFunction {
             req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "${stsClient.oidcToken().asBearer()}")
+            .build())
+        }
+
+    @Bean
+    @Qualifier("arenaoidc")
+    fun arenaOIDCExchangeFilterFunction(arenaOIDCClient: ArenaOIDCClient) =
+        ExchangeFilterFunction {
+                req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "${arenaOIDCClient.oidcToken().asBearer()}")
             .build())
         }
 
