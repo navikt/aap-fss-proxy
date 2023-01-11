@@ -27,4 +27,4 @@ inntektskomponent:
 arenaoidc:
   base-uri: https://arena-ords-q1.nais.preprod.local/arena/api
 arena:
-  base-uri: https://arena-ords-<env>.nais.preprod.local/arena/api/v1
+  base-uri: https://arena-ords-q1.nais.preprod.local/arena/api/v1
