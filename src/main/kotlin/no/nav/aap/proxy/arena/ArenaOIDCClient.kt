@@ -11,6 +11,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
@@ -72,6 +73,7 @@ class ArenaOIDCWebClientAdapter(@Qualifier("arenaoidc") webClient: WebClient, pr
             .uri { b ->
                 b.path("/oauth/token").build()
             }
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .bodyValue("grant_type=client_credentials")
             .retrieve()
             .bodyToMono<OidcToken>()
