@@ -75,7 +75,7 @@ class ArenaOIDCWebClientAdapter(@Qualifier("arenaoidc") webClient: WebClient, pr
             .bodyValue("grant_type=client_credentials")
             .retrieve()
             .bodyToMono<OidcToken>()
-            .doOnError { t: Throwable -> log.warn("Arena OIDC oppslag feilet", t) }
+            .doOnError { t: Throwable -> log.warn("Arena OIDC oppslag feilet!", t) }
             .doOnSuccess { log.trace("Arena OIDC oppslag OK, utgår om ${it.expiresIn}s") }
             .block() ?: throw IllegalStateException("Ingen respons fra Arena OIDC")
 
