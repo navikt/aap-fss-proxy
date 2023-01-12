@@ -1,7 +1,6 @@
 package no.nav.aap.proxy.arena
 
 import no.nav.aap.health.AbstractPingableHealthIndicator
-import no.nav.aap.proxy.sts.OidcToken
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.rest.AbstractRestConfig
 import no.nav.aap.rest.AbstractWebClientAdapter
@@ -65,7 +64,7 @@ class ArenaOIDCWebClientAdapter(@Qualifier("arenaoidc") webClient: WebClient, pr
             log.trace("Fornyer token")
             token = getTheToken()
         }
-        return token.accessToken?.tokenAsString!!
+        return token.accessToken!!
     }
 
     private fun getTheToken() =
@@ -76,7 +75,7 @@ class ArenaOIDCWebClientAdapter(@Qualifier("arenaoidc") webClient: WebClient, pr
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .bodyValue("grant_type=client_credentials")
             .retrieve()
-            .bodyToMono<OidcToken>()
+            .bodyToMono<ArenaOidcToken>()
             .doOnError { t: Throwable -> log.warn("Arena OIDC oppslag feilet!", t) }
             .doOnSuccess { log.trace("Arena OIDC oppslag OK, utgår om ${it.expiresIn}s") }
             .block() ?: throw IllegalStateException("Ingen respons fra Arena OIDC")
