@@ -20,6 +20,9 @@ spec:
         - application: inntekt
           namespace: aap
           cluster: dev-gcp
+        - application: arenadata
+          namespace: aap
+          cluster: dev-gcp
   tokenx:
     enabled: true
   azure:
