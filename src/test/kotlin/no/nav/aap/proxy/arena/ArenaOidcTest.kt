@@ -20,8 +20,8 @@ class ArenaOidcTest {
 
     companion object {
         val cfg = ArenaOIDCConfig(URI.create("http://localhost"),true)
-        const val longLived =  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJOQVYiLCJpYXQiOjE2MzYzNjkzMDMsImV4cCI6MTY2NzkwNTMwMywiYXVkIjoid3d3Lm5hdi5ubyIsInN1YiI6Im5hdkBuYXYuY29tIn0.Z2PGP0ATOGwzklthb2umsbnI2CHx1HPPDddIpnyKw8c"
-        const val shortLived =  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJOQVYgdGVzdCIsImlhdCI6MTYzNjM2NjgxOCwiZXhwIjoxNjY3OTAyODE4LCJhdWQiOiJ3d3cubmF2Lm5vIiwic3ViIjoiMTExMTExMTExMSJ9.eTGkBsYMNKY7N9wX9xnY6jUTOSat4oxPEWU4wCeYsHQ"
+        const val longLived =  "retwretwertre"
+        const val shortLived =  "etyrtyertytry"
         val defaultToken = """
         {
           "access_token": "${longLived}",

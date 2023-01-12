@@ -54,7 +54,7 @@ class ArenaOIDCClientConfig(private val cfg: ArenauserConfig) {
 }
 
 @Component
-class ArenaOIDCWebClientAdapter(@Qualifier("arenaoidc") webClient: WebClient, private val cf: ArenaOIDCConfig) :
+class ArenaOIDCWebClientAdapter(@Qualifier("arenaoidc") webClient: WebClient, cf: ArenaOIDCConfig) :
     AbstractWebClientAdapter(webClient, cf) {
 
     var token  = getTheToken()
