@@ -48,7 +48,7 @@ class ArenaWebClientAdapter(@Qualifier("arena") webClient: WebClient, private va
             .uri { b -> b.path(cf.path).build() }
             .header("fnr", fnr)
             .retrieve()
-            .bodyToMono<ArenaResponse>()
+            .bodyToMono<ByteArray>()
             .doOnError { t: Throwable -> log.warn("Arenaoppslag feilet", t) }
             .doOnSuccess { log.trace("Arenaoppslag OK") }
             .block()
