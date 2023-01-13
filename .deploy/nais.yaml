@@ -20,7 +20,7 @@ spec:
         - application: inntekt
           namespace: aap
           cluster: dev-gcp
-        - application: arenadata
+        - application: saksinfo
           namespace: aap
           cluster: dev-gcp
   tokenx:
