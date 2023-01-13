@@ -19,7 +19,7 @@ import java.util.*
 
 @ConfigurationProperties("arena")
 class ArenaConfig (baseUri: URI,
-                   @DefaultValue("aap/sisteVedtak") val path: String,
+                   @DefaultValue("/aap/sisteVedtak") val path: String,
                        @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,"",
     "arena",enabled)
 
