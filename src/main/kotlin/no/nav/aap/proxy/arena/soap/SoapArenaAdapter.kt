@@ -37,8 +37,8 @@ class SoapArenaAdapter(url: String, username: String, password: String) {
     }
 
     @Throws(ServiceUnavailableException::class)
-    fun fetchSaker(brukerId: String?, brukertype: String?, saksId: Int?, fomDato: XMLGregorianCalendar?,
-                   tomDato: XMLGregorianCalendar?, tema: String?, lukket: Boolean): SaksInfoListe {
+    fun fetchSaker(brukerId: String, brukertype: String, saksId: Int, fomDato: XMLGregorianCalendar,
+                   tomDato: XMLGregorianCalendar, tema: String, lukket: Boolean): SaksInfoListe {
         val bruker  = Holder(Bruker().apply {
             setBrukerId(brukerId)
             brukertypeKode = brukertype
@@ -83,7 +83,6 @@ class CXFClient<T> {
     private var allowChunking = false
 
     constructor(serviceClass: Class<T>) {
-        Objects.requireNonNull(serviceClass)
        // factoryBean.features.add(LoggingFeature())
         factoryBean.features.add(WSAddressingFeature())
         factoryBean.properties = HashMap()
@@ -95,35 +94,14 @@ class CXFClient<T> {
         return this
     }
 
-    fun wsdl(url: String?): CXFClient<T> {
+    fun wsdl(url: String): CXFClient<T> {
         factoryBean.wsdlURL = url
-        return this
-    }
-
-    fun withProperty(key: String?, value: Any?): CXFClient<T> {
-        factoryBean.properties[key] = value
         return this
     }
 
     fun timeout(connectionTimeout: Int, receiveTimeout: Int): CXFClient<T> {
         this.connectionTimeout = connectionTimeout
         this.receiveTimeout = receiveTimeout
-        return this
-    }
-
-    fun enableMtom(): CXFClient<T> {
-        factoryBean.properties["mtom-enabled"] = true
-        return this
-    }
-
-    fun withHandler(handler: Handler<*>, vararg moreHandlers: Handler<*>): CXFClient<T> {
-        handlerChain.add(handler)
-        handlerChain.addAll(moreHandlers)
-        return this
-    }
-
-    fun allowChunking(allowChunking: Boolean): CXFClient<T> {
-        this.allowChunking = allowChunking
         return this
     }
 
@@ -145,14 +123,6 @@ class CXFClient<T> {
         return this
     }
 
-    fun configureClient(address: String, wsdl: String, service: QName, endpoint: QName): CXFClient<T> {
-        address(address)
-        wsdl(wsdl)
-        serviceName(service)
-        endpointName(endpoint)
-        return this
-    }
-
     fun build(): T {
       //  factoryBean.features.add(TimeoutFeature(receiveTimeout, connectionTimeout))
        // factoryBean.features.add(ChunkingFeature(allowChunking))
@@ -165,9 +135,8 @@ class CXFClient<T> {
 
     companion object {
         private fun disableCNCheckIfConfigured(client: Client) {
-            val httpConduit = client.getConduit() as HTTPConduit
-            val tlsClientParameters =
-                if (httpConduit.tlsClientParameters != null) httpConduit.tlsClientParameters else TLSClientParameters()
+            val httpConduit = client.conduit as HTTPConduit
+            val tlsClientParameters = httpConduit.tlsClientParameters ?:  TLSClientParameters()
             tlsClientParameters.isDisableCNCheck = true
             httpConduit.tlsClientParameters = tlsClientParameters
         }
