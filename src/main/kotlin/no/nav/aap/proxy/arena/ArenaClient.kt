@@ -18,10 +18,10 @@ import java.net.URI
 import java.util.*
 
 @ConfigurationProperties("arena")
-class ArenaConfig (baseUri: URI,
-                   @DefaultValue("/aap/sisteVedtak") val path: String,
-                       @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,"",
-    "arena",enabled)
+class ArenaConfig(baseUri: URI,
+                  @DefaultValue("/aap/sisteVedtak") val path: String,
+                  @DefaultValue("true") enabled: Boolean, retry: RetryConfig = RetryConfig.DEFAULT): AbstractRestConfig(baseUri,"",
+    "arena",enabled, retry)
 
 @Configuration
 class ArenaClientConfig(private val cfg: ArenaConfig) {
