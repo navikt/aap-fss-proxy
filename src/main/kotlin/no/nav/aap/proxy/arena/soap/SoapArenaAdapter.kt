@@ -94,24 +94,9 @@ class CXFClient<T> {
         return this
     }
 
-    fun wsdl(url: String): CXFClient<T> {
-        factoryBean.wsdlURL = url
-        return this
-    }
-
     fun timeout(connectionTimeout: Int, receiveTimeout: Int): CXFClient<T> {
         this.connectionTimeout = connectionTimeout
         this.receiveTimeout = receiveTimeout
-        return this
-    }
-
-    fun serviceName(serviceName: QName): CXFClient<T> {
-        factoryBean.serviceName = serviceName
-        return this
-    }
-
-    fun endpointName(endpointName: QName?): CXFClient<T> {
-        factoryBean.endpointName = endpointName
         return this
     }
 
