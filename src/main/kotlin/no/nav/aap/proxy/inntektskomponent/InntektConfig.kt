@@ -24,5 +24,6 @@ class InntektConfig(baseUri: URI,
                     @DefaultValue("api/v1/hentinntektliste") val path: String,
                     @DefaultValue("api/ping") pingPath: String,
                     @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,pingPath, INNTEKTSKOMPONENT,enabled,
-        RetryConfig.DEFAULT) {
+       RetryConfig.DEFAULT) {
+
 }
