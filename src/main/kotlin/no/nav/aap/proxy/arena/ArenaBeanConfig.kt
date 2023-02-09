@@ -4,6 +4,7 @@ import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.arena.ArenaConfig.Companion.ARENA
 import no.nav.aap.proxy.arena.ArenaOIDCConfig.Companion.ARENAOIDC
 import no.nav.aap.proxy.sts.StsWebClientAdapter
+import no.nav.aap.util.StringExtensions.asBearer
 import org.apache.http.auth.UsernamePasswordCredentials
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.webservices.client.WebServiceTemplateBuilder
@@ -29,9 +30,6 @@ class ArenaBeanConfig(private val cfg: ArenaConfig) {
             .build()
 
     @Bean
-    fun arenaOIDCHealthIndicator(a: StsWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {}
-
-    @Bean
     @Qualifier(ARENAOIDC)
     fun arenaOIDCExchangeFilterFunction(cfg: ArenaUserConfig) =
         ExchangeFilterFunction {
@@ -42,11 +40,19 @@ class ArenaBeanConfig(private val cfg: ArenaConfig) {
 
     @Bean
     @Qualifier(ARENA)
-    fun arenaWebClient(builder: Builder, @Qualifier("arenaoidc") arenaExchangeFilterFunction: ExchangeFilterFunction) =
+    fun arenaWebClient(builder: Builder, @Qualifier(ARENA) arenaExchangeFilterFunction: ExchangeFilterFunction) =
         builder
             .baseUrl("${cfg.baseUri}")
             .filter(arenaExchangeFilterFunction)
             .build()
+
+    @Bean
+    @Qualifier(ARENA)
+    fun arenaOIDCExchangeFilterFunction(arenaOIDCClient: ArenaOIDCClient) =
+        ExchangeFilterFunction {
+            req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "${arenaOIDCClient.oidcToken().asBearer()}")
+            .build())
+        }
 
     @Bean
     fun arenaHealthIndicator(a: StsWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {}
