@@ -19,17 +19,58 @@
 		<classesDir>${project.basedir}/target/classes</classesDir>
 		<conditionals.version>5.0.2</conditionals.version>
 		<cxf.version>4.0.0</cxf.version>
+<<<<<<< HEAD
 		<domain.version>2.0.7</domain.version>
+=======
+		<domain.version>2.0.5</domain.version>
+>>>>>>> 4c5fbbb (janoalav gjør ting han ikke kan)
 		<jib.version>3.3.1</jib.version>
 		<java.version>17</java.version>
 		<logstash.version>7.2</logstash.version>
-		<kotlin.version>1.8.10</kotlin.version>
+		<kotlin.version>1.8.0</kotlin.version>
 		<problem.version>0.27.0</problem.version>
 		<revision>0.0.1-SNAPSHOT</revision>
 		<springdoc.version>1.6.14</springdoc.version>
 		<token.validation.version>3.0.2</token.validation.version>
 	</properties>
 	<dependencies>
+		<!--
+		<dependency>
+			<groupId>no.nav.tjenestespesifikasjoner</groupId>
+			<artifactId>ytelseskontrakt-v3-tjenestespesifikasjon</artifactId>
+			<version>1.2019.09.25-00.21-49b69f0625e0</version>
+		</dependency>
+		<dependency>
+			<groupId>no.nav.tjenestespesifikasjoner</groupId>
+			<artifactId>arenaSakVedtakService</artifactId>
+			<version>1.2021.02.22-10.45-4201aaea72fb</version>
+		</dependency>
+		-->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-features-logging</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-policy</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-security</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
