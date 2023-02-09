@@ -48,7 +48,7 @@ class ArenaBeanConfig(private val cfg: ArenaConfig) {
 
     @Bean
     @Qualifier(ARENA)
-    fun arenaOIDCExchangeFilterFunction(arenaOIDCClient: ArenaOIDCClient) =
+    fun arenaExchangeFilterFunction(arenaOIDCClient: ArenaOIDCClient) =
         ExchangeFilterFunction {
             req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "${arenaOIDCClient.oidcToken().asBearer()}")
             .build())
