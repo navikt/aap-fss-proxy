@@ -20,7 +20,7 @@ import org.springframework.web.reactive.function.client.WebClient.Builder
 import org.springframework.ws.transport.http.HttpComponentsMessageSender
 
 @Configuration
-class ArenaBeanConfig(private val cfg: ArenaConfig) {
+class ArenaBeanConfig {
     @Bean
     @Qualifier(ARENAOIDC)
     fun arenaOIDCWebClient(builder: Builder, cf: ArenaOIDCConfig, @Qualifier(ARENAOIDC) filter: ExchangeFilterFunction) =
@@ -40,7 +40,7 @@ class ArenaBeanConfig(private val cfg: ArenaConfig) {
 
     @Bean
     @Qualifier(ARENA)
-    fun arenaWebClient(builder: Builder, @Qualifier(ARENA) arenaExchangeFilterFunction: ExchangeFilterFunction) =
+    fun arenaWebClient(builder: Builder, cfg: ArenaConfig, @Qualifier(ARENA) arenaExchangeFilterFunction: ExchangeFilterFunction) =
         builder
             .baseUrl("${cfg.baseUri}")
             .filter(arenaExchangeFilterFunction)
