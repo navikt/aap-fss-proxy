@@ -5,6 +5,7 @@ import java.net.URI
 import java.time.Duration
 import java.util.function.Predicate
 import no.nav.aap.rest.AbstractRestConfig
+import no.nav.aap.rest.AbstractRestConfig.RetryConfig.Companion
 import no.nav.aap.util.Constants.INNTEKTSKOMPONENT
 import org.apache.commons.lang3.exception.ExceptionUtils.hasCause
 import org.slf4j.Logger
