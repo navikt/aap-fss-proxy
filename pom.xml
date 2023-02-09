@@ -27,22 +27,25 @@
 		<problem.version>0.27.0</problem.version>
 		<revision>0.0.1-SNAPSHOT</revision>
 		<springdoc.version>1.6.14</springdoc.version>
-		<spring-cloud-sleuth.version>3.1.0</spring-cloud-sleuth.version>
 		<token.validation.version>3.0.2</token.validation.version>
 	</properties>
 	<dependencies>
-		<!--
 		<dependency>
-			<groupId>no.nav.tjenestespesifikasjoner</groupId>
-			<artifactId>ytelseskontrakt-v3-tjenestespesifikasjon</artifactId>
-			<version>1.2019.09.25-00.21-49b69f0625e0</version>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>no.nav.tjenestespesifikasjoner</groupId>
-			<artifactId>arenaSakVedtakService</artifactId>
-			<version>1.2021.02.22-10.45-4201aaea72fb</version>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-security</artifactId>
 		</dependency>
-		-->
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web-services</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-features-logging</artifactId>
