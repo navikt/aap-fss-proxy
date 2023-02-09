@@ -20,10 +20,14 @@
 		<conditionals.version>5.0.2</conditionals.version>
 		<cxf.version>4.0.0</cxf.version>
 <<<<<<< HEAD
+<<<<<<< HEAD
 		<domain.version>2.0.7</domain.version>
 =======
 		<domain.version>2.0.5</domain.version>
 >>>>>>> 4c5fbbb (janoalav gjør ting han ikke kan)
+=======
+		<domain.version>2.0.7</domain.version>
+>>>>>>> 652b086 (test out)
 		<jib.version>3.3.1</jib.version>
 		<java.version>17</java.version>
 		<logstash.version>7.2</logstash.version>
