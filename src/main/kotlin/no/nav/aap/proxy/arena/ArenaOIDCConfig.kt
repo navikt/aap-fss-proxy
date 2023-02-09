@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 @ConfigurationProperties(ARENAOIDC)
 class ArenaOIDCConfig(baseUri: URI,
                       @DefaultValue("true") enabled: Boolean, retry: RetryConfig = DEFAULT): AbstractRestConfig(baseUri,"",
-        "arenaoidc",enabled, retry) {
+        ARENAOIDC,enabled, retry) {
     companion object {
         const val ARENAOIDC = "arenaoidc"
     }
