@@ -59,11 +59,11 @@ class ArenaBeanConfig {
     fun webServiceMarshaller() = Jaxb2Marshaller().apply {
         contextPath = "org.jalla"
     }
-@Bean
-fun webServiceTemplate(builder: WebServiceTemplateBuilder, marshaller: Jaxb2Marshaller) =
-    builder.messageSenders(HttpComponentsMessageSender().apply {
-        setCredentials(UsernamePasswordCredentials("username", "password"))
-    })
-        .setMarshaller(marshaller)
-        .setUnmarshaller(marshaller)
+    @Bean
+    fun webServiceOperations(builder: WebServiceTemplateBuilder, marshaller: Jaxb2Marshaller) =
+        builder.messageSenders(HttpComponentsMessageSender().apply {
+            setCredentials(UsernamePasswordCredentials("username", "password"))
+        })
+            .setMarshaller(marshaller)
+            .setUnmarshaller(marshaller).build()
 }

@@ -9,10 +9,11 @@ import org.jalla.HentSaksInfoListeV2Response
 import org.jalla.SaksInfoListe
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import org.springframework.ws.client.core.WebServiceOperations
 import org.springframework.ws.client.core.WebServiceTemplate
 
 @Component
-class ArenaWebServiceAdapter(private val template: WebServiceTemplate) {
+class ArenaWebServiceAdapter(private val operations: WebServiceOperations) {
 
     @Throws(ServiceUnavailableException::class)
     fun fetchSaker(brukerId: String, brukertype: String, saksId: Int, fomDato: XMLGregorianCalendar,
@@ -28,7 +29,7 @@ class ArenaWebServiceAdapter(private val template: WebServiceTemplate) {
             setTema(tema)
             isLukket = lukket
         }
-           val res = template.marshalSendAndReceive(req) as HentSaksInfoListeV2Response
+           val res = operations.marshalSendAndReceive(req) as HentSaksInfoListeV2Response
         return res.saksInfoListe
     }
 
