@@ -20,11 +20,12 @@ import java.net.URI
 import java.nio.charset.StandardCharsets
 import java.util.*
 import javax.inject.Inject
+import no.nav.aap.rest.AbstractRestConfig.RetryConfig.Companion
 
 @ConfigurationProperties("arenaoidc")
 class ArenaOIDCConfig (baseUri: URI,
                        @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,"",
-    "arenaoidc",enabled)
+    "arenaoidc",enabled, RetryConfig.DEFAULT)
 
 @ConfigurationProperties("arenaclient")
 data class ArenauserConfig (val id: String, val secret: String) {

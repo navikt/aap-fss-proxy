@@ -21,7 +21,7 @@ import java.util.*
 class ArenaConfig (baseUri: URI,
                    @DefaultValue("/aap/sisteVedtak") val path: String,
                        @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,"",
-    "arena",enabled)
+    "arena",enabled,RetryConfig.DEFAULT)
 
 @Configuration
 class ArenaClientConfig(private val cfg: ArenaConfig) {
