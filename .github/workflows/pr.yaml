@@ -8,8 +8,10 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
 jobs:
-  kompiler:
+  bygg:
     runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.kompiler.outputs.image }}
     steps:
 
       - name: Sjekk ut kode
@@ -26,8 +28,34 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'temurin'
+          distribution: temurin
+          cache: maven
+
+      -   name: Setter tag-navn
+          run: echo "TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
+      -   name: Setter image-navn
+          run: echo "IMAGE=$(echo $IMAGE_BASE):$(echo $TAG)-PR${{ steps.kompiler.outputs.image }}" >> $GITHUB_ENV
+
 
       - name: Kompiler
+        id: kompiler
         run: |
-          ./mvnw test  --settings .github/.m2/settings.xml
+              echo "image=${{ env.IMAGE }}" >> $GITHUB_OUTPUT
+              ./mvnw  --batch-mode --settings .github/.m2/settings.xml package jib:build
+
+  deploy:
+    name: Deploy PR til dev-fss
+    needs: bygg
+    runs-on: ubuntu-latest
+    environment: pr:dev-fss:aap
+    env:
+      PRINT_PAYLOAD: true
+      APIKEY: ${{secrets.NAIS_DEPLOY_APIKEY}}
+      RESOURCE: .deploy/nais.yaml
+      CLUSTER: dev-fss
+      VARS: .nais/dev-fss.json
+      IMAGE: ${{needs.bygg.outputs.image}}
+    steps:
+      -   uses: actions/checkout@v3
+      -   uses: nais/deploy/actions/deploy@master
