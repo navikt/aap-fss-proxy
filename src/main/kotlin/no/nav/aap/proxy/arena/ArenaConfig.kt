@@ -3,7 +3,6 @@ package no.nav.aap.proxy.arena
 import java.net.URI
 import no.nav.aap.proxy.arena.ArenaConfig.Companion.ARENA
 import no.nav.aap.rest.AbstractRestConfig
-import no.nav.aap.rest.AbstractRestConfig.RetryConfig.Companion
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue
 
