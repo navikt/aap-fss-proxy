@@ -31,43 +31,6 @@
 		<token.validation.version>3.0.3</token.validation.version>
 	</properties>
 	<dependencies>
-		<!--
-		<dependency>
-			<groupId>no.nav.tjenestespesifikasjoner</groupId>
-			<artifactId>ytelseskontrakt-v3-tjenestespesifikasjon</artifactId>
-			<version>1.2019.09.25-00.21-49b69f0625e0</version>
-		</dependency>
-		<dependency>
-			<groupId>no.nav.tjenestespesifikasjoner</groupId>
-			<artifactId>arenaSakVedtakService</artifactId>
-			<version>1.2021.02.22-10.45-4201aaea72fb</version>
-		</dependency>
-		-->
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-features-logging</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-ws-policy</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-ws-security</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -83,31 +46,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web-services</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-features-logging</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-ws-policy</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-ws-security</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>${cxf.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
@@ -228,7 +166,7 @@
 				<configuration>
 					<!-- The name of your generated source package -->
 					<wsdlFiles>${project.basedir}/src/main/resources/wsdl/ytelse/arenasakvedtakservice.wsdl</wsdlFiles>
-					<packageName>org.jalla</packageName>
+					<packageName>no.nav.aap.proxy.arena.generated</packageName>
 					<sourceDestDir>${sourcesDir}</sourceDestDir>
 					<destDir>${classesDir}</destDir>
 					<extension>true</extension>

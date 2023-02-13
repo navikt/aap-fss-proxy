@@ -57,13 +57,14 @@ class ArenaBeanConfig {
 
     @Bean
     fun webServiceMarshaller() = Jaxb2Marshaller().apply {
-        contextPath = "org.jalla"
+        contextPath = "no.nav.aap.proxy.arena.generated"
     }
     @Bean
     fun webServiceOperations(builder: WebServiceTemplateBuilder, marshaller: Jaxb2Marshaller) =
         builder.messageSenders(HttpComponentsMessageSender().apply {
-            setCredentials(UsernamePasswordCredentials("username", "password"))
+            setCredentials(UsernamePasswordCredentials("username", "password")) // TODO
         })
+            .setDefaultUri("https://arena-q1.adeo.no/arena_ws/services/ArenaSakVedtakService") // TODO
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build()
 }

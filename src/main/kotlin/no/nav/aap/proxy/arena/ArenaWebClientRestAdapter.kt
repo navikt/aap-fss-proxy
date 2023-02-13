@@ -1,6 +1,5 @@
 package no.nav.aap.proxy.arena
 
-import no.nav.aap.api.felles.Fødselsnummer
 import no.nav.aap.proxy.arena.ArenaConfig.Companion.ARENA
 import no.nav.aap.rest.AbstractWebClientAdapter
 import org.springframework.beans.factory.annotation.Qualifier
