@@ -2,6 +2,7 @@ package no.nav.aap.proxy.arena
 
 import no.nav.aap.api.felles.Fødselsnummer
 import no.nav.aap.util.Constants.AAD
+import no.nav.security.token.support.core.api.Unprotected
 import no.nav.security.token.support.spring.ProtectedRestController
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -12,5 +13,6 @@ class ArenaController(private val arena: ArenaClient) {
     fun sisteVedtak(@PathVariable fnr: Fødselsnummer) = arena.sisteVedtak(fnr)
 
     @GetMapping("/haraktivsak")
+    @Unprotected
     fun harAktivSak(@PathVariable fnr: Fødselsnummer) = arena.harAktivSak(fnr)
 }
