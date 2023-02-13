@@ -3,7 +3,6 @@ package no.nav.aap.proxy.arena
 import javax.xml.datatype.XMLGregorianCalendar
 import no.nav.aap.api.felles.Fødselsnummer
 import no.nav.aap.proxy.arena.generated.Bruker
-import no.nav.aap.proxy.arena.generated.HentSaksInfoListeRequestV2
 import no.nav.aap.proxy.arena.generated.HentSaksInfoListeV2Response
 import no.nav.aap.proxy.arena.generated.ObjectFactory
 import no.nav.aap.util.Constants.AAP
