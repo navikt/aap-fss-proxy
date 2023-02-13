@@ -3,3 +3,4 @@ ingresses:
   - https://aap-fss-proxy.dev-fss-pub.nais.io
   - https://aap-fss-proxy.dev.intern.nav.no
 kvPath: dev
+env: dev

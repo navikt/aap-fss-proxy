@@ -14,15 +14,17 @@ spec:
   accessPolicy:
     inbound:
       rules:
+        - application: routing
+          namespace: {{env}}-gcp
         - application: personopplysninger
           namespace: aap
-          cluster: dev-gcp
+          cluster: {{env}}-gcp
         - application: inntekt
           namespace: aap
-          cluster: dev-gcp
+          cluster: {{env}}-gcp
         - application: saksinfo
           namespace: aap
-          cluster: dev-gcp
+          cluster: {{env}}-gcp
   tokenx:
     enabled: true
   azure:
