@@ -15,7 +15,8 @@ spec:
     inbound:
       rules:
         - application: routing
-          namespace: {{env}}-gcp
+          cluster: {{env}}-gcp
+          namespace: aap
         - application: personopplysninger
           namespace: aap
           cluster: {{env}}-gcp
