@@ -5,6 +5,7 @@ import no.nav.aap.api.felles.Fødselsnummer
 import no.nav.aap.proxy.arena.generated.Bruker
 import no.nav.aap.proxy.arena.generated.HentSaksInfoListeRequestV2
 import no.nav.aap.proxy.arena.generated.HentSaksInfoListeV2Response
+import no.nav.aap.proxy.arena.generated.ObjectFactory
 import no.nav.aap.util.Constants.AAP
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
@@ -21,7 +22,8 @@ class ArenaWebServiceAdapter(private val operations: WebServiceOperations) {
              .sortedByDescending { it.sakOpprettet.toLocalDateTime() }
 
     private fun request(fnr: Fødselsnummer)  =
-        HentSaksInfoListeRequestV2().apply {
+        ObjectFactory().createHentSaksInfoListeRequestV2()
+            .apply {
             bruker = Bruker().apply {
                 brukerId = fnr.fnr
                 brukertypeKode = PERSON
