@@ -12,7 +12,7 @@ class ArenaController(private val arena: ArenaClient) {
     @GetMapping("/vedtak/{fnr}")
     fun sisteVedtak(@PathVariable fnr: Fødselsnummer) = arena.sisteVedtak(fnr)
 
-    @GetMapping("/haraktivsak")
+    @GetMapping("/haraktivsak/{fnr}")
     @Unprotected
     fun harAktivSak(@PathVariable fnr: Fødselsnummer) = arena.harAktivSak(fnr)
 }
