@@ -74,7 +74,7 @@ class ArenaBeanConfig {
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
                 interceptors = arrayOf(interceptor)
-                setFaultMessageResolver { FaultMessageResolver { log.warn(("OOPS, dette feilet $it")) } }
+            //    setFaultMessageResolver { FaultMessageResolver { log.warn(("OOPS, dette feilet $it")) } }
             }
 
     @Bean
