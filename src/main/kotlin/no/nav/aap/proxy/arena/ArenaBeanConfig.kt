@@ -76,6 +76,7 @@ class ArenaBeanConfig {
             .setDefaultUri("https://arena-q1.adeo.no/arena_ws/services/ArenaSakVedtakService") // TODO
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
+                log.info("Eksisterende interceptors ${getInterceptors()}")
                 setInterceptors(interceptors)
             //    setFaultMessageResolver { FaultMessageResolver { log.warn(("OOPS, dette feilet $it")) } }
             }
