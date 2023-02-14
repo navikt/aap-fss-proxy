@@ -95,6 +95,6 @@ class ArenaBeanConfig {
                 log.error("OOPS CODE ${fault.faultCode}")
                 fault.faultDetail.detailEntries.forEach { log.error("OOPS ENTRY $it") }
             }
-            return false
+            return true
         }}
 }
