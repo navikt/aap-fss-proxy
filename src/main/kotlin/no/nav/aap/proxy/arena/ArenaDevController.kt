@@ -5,15 +5,16 @@ import no.nav.aap.util.Constants.AAD
 import no.nav.boot.conditionals.ConditionalOnDev
 import no.nav.security.token.support.core.api.Unprotected
 import no.nav.security.token.support.spring.ProtectedRestController
+import no.nav.security.token.support.spring.UnprotectedRestController
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 
-@ConditionalOnDev
+@UnprotectedRestController(value = ["/dev"])
 class ArenaDevController(private val arena: ArenaClient) {
-    @GetMapping("/dev/vedtak/{fnr}")
+    @GetMapping("vedtak/{fnr}")
     fun sisteVedtak(@PathVariable fnr: Fødselsnummer) = arena.sisteVedtak(fnr)
 
-    @GetMapping("/dev/haraktivsak/{fnr}")
+    @GetMapping("/haraktivsak/{fnr}")
     @Unprotected
     fun harAktivSak(@PathVariable fnr: Fødselsnummer) = arena.harAktivSak(fnr)
 }
