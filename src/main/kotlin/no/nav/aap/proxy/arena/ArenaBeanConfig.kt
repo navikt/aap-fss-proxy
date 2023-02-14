@@ -5,7 +5,8 @@ import no.nav.aap.proxy.arena.ArenaConfig.Companion.ARENA
 import no.nav.aap.proxy.arena.ArenaOIDCConfig.Companion.ARENAOIDC
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.StringExtensions.asBearer
-import org.apache.http.auth.UsernamePasswordCredentials
+import org.apache.wss4j.dom.WSConstants
+import org.apache.wss4j.dom.handler.WSHandlerConstants.*
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.webservices.client.WebServiceTemplateBuilder
 import org.springframework.context.annotation.Bean
@@ -15,6 +16,7 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller
 import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient.Builder
+import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor
 import org.springframework.ws.transport.http.HttpComponentsMessageSender
 
 @Configuration
@@ -58,13 +60,38 @@ class ArenaBeanConfig {
     @Bean
     fun webServiceMarshaller() = Jaxb2Marshaller().apply {
         contextPath = "no.nav.aap.proxy.arena.generated"
+
     }
     @Bean
     fun webServiceOperations(builder: WebServiceTemplateBuilder, marshaller: Jaxb2Marshaller) =
         builder.messageSenders(HttpComponentsMessageSender().apply {
-            setCredentials(UsernamePasswordCredentials("username", "password")) // TODO
         })
             .setDefaultUri("https://arena-q1.adeo.no/arena_ws/services/ArenaSakVedtakService") // TODO
             .setMarshaller(marshaller)
-            .setUnmarshaller(marshaller).build()
+            .setUnmarshaller(marshaller).build().apply {
+                interceptors = arrayOf(securityInterceptor())
+            }
+
+     fun securityInterceptor() = Wss4jSecurityInterceptor().apply {
+         setSecurementActions(USERNAME_TOKEN)
+         setSecurementUsername("user") // TODO
+         setSecurementPassword("pw")   // TODO
+         setSecurementPasswordType(WSConstants.PW_TEXT)
+     }
+
+    /*
+    private fun getSecurityProps(): Map<String, Any> {
+        val props = mutableMapOf<String,Any>().apply {
+            put(ACTION, USERNAME_TOKEN)
+            put(USER, "username")  // TODO
+            put(PASSWORD_TYPE,WSConstants.PW_TEXT)
+            put(PW_CALLBACK_REF,CallbackHandler {
+                 (it[0] as WSPasswordCallback).apply {
+                     password = "password" // TODO
+                 }
+            })
+        }
+
+    }*/
+
 }
