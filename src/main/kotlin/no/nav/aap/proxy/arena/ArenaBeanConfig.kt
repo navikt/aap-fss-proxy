@@ -34,7 +34,7 @@ class ArenaBeanConfig {
     fun arenaOIDCExchangeFilterFunction(cfg: ArenaUserConfig) =
         ExchangeFilterFunction {
             req, next -> next.exchange(
-                ClientRequest.from(req).header(AUTHORIZATION, "Basic ${cfg.credentials}")
+                ClientRequest.from(req).header(AUTHORIZATION, cfg.credentials)
                     .build())
         }
 
