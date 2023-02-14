@@ -39,7 +39,7 @@ import reactor.netty.http.client.HttpClient
 import reactor.netty.transport.logging.AdvancedByteBufFormat.TEXTUAL
 
 @Configuration
-class FellesRestBeanConfig(@Value("\${spring.application.name}") val applicationName: String) {
+class GlobalConfig(@Value("\${spring.application.name}") val applicationName: String) {
 @Bean
  fun jacksonCustomizer()  =
      Jackson2ObjectMapperBuilderCustomizer {
