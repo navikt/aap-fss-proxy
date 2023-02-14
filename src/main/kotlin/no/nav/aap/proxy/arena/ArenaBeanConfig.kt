@@ -91,9 +91,9 @@ class ArenaBeanConfig {
     fun faultHandler() = object: ClientInterceptorAdapter() {
         override fun handleFault(ctx: MessageContext): Boolean {
             with((ctx.response as SoapMessage).envelope.body) {
-                log.error("OOPS ${fault.faultStringOrReason}")
-                log.error("OOPS ${fault.faultCode}")
-                log.error("OOPS ${fault.faultDetail}")
+                log.error("OOPS FSOR ${fault.faultStringOrReason}")
+                log.error("OOPS CoDE ${fault.faultCode}")
+                log.error("OOPS ENTRIES ${fault.faultDetail.detailEntries}")
             }
             return false
         }}
