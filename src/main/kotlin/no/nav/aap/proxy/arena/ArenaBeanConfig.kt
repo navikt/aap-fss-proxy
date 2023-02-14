@@ -6,7 +6,8 @@ import no.nav.aap.proxy.arena.ArenaOIDCConfig.Companion.ARENAOIDC
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.StringExtensions.asBearer
 import org.apache.wss4j.dom.WSConstants
-import org.apache.wss4j.dom.handler.WSHandlerConstants.*
+import org.apache.wss4j.dom.WSConstants.PW_TEXT
+import org.apache.wss4j.dom.handler.WSHandlerConstants.USERNAME_TOKEN
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.webservices.client.WebServiceTemplateBuilder
 import org.springframework.context.annotation.Bean
@@ -48,7 +49,7 @@ class ArenaBeanConfig {
 
     @Bean
     @Qualifier(ARENA)
-    fun arenaExchangeFilterFunction(arenaOIDCClient: ArenaOIDCClient) =
+    fun arenaExchangeFilterFunction(arenaOIDCClient: ArenaOIDCWebClientAdapter) =
         ExchangeFilterFunction {
             req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "${arenaOIDCClient.oidcToken().asBearer()}")
             .build())
@@ -64,8 +65,7 @@ class ArenaBeanConfig {
     }
     @Bean
     fun webServiceOperations(builder: WebServiceTemplateBuilder, marshaller: Jaxb2Marshaller,interceptor: Wss4jSecurityInterceptor) =
-        builder.messageSenders(HttpComponentsMessageSender().apply {
-        })
+        builder.messageSenders(HttpComponentsMessageSender())
             .setDefaultUri("https://arena-q1.adeo.no/arena_ws/services/ArenaSakVedtakService") // TODO
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
@@ -77,6 +77,6 @@ class ArenaBeanConfig {
          setSecurementActions(USERNAME_TOKEN)
          setSecurementUsername(cf.id)
          setSecurementPassword(cf.secret)
-         setSecurementPasswordType(WSConstants.PW_TEXT)
+         setSecurementPasswordType(PW_TEXT)
      }
 }

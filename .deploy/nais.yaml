@@ -26,8 +26,6 @@ spec:
         - application: saksinfo
           namespace: aap
           cluster: {{env}}-gcp
-  tokenx:
-    enabled: true
   azure:
     application:
       enabled: true
