@@ -93,7 +93,7 @@ class ArenaBeanConfig {
             with((ctx.response as SoapMessage).envelope.body) {
                 log.error("OOPS FSOR ${fault.faultStringOrReason}")
                 log.error("OOPS CoDE ${fault.faultCode}")
-                log.error("OOPS ENTRIES ${fault.faultDetail.detailEntries}")
+                fault.faultDetail.detailEntries.forEach { log.error("OOPS ENTRY $it") }
             }
             return false
         }}
