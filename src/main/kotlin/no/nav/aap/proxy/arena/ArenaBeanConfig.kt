@@ -17,6 +17,7 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller
 import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient.Builder
+import org.springframework.ws.client.core.FaultMessageResolver
 import org.springframework.ws.client.support.interceptor.ClientInterceptor
 import org.springframework.ws.client.support.interceptor.ClientInterceptorAdapter
 import org.springframework.ws.context.MessageContext
@@ -76,9 +77,8 @@ class ArenaBeanConfig {
             .setDefaultUri("https://arena-q1.adeo.no/arena_ws/services/ArenaSakVedtakService") // TODO
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
-                log.info("Eksisterende interceptors ${getInterceptors()}")
                 setInterceptors(interceptors)
-            //    setFaultMessageResolver { FaultMessageResolver { log.warn(("OOPS, dette feilet $it")) } }
+                faultMessageResolver = FaultMessageResolver { msg -> log.warn("OOPS ${msg.javaClass}  $msg") }
             }
 
     @Bean
@@ -88,7 +88,8 @@ class ArenaBeanConfig {
          setSecurementPassword(cf.secret)
          setSecurementPasswordType(PW_TEXT)
      }
-    @Bean
+
+    // @Bean
     fun faultHandler() = object: ClientInterceptorAdapter() {
         override fun handleFault(ctx: MessageContext): Boolean {
             with((ctx.response as SoapMessage).envelope.body) {
