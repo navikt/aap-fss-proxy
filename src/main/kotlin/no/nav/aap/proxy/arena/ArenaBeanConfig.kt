@@ -17,7 +17,7 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller
 import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient.Builder
-import org.springframework.ws.client.core.FaultMessageResolver
+import org.springframework.ws.client.support.interceptor.ClientInterceptor
 import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor
 import org.springframework.ws.transport.http.HttpComponentsMessageSender
 
@@ -68,12 +68,12 @@ class ArenaBeanConfig {
 
     }
     @Bean
-    fun webServiceOperations(builder: WebServiceTemplateBuilder, marshaller: Jaxb2Marshaller,interceptor: Wss4jSecurityInterceptor) =
+    fun webServiceOperations(builder: WebServiceTemplateBuilder, marshaller: Jaxb2Marshaller,vararg interceptors: ClientInterceptor) =
         builder.messageSenders(HttpComponentsMessageSender())
             .setDefaultUri("https://arena-q1.adeo.no/arena_ws/services/ArenaSakVedtakService") // TODO
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
-                interceptors = arrayOf(interceptor)
+                setInterceptors(interceptors)
             //    setFaultMessageResolver { FaultMessageResolver { log.warn(("OOPS, dette feilet $it")) } }
             }
 
