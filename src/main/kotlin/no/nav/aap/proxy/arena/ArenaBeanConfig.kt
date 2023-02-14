@@ -63,35 +63,20 @@ class ArenaBeanConfig {
 
     }
     @Bean
-    fun webServiceOperations(builder: WebServiceTemplateBuilder, marshaller: Jaxb2Marshaller) =
+    fun webServiceOperations(builder: WebServiceTemplateBuilder, marshaller: Jaxb2Marshaller,interceptor: Wss4jSecurityInterceptor) =
         builder.messageSenders(HttpComponentsMessageSender().apply {
         })
             .setDefaultUri("https://arena-q1.adeo.no/arena_ws/services/ArenaSakVedtakService") // TODO
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
-                interceptors = arrayOf(securityInterceptor())
+                interceptors = arrayOf(interceptor)
             }
 
-     fun securityInterceptor() = Wss4jSecurityInterceptor().apply {
+    @Bean
+     fun securityInterceptor(cf: ArenaUserConfig) = Wss4jSecurityInterceptor().apply {
          setSecurementActions(USERNAME_TOKEN)
-         setSecurementUsername("user") // TODO
-         setSecurementPassword("pw")   // TODO
+         setSecurementUsername(cf.id)
+         setSecurementPassword(cf.secret)
          setSecurementPasswordType(WSConstants.PW_TEXT)
      }
-
-    /*
-    private fun getSecurityProps(): Map<String, Any> {
-        val props = mutableMapOf<String,Any>().apply {
-            put(ACTION, USERNAME_TOKEN)
-            put(USER, "username")  // TODO
-            put(PASSWORD_TYPE,WSConstants.PW_TEXT)
-            put(PW_CALLBACK_REF,CallbackHandler {
-                 (it[0] as WSPasswordCallback).apply {
-                     password = "password" // TODO
-                 }
-            })
-        }
-
-    }*/
-
 }
