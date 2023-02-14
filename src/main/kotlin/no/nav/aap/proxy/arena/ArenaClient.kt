@@ -7,5 +7,5 @@ import org.springframework.stereotype.Component
 class ArenaClient(private val rest: ArenaWebClientRestAdapter, val soap: ArenaWebServiceAdapter) {
     fun sisteVedtak(fnr: Fødselsnummer) = rest.sisteVedtak(fnr.fnr)
 
-    fun harAktivSak(fnr: Fødselsnummer) = soap.hentSaker(fnr).isNotEmpty()
+    fun harAktivSak(fnr: Fødselsnummer) = soap.hentSaker(fnr.fnr).isNotEmpty()
 }

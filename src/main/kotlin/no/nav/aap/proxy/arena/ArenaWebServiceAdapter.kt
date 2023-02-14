@@ -18,7 +18,7 @@ class ArenaWebServiceAdapter(private val operations: WebServiceOperations) {
 
     private val log = LoggerUtil.getLogger(javaClass)
 
-    fun hentSaker(fnr: Fødselsnummer): List<SaksInfo> {
+    fun hentSaker(fnr: String): List<SaksInfo> {
         log.info("Henter saker")
         return  (operations.marshalSendAndReceive(request(fnr)) as HentSaksInfoListeV2Response).saksInfoListe.saksInfo
              .filter { it.tema.equals(AAP, ignoreCase = true) }
@@ -26,11 +26,11 @@ class ArenaWebServiceAdapter(private val operations: WebServiceOperations) {
              .filterNot { it.sakstypekode.equals("KLAN", ignoreCase = true) }
              .sortedByDescending { it.sakOpprettet.toLocalDateTime() }
     }
-    private fun request(fnr: Fødselsnummer)  =
+    private fun request(fnr: String)  =
         ObjectFactory().createHentSaksInfoListeV2(HentSaksInfoListeRequestV2()
             .apply {
             bruker = Bruker().apply {
-                brukerId = fnr.fnr
+                brukerId = fnr
                 brukertypeKode = PERSON
             }
             tema = AAP
@@ -41,7 +41,7 @@ class ArenaWebServiceAdapter(private val operations: WebServiceOperations) {
 
 
     companion object {
-        const val PERSON = "PERSON"
+        private const val PERSON = "PERSON"
         private val log = LoggerFactory.getLogger(ArenaWebServiceAdapter::class.java)
     }
 }

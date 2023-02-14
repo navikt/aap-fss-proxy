@@ -5,7 +5,6 @@ import no.nav.aap.proxy.arena.ArenaConfig.Companion.ARENA
 import no.nav.aap.proxy.arena.ArenaOIDCConfig.Companion.ARENAOIDC
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.StringExtensions.asBearer
-import org.apache.wss4j.dom.WSConstants
 import org.apache.wss4j.dom.WSConstants.PW_TEXT
 import org.apache.wss4j.dom.handler.WSHandlerConstants.USERNAME_TOKEN
 import org.springframework.beans.factory.annotation.Qualifier
@@ -49,9 +48,9 @@ class ArenaBeanConfig {
 
     @Bean
     @Qualifier(ARENA)
-    fun arenaExchangeFilterFunction(arenaOIDCClient: ArenaOIDCWebClientAdapter) =
+    fun arenaExchangeFilterFunction(a: ArenaOIDCWebClientAdapter) =
         ExchangeFilterFunction {
-            req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, "${arenaOIDCClient.oidcToken().asBearer()}")
+            req, next -> next.exchange(ClientRequest.from(req).header(AUTHORIZATION, a.oidcToken().asBearer())
             .build())
         }
 
