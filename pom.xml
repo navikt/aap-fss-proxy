@@ -26,11 +26,16 @@
 		<kotlin.version>1.8.10</kotlin.version>
 		<problem.version>0.27.0</problem.version>
 		<revision>0.0.1-SNAPSHOT</revision>
-		<springdoc.version>1.6.14</springdoc.version>
+		<springdoc.version>2.0.2</springdoc.version>
 		<swagger.annotations.version>2.2.8</swagger.annotations.version>
 		<token.validation.version>3.0.3</token.validation.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-common</artifactId>
+			<version>${springdoc.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -54,24 +59,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>${swagger.annotations.version}</version>
-		</dependency>
-		<dependency>
 		   <groupId>no.nav.aap</groupId>
 	           <artifactId>aap-domain</artifactId>
 		   <version>${domain.version}</version>
-		</dependency>
-		<dependency>
-		  <groupId>org.springdoc</groupId>
-		  <artifactId>springdoc-openapi-kotlin</artifactId>
-		   <version>${springdoc.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springdoc</groupId>
-		    <artifactId>springdoc-openapi-ui</artifactId>
-		   <version>${springdoc.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>jakarta.inject</groupId>
