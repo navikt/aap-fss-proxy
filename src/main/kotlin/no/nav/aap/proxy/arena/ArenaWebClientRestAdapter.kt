@@ -18,7 +18,7 @@ class ArenaWebClientRestAdapter(@Qualifier(ARENA) webClient: WebClient, private 
             .retrieve()
             .bodyToMono<ByteArray>()
             .doOnError { t: Throwable -> log.warn("Arenaoppslag feilet", t) }
-            .doOnSuccess { log.trace("Arenaoppslag OK") }
+            .doOnSuccess { log.trace("Arena oppslag OK") }
             .retryWhen(cf.retrySpec(log))
             .block()
             .also { log.trace("Arena response $it") }

@@ -16,24 +16,22 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 
 @Component
-class ArenaOIDCWebClientAdapter(@Qualifier(ARENAOIDC) webClient: WebClient, cf: ArenaOIDCConfig) :
+class ArenaOIDCWebClientAdapter(@Qualifier(ARENAOIDC) webClient: WebClient, private val cf: ArenaOIDCConfig) :
     AbstractWebClientAdapter(webClient, cf) {
 
     var token  = getTheToken()
 
     fun oidcToken(): String {
         if (token.hasExpired()) {
-            log.trace("Fornyer token")
+            log.info("Fornyer token")
             token = getTheToken()
         }
-        return token.accessToken!!
+        return token.accessToken
     }
 
     private fun getTheToken() =
         webClient.post()
-            .uri { b ->
-                b.path("/oauth/token").build()
-            }
+            .uri { b -> b.path(cf.tokenPath).build() }
             .contentType(APPLICATION_FORM_URLENCODED)
             .bodyValue("grant_type=client_credentials")
             .retrieve()
@@ -46,15 +44,15 @@ class ArenaOIDCWebClientAdapter(@Qualifier(ARENAOIDC) webClient: WebClient, cf: 
     override fun ping() = mapOf("status" to "OK")  // TODO hvordan pinge denne
 
     @JsonNaming(SnakeCaseStrategy::class)
-    data class ArenaOidcToken(val accessToken: String? = null,
-                              val tokenType: String? = null,
-                              val expiresIn: Int? = null) {
+    data class ArenaOidcToken(val accessToken: String,
+                              val tokenType: String,
+                              val expiresIn: Int) {
 
         private val log = getLogger(javaClass)
         private val createdTime = now()
 
         fun hasExpired() =
-            with(createdTime.plusSeconds(expiresIn!!.toLong())) {
+            with(createdTime.plusSeconds(expiresIn.toLong())) {
                 now().minusSeconds(30).isAfter(this).also {
                     log.trace("${now().minusSeconds(30)} Token utløper $this -> utløpt = $it")
                 }
