@@ -6,8 +6,8 @@ import no.nav.aap.proxy.arena.ArenaOIDCConfig.Companion.ARENAOIDC
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.LoggerUtil
 import no.nav.aap.util.StringExtensions.asBearer
-import org.apache.wss4j.dom.WSConstants.PW_TEXT
-import org.apache.wss4j.dom.handler.WSHandlerConstants.USERNAME_TOKEN
+import org.apache.wss4j.common.ConfigurationConstants.USERNAME_TOKEN
+import org.apache.wss4j.common.WSS4JConstants.PW_TEXT
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.webservices.client.WebServiceTemplateBuilder
 import org.springframework.context.annotation.Bean
@@ -17,7 +17,10 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller
 import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient.Builder
+import org.springframework.ws.client.WebServiceClientException
 import org.springframework.ws.client.support.interceptor.ClientInterceptor
+import org.springframework.ws.client.support.interceptor.ClientInterceptorAdapter
+import org.springframework.ws.context.MessageContext
 import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor
 import org.springframework.ws.transport.http.HttpComponentsMessageSender
 
@@ -78,10 +81,16 @@ class ArenaBeanConfig {
             }
 
     @Bean
-     fun securityInterceptor(cf: ArenaUserConfig) = Wss4jSecurityInterceptor().apply {
+     fun securityInterceptor(cf: ArenaUserConfig) = Wss4jSecurityInterceptor().apply{
          setSecurementActions(USERNAME_TOKEN)
          setSecurementUsername(cf.id)
          setSecurementPassword(cf.secret)
          setSecurementPasswordType(PW_TEXT)
      }
+    @Bean
+    fun faultHandler() = object: ClientInterceptorAdapter() {
+        override fun handleFault(ctx: MessageContext): Boolean {
+            log.warn("OOPS, $ctx")
+            return false
+        }}
 }
