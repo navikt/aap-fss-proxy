@@ -18,30 +18,31 @@ class ArenaWebServiceAdapter(private val operations: WebServiceOperations) {
 
     private val log = LoggerUtil.getLogger(javaClass)
 
-    fun hentSaker(fnr: String): List<SaksInfo> {
-        log.info("Henter saker")
-        return  (operations.marshalSendAndReceive(request(fnr)) as HentSaksInfoListeV2Response).saksInfoListe.saksInfo
-             .filter { it.tema.equals(AAP, ignoreCase = true) }
-             .filter { it.sakstatus.equals("Aktiv",ignoreCase = true) }
-             .filterNot { it.sakstypekode.equals("KLAN", ignoreCase = true) }
-             .sortedByDescending { it.sakOpprettet.toLocalDateTime() }
-    }
+    fun hentSaker(fnr: String) =
+        (operations.marshalSendAndReceive(request(fnr)) as HentSaksInfoListeV2Response).saksInfoListe.saksInfo
+            .filter { it.tema.equals(AAP, ignoreCase = true) }
+            .filter { it.sakstatus.equals(AKTIV,ignoreCase = true) }
+            .filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
+            .sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
+                log.info("Saker for $fnr er $it")
+            }
+
     private fun request(fnr: String)  =
-        ObjectFactory().createHentSaksInfoListeV2(HentSaksInfoListeRequestV2()
-            .apply {
+        ObjectFactory().createHentSaksInfoListeV2(HentSaksInfoListeRequestV2().apply {
             bruker = Bruker().apply {
                 brukerId = fnr
                 brukertypeKode = PERSON
             }
             tema = AAP
-            isLukket = false})
-
+            isLukket = false
+        })
 
    private fun XMLGregorianCalendar.toLocalDateTime() = toGregorianCalendar().toZonedDateTime().toLocalDateTime()
 
-
     companion object {
         private const val PERSON = "PERSON"
+        private const val AKTIV = "Aktiv"
+        private const val KLAGEANKE = "KLAN"
         private val log = LoggerFactory.getLogger(ArenaWebServiceAdapter::class.java)
     }
 }

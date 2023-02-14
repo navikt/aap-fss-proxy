@@ -4,6 +4,7 @@ import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.arena.ArenaConfig.Companion.ARENA
 import no.nav.aap.proxy.arena.ArenaOIDCConfig.Companion.ARENAOIDC
 import no.nav.aap.proxy.sts.StsWebClientAdapter
+import no.nav.aap.util.LoggerUtil
 import no.nav.aap.util.StringExtensions.asBearer
 import org.apache.wss4j.dom.WSConstants.PW_TEXT
 import org.apache.wss4j.dom.handler.WSHandlerConstants.USERNAME_TOKEN
@@ -16,11 +17,15 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller
 import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient.Builder
+import org.springframework.ws.client.core.FaultMessageResolver
 import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor
 import org.springframework.ws.transport.http.HttpComponentsMessageSender
 
 @Configuration
 class ArenaBeanConfig {
+
+    private val log = LoggerUtil.getLogger(javaClass)
+
     @Bean
     @Qualifier(ARENAOIDC)
     fun arenaOIDCWebClient(builder: Builder, cf: ArenaOIDCConfig, @Qualifier(ARENAOIDC) filter: ExchangeFilterFunction) =
@@ -69,6 +74,7 @@ class ArenaBeanConfig {
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
                 interceptors = arrayOf(interceptor)
+                setFaultMessageResolver { FaultMessageResolver { log.warn(("OOPS, dette feilet $it")) } }
             }
 
     @Bean
