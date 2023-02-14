@@ -1,13 +1,11 @@
 package no.nav.aap.proxy.arena
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import no.nav.aap.proxy.createShortCircuitWebClient
-import org.junit.jupiter.api.Assertions
+import java.net.URI
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.json.JsonTest
 import org.springframework.test.context.ContextConfiguration
-import java.net.URI
-import org.junit.jupiter.api.Disabled
 
 @JsonTest
 @Disabled

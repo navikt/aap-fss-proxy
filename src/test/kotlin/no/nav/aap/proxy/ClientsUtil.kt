@@ -1,6 +1,6 @@
 package no.nav.aap.proxy
 
-import org.springframework.http.HttpStatus.*
+import org.springframework.http.HttpStatus.OK
 import org.springframework.web.reactive.function.client.ClientResponse
 import org.springframework.web.reactive.function.client.ExchangeFunction
 import org.springframework.web.reactive.function.client.WebClient

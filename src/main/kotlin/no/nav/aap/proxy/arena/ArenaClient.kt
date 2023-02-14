@@ -1,7 +1,6 @@
 package no.nav.aap.proxy.arena
 
 import no.nav.aap.api.felles.Fødselsnummer
-import org.apache.coyote.http11.Constants.a
 import org.springframework.stereotype.Component
 
 @Component

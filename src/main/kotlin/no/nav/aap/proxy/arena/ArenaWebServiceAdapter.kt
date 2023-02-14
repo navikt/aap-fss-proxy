@@ -3,6 +3,7 @@ package no.nav.aap.proxy.arena
 import javax.xml.datatype.XMLGregorianCalendar
 import no.nav.aap.api.felles.Fødselsnummer
 import no.nav.aap.proxy.arena.generated.Bruker
+import no.nav.aap.proxy.arena.generated.HentSaksInfoListeRequestV2
 import no.nav.aap.proxy.arena.generated.HentSaksInfoListeV2Response
 import no.nav.aap.proxy.arena.generated.ObjectFactory
 import no.nav.aap.util.Constants.AAP
@@ -21,18 +22,17 @@ class ArenaWebServiceAdapter(private val operations: WebServiceOperations) {
              .sortedByDescending { it.sakOpprettet.toLocalDateTime() }
 
     private fun request(fnr: Fødselsnummer)  =
-        ObjectFactory().createHentSaksInfoListeRequestV2()
+        ObjectFactory().createHentSaksInfoListeV2(HentSaksInfoListeRequestV2()
             .apply {
             bruker = Bruker().apply {
                 brukerId = fnr.fnr
-                brukertypeKode = PERSON
+                brukertypeKode = "PERSON"
             }
             tema = AAP
-            isLukket = false
-        }
+            isLukket = false})
 
 
-    private fun XMLGregorianCalendar.toLocalDateTime() = toGregorianCalendar().toZonedDateTime().toLocalDateTime()
+   private fun XMLGregorianCalendar.toLocalDateTime() = toGregorianCalendar().toZonedDateTime().toLocalDateTime()
 
 
     companion object {
