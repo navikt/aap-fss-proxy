@@ -60,5 +60,5 @@ arena:
 
 arenasoap:
     credentials:
-       id: ${arenasoap.id}xxxxx
+       id: ${arenasoap.id}
        secret: ${arenasoap.secret}

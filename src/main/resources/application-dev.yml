@@ -32,4 +32,4 @@ inntektskomponent:
 arena:
   base-uri: https://arena-ords-q1.nais.preprod.local/arena/api
 arenasoap:
-  base-uri: https://arena-q1.adeo.no/arena_ws/services
+  base-uri: https://arena-q1.adeo.no/arena_ws/services/
