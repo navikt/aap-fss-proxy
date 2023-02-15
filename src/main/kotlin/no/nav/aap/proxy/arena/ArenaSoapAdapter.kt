@@ -9,6 +9,7 @@ import no.nav.aap.proxy.arena.generated.ObjectFactory
 import no.nav.aap.util.Constants.AAP
 import no.nav.aap.util.LoggerUtil
 import no.nav.aap.util.LoggerUtil.getLogger
+import no.nav.aap.util.StringExtensions.partialMask
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.ws.client.core.WebServiceOperations
@@ -25,7 +26,7 @@ class ArenaSoapAdapter(private val operations: WebServiceOperations, private val
                 ?.filter { it.sakstatus.equals(AKTIV,ignoreCase = true) }
                 ?.filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
                 ?.sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
-                    log.info("Saker for $fnr er $it")
+                    log.info("Saker for ${fnr.partialMask()} er $it")
                 }
         } else {
             emptyList()
