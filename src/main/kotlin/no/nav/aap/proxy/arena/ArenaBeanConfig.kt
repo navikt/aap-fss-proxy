@@ -2,7 +2,7 @@ package no.nav.aap.proxy.arena
 
 import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENA
-import no.nav.aap.proxy.arena.ArenaOIDCConfig.Companion.ARENAOIDC
+import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENAOIDC
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.LoggerUtil
 import no.nav.aap.util.StringExtensions.asBearer
@@ -33,7 +33,7 @@ class ArenaBeanConfig {
 
     @Bean
     @Qualifier(ARENAOIDC)
-    fun arenaOIDCWebClient(builder: Builder, cfg: ArenaOIDCConfig, @Qualifier(ARENAOIDC) filter: ExchangeFilterFunction) =
+    fun arenaOIDCWebClient(builder: Builder, cfg: ArenaRestConfig, @Qualifier(ARENAOIDC) filter: ExchangeFilterFunction) =
         builder
             .baseUrl("${cfg.baseUri}")
             .filter(filter)
@@ -41,7 +41,7 @@ class ArenaBeanConfig {
 
     @Bean
     @Qualifier(ARENAOIDC)
-    fun arenaOIDCExchangeFilterFunction(cfg: ArenaOIDCConfig) =
+    fun arenaOIDCExchangeFilterFunction(cfg: ArenaRestConfig) =
         ExchangeFilterFunction {
             req, next -> next.exchange(
                 ClientRequest.from(req).header(AUTHORIZATION, cfg.asBasic)
