@@ -37,6 +37,9 @@ class ProxyExceptionHandler: ResponseEntityExceptionHandler() {
             else -> create(INTERNAL_SERVER_ERROR,e,req)
     }
 
+    @ExceptionHandler(Exception::class)
+    fun catchAll(e: Exception, req: NativeWebRequest) = create(INTERNAL_SERVER_ERROR,e, req )
+
     private fun create(status: HttpStatus,e: Exception, req: NativeWebRequest) =
         ResponseEntity.status(status)
             .headers(HttpHeaders().apply { contentType = APPLICATION_PROBLEM_JSON })
