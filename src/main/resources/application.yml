@@ -54,9 +54,11 @@ springdoc:
   enable-spring-security: false
 
   arenaoidc:
-    username: ${arenaclient.id}
-    password: ${arenaclient.secret}
+    credentials:
+       username: ${arenaclient.id}
+       password: ${arenaclient.secret}
 
   arenasoap:
-    username: TODO
-    password: TODO
+    credentials:
+       username: TODO
+       password: TODO

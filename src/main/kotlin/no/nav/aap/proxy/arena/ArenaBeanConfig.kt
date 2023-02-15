@@ -33,18 +33,18 @@ class ArenaBeanConfig {
 
     @Bean
     @Qualifier(ARENAOIDC)
-    fun arenaOIDCWebClient(builder: Builder, cf: ArenaOIDCConfig, @Qualifier(ARENAOIDC) filter: ExchangeFilterFunction) =
+    fun arenaOIDCWebClient(builder: Builder, cfg: ArenaOIDCConfig, @Qualifier(ARENAOIDC) filter: ExchangeFilterFunction) =
         builder
-            .baseUrl("${cf.baseUri}")
+            .baseUrl("${cfg.baseUri}")
             .filter(filter)
             .build()
 
     @Bean
     @Qualifier(ARENAOIDC)
-    fun arenaOIDCExchangeFilterFunction(cf: ArenaOIDCConfig) =
+    fun arenaOIDCExchangeFilterFunction(cfg: ArenaOIDCConfig) =
         ExchangeFilterFunction {
             req, next -> next.exchange(
-                ClientRequest.from(req).header(AUTHORIZATION, cf.credentials)
+                ClientRequest.from(req).header(AUTHORIZATION, cfg.asBasic)
                     .build())
         }
 
@@ -75,7 +75,7 @@ class ArenaBeanConfig {
     @Bean
     fun webServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller,vararg interceptors: ClientInterceptor) =
         builder.messageSenders(HttpComponentsMessageSender())
-            .setDefaultUri(cfg.baseUri) // TODO
+            .setDefaultUri(cfg.baseUri)
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
                 setInterceptors(interceptors)
@@ -87,8 +87,8 @@ class ArenaBeanConfig {
     @Bean
      fun securityInterceptor(cf: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
          setSecurementActions(USERNAME_TOKEN)
-         setSecurementUsername(cf.username)
-         setSecurementPassword(cf.password)
+         setSecurementUsername(cf.credentials.username)
+         setSecurementPassword(cf.credentials.password)
          setSecurementPasswordType(PW_TEXT)
      }
 

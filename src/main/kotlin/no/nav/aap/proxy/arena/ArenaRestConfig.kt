@@ -10,8 +10,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 @ConfigurationProperties(ARENA)
 class ArenaRestConfig(baseUri: URI,
                       @DefaultValue(SISTE_VEDTAK) val path: String,
-                      @DefaultValue("true") enabled: Boolean, retry: RetryConfig = DEFAULT): AbstractRestConfig(baseUri,"",
-        "arena",enabled, retry) {
+                      @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,"", ARENA,enabled, DEFAULT) {
 
     companion object {
         const val SISTE_VEDTAK = "/aap/sisteVedtak"

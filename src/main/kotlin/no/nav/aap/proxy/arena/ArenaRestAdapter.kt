@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 
 @Component
-class ArenaWebClientRestAdapter(@Qualifier(ARENA) webClient: WebClient, private val cf: ArenaRestConfig) : AbstractWebClientAdapter(webClient, cf) {
+class ArenaRestAdapter(@Qualifier(ARENA) webClient: WebClient, private val cf: ArenaRestConfig) : AbstractWebClientAdapter(webClient, cf) {
 
     fun sisteVedtak(fnr: String) =
         webClient
