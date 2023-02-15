@@ -20,7 +20,7 @@ class ArenaOidcTest {
     }
 
     companion object {
-        val cfg = ArenaOIDCConfig(URI.create("http://localhost"), "/token","user","pasword",true)
+        val cfg = ArenaOIDCConfig(URI.create("http://localhost"), "/token",ArenaCredentials("user","pasword"),true)
         const val longLived =  "retwretwertre"
         const val shortLived =  "etyrtyertytry"
         val defaultToken = """
