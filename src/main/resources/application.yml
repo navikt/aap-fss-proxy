@@ -53,12 +53,12 @@ springdoc:
   show-actuator: true
   enable-spring-security: false
 
-  arenaoidc:
+arenaoidc:
     credentials:
-       id: ${arenaclient_id}
-       secret: ${arenaclient_secret}
+       id:  ${arenaclient.id}
+       secret: ${arenaclient.secret}
 
-  arenasoap:
+arenasoap:
     credentials:
        id: TODO
        secret: TODO
