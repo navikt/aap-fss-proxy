@@ -17,7 +17,7 @@ management :
     configprops:
       show-values: always
     env:
-      additional-keys-to-sanitize: client-jwk,jwk,jwks
+      additional-keys-to-sanitize: client-jwk,*jwk,*jwks,secret
       show-values: always
     health:
       show-details : always
