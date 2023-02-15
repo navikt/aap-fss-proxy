@@ -22,10 +22,10 @@ class ArenaSoapAdapter(private val operations: WebServiceOperations, private val
     fun hentSaker(fnr: String) =
         if (cfg.enabled) {
             (operations.marshalSendAndReceive(cfg.sakerURI,request(fnr)) as JAXBElement<HentSaksInfoListeV2Response>).value
-                ?.saksInfoListe?.saksInfo
-                ?.filter { it.sakstatus.equals(AKTIV,ignoreCase = true) }
-                ?.filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
-                ?.sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
+                .saksInfoListe.saksInfo
+                .filter { it.sakstatus.equals(AKTIV,ignoreCase = true) }
+                .filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
+                .sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
                     log.info("Saker for ${fnr.partialMask()} er $it")
                 }
         } else {
