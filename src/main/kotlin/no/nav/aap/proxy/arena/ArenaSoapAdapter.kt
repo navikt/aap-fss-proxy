@@ -18,10 +18,10 @@ class ArenaSoapAdapter(private val operations: WebServiceOperations, private val
 
     fun hentSaker(fnr: String) =
         (operations.marshalSendAndReceive(cfg.sakerURI,request(fnr)) as? HentSaksInfoListeV2Response)?.saksInfoListe?.saksInfo
-            .filter { it.tema.equals(AAP, ignoreCase = true) }
-            .filter { it.sakstatus.equals(AKTIV,ignoreCase = true) }
-            .filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
-            .sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
+            ?.filter { it.tema.equals(AAP, ignoreCase = true) }
+            ?.filter { it.sakstatus.equals(AKTIV,ignoreCase = true) }
+            ?.filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
+            ?.sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
                 log.info("Saker for $fnr er $it")
             }
 
