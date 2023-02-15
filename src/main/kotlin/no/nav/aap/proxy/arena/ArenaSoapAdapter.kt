@@ -1,5 +1,6 @@
 package no.nav.aap.proxy.arena
 
+import jakarta.xml.bind.JAXBElement
 import javax.xml.datatype.XMLGregorianCalendar
 import no.nav.aap.proxy.arena.generated.Bruker
 import no.nav.aap.proxy.arena.generated.HentSaksInfoListeRequestV2
@@ -20,7 +21,8 @@ class ArenaSoapAdapter(private val operations: WebServiceOperations, private val
     fun hentSaker(fnr: String) =
        // if (cfg.enabled) {
             operations.marshalSendAndReceive(cfg.sakerURI,request(fnr)).also {
-                log.info("RES er $it")
+                val r = it as JAXBElement<HentSaksInfoListeV2Response>
+                log.info("RES er ${r.value}")
             }// as? HentSaksInfoListeV2Response)?.saksInfoListe?.saksInfo
             /*
                 ?.filter { it.tema.equals(AAP, ignoreCase = true) }
