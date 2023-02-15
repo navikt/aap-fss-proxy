@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 class ArenaSoapConfig(val baseUri: String,
                       @NestedConfigurationProperty val credentials: ArenaCredentials,
                       @DefaultValue(SAKER) val saker: String,
-                      @DefaultValue("true") enabled: Boolean) {
+                      @DefaultValue("true") val enabled: Boolean) {
 
     val sakerURI = "$baseUri$saker"
 
