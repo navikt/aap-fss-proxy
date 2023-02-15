@@ -15,7 +15,7 @@ class ArenaOIDCConfig(baseUri: URI,
                       @NestedConfigurationProperty val credentials: ArenaCredentials,
                       @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,"", ARENAOIDC,enabled, DEFAULT) {
 
-    val asBasic =  "Basic ${"${credentials.username}:${credentials.password}".encode()}"
+    val asBasic =  "Basic ${"${credentials.id}:${credentials.secret}".encode()}"
 
 
     companion object {

@@ -87,8 +87,8 @@ class ArenaBeanConfig {
     @Bean
      fun securityInterceptor(cf: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
          setSecurementActions(USERNAME_TOKEN)
-         setSecurementUsername(cf.credentials.username)
-         setSecurementPassword(cf.credentials.password)
+         setSecurementUsername(cf.credentials.id)
+         setSecurementPassword(cf.credentials.secret)
          setSecurementPasswordType(PW_TEXT)
      }
 
