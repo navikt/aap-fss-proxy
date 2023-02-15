@@ -18,18 +18,23 @@ class ArenaSoapAdapter(private val operations: WebServiceOperations, private val
     private val log = getLogger(javaClass)
 
     fun hentSaker(fnr: String) =
-        if (cfg.enabled) {
-            (operations.marshalSendAndReceive(cfg.sakerURI,request(fnr)) as? HentSaksInfoListeV2Response)?.saksInfoListe?.saksInfo
+       // if (cfg.enabled) {
+            operations.marshalSendAndReceive(cfg.sakerURI,request(fnr)).also {
+                log.info("RES er $it")
+            }// as? HentSaksInfoListeV2Response)?.saksInfoListe?.saksInfo
+            /*
                 ?.filter { it.tema.equals(AAP, ignoreCase = true) }
                 ?.filter { it.sakstatus.equals(AKTIV,ignoreCase = true) }
                 ?.filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
                 ?.sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
                     log.info("Saker for $fnr er $it")
                 }
-        } else {
-            log.info("Oppslag saker disabled")
-            emptyList()
-        }
+                */
+
+       // } else {
+           // log.info("Oppslag saker disabled")
+          // return  emptyList()
+        //}
 
     private fun request(fnr: String)  =
         ObjectFactory().createHentSaksInfoListeV2(HentSaksInfoListeRequestV2().apply {
