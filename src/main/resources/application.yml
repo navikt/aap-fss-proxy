@@ -55,8 +55,8 @@ springdoc:
 
   arenaoidc:
     credentials:
-       username: ${arenaclient.id}
-       password: ${arenaclient.secret}
+       username: ${arenaclient.id:id}
+       password: ${arenaclient.secret:secret}
 
   arenasoap:
     credentials:
