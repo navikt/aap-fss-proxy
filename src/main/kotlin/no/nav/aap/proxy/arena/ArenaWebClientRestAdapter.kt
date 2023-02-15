@@ -1,6 +1,6 @@
 package no.nav.aap.proxy.arena
 
-import no.nav.aap.proxy.arena.ArenaConfig.Companion.ARENA
+import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENA
 import no.nav.aap.rest.AbstractWebClientAdapter
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 
 @Component
-class ArenaWebClientRestAdapter(@Qualifier(ARENA) webClient: WebClient, private val cf: ArenaConfig) : AbstractWebClientAdapter(webClient, cf) {
+class ArenaWebClientRestAdapter(@Qualifier(ARENA) webClient: WebClient, private val cf: ArenaRestConfig) : AbstractWebClientAdapter(webClient, cf) {
 
     fun sisteVedtak(fnr: String) =
         webClient

@@ -1,7 +1,7 @@
 package no.nav.aap.proxy.arena
 
 import no.nav.aap.health.AbstractPingableHealthIndicator
-import no.nav.aap.proxy.arena.ArenaConfig.Companion.ARENA
+import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENA
 import no.nav.aap.proxy.arena.ArenaOIDCConfig.Companion.ARENAOIDC
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.LoggerUtil
@@ -22,6 +22,7 @@ import org.springframework.ws.client.support.interceptor.ClientInterceptor
 import org.springframework.ws.client.support.interceptor.ClientInterceptorAdapter
 import org.springframework.ws.context.MessageContext
 import org.springframework.ws.soap.SoapMessage
+import org.springframework.ws.soap.saaj.SaajSoapMessage
 import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor
 import org.springframework.ws.transport.http.HttpComponentsMessageSender
 
@@ -40,16 +41,16 @@ class ArenaBeanConfig {
 
     @Bean
     @Qualifier(ARENAOIDC)
-    fun arenaOIDCExchangeFilterFunction(cfg: ArenaUserConfig) =
+    fun arenaOIDCExchangeFilterFunction(cf: ArenaOIDCConfig) =
         ExchangeFilterFunction {
             req, next -> next.exchange(
-                ClientRequest.from(req).header(AUTHORIZATION, cfg.credentials)
+                ClientRequest.from(req).header(AUTHORIZATION, cf.credentials)
                     .build())
         }
 
     @Bean
     @Qualifier(ARENA)
-    fun arenaWebClient(builder: Builder, cfg: ArenaConfig, @Qualifier(ARENA) arenaExchangeFilterFunction: ExchangeFilterFunction) =
+    fun arenaWebClient(builder: Builder, cfg: ArenaRestConfig, @Qualifier(ARENA) arenaExchangeFilterFunction: ExchangeFilterFunction) =
         builder
             .baseUrl("${cfg.baseUri}")
             .filter(arenaExchangeFilterFunction)
@@ -72,20 +73,22 @@ class ArenaBeanConfig {
 
     }
     @Bean
-    fun webServiceOperations(builder: WebServiceTemplateBuilder, marshaller: Jaxb2Marshaller,vararg interceptors: ClientInterceptor) =
+    fun webServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller,vararg interceptors: ClientInterceptor) =
         builder.messageSenders(HttpComponentsMessageSender())
-            .setDefaultUri("https://arena-q1.adeo.no/arena_ws/services/ArenaSakVedtakService") // TODO
+            .setDefaultUri(cfg.baseUri) // TODO
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
                 setInterceptors(interceptors)
-                faultMessageResolver = FaultMessageResolver { msg -> log.warn("OOPS ${msg.javaClass}  $msg") }
+                faultMessageResolver = FaultMessageResolver { msg -> msg as SaajSoapMessage
+                    log.warn("OOPS ${msg.faultReason}  $msg")
+                }
             }
 
     @Bean
-     fun securityInterceptor(cf: ArenaUserConfig) = Wss4jSecurityInterceptor().apply{
+     fun securityInterceptor(cf: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
          setSecurementActions(USERNAME_TOKEN)
-         setSecurementUsername(cf.id)
-         setSecurementPassword(cf.secret)
+         setSecurementUsername(cf.username)
+         setSecurementPassword(cf.password)
          setSecurementPasswordType(PW_TEXT)
      }
 

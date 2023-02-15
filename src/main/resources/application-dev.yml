@@ -28,3 +28,5 @@ arenaoidc:
   base-uri: https://arena-ords-q1.nais.preprod.local/arena/api
 arena:
   base-uri: https://arena-ords-q1.nais.preprod.local/arena/api/v1
+arenasoap:
+  base-uri: https://arena-q1.adeo.no/arena_ws/services

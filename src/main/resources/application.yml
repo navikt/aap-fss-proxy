@@ -52,3 +52,11 @@ springdoc:
     disable-swagger-default-url: true
   show-actuator: true
   enable-spring-security: false
+
+  arenaoidc:
+    username: ${arenaclient.id}
+    password: ${arenaclient.secret}
+
+  arenasoap:
+    username: TODO
+    password: TODO

@@ -1,12 +1,10 @@
 package no.nav.aap.proxy.arena
 
 import javax.xml.datatype.XMLGregorianCalendar
-import no.nav.aap.api.felles.Fødselsnummer
 import no.nav.aap.proxy.arena.generated.Bruker
 import no.nav.aap.proxy.arena.generated.HentSaksInfoListeRequestV2
 import no.nav.aap.proxy.arena.generated.HentSaksInfoListeV2Response
 import no.nav.aap.proxy.arena.generated.ObjectFactory
-import no.nav.aap.proxy.arena.generated.SaksInfo
 import no.nav.aap.util.Constants.AAP
 import no.nav.aap.util.LoggerUtil
 import org.slf4j.LoggerFactory
@@ -14,12 +12,12 @@ import org.springframework.stereotype.Component
 import org.springframework.ws.client.core.WebServiceOperations
 
 @Component
-class ArenaWebServiceAdapter(private val operations: WebServiceOperations) {
+class ArenaSoapAdapter(private val operations: WebServiceOperations, private val cfg: ArenaSoapConfig) {
 
     private val log = LoggerUtil.getLogger(javaClass)
 
     fun hentSaker(fnr: String) =
-        (operations.marshalSendAndReceive(request(fnr)) as HentSaksInfoListeV2Response).saksInfoListe.saksInfo
+        (operations.marshalSendAndReceive(cfg.sakerURI,request(fnr)) as HentSaksInfoListeV2Response).saksInfoListe.saksInfo
             .filter { it.tema.equals(AAP, ignoreCase = true) }
             .filter { it.sakstatus.equals(AKTIV,ignoreCase = true) }
             .filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
@@ -43,6 +41,6 @@ class ArenaWebServiceAdapter(private val operations: WebServiceOperations) {
         private const val PERSON = "PERSON"
         private const val AKTIV = "Aktiv"
         private const val KLAGEANKE = "KLAN"
-        private val log = LoggerFactory.getLogger(ArenaWebServiceAdapter::class.java)
+        private val log = LoggerFactory.getLogger(ArenaSoapAdapter::class.java)
     }
 }
