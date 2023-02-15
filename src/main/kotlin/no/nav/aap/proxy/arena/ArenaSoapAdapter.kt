@@ -21,8 +21,8 @@ class ArenaSoapAdapter(private val operations: WebServiceOperations, private val
     fun hentSaker(fnr: String) =
        // if (cfg.enabled) {
             operations.marshalSendAndReceive(cfg.sakerURI,request(fnr)).also {
-                val r = it as JAXBElement<HentSaksInfoListeV2Response>
-                log.info("RES er ${r.value}")
+                val r = it as HentSaksInfoListeV2Response
+                log.info("RES er$r")
             }// as? HentSaksInfoListeV2Response)?.saksInfoListe?.saksInfo
             /*
                 ?.filter { it.tema.equals(AAP, ignoreCase = true) }
