@@ -1,23 +1,31 @@
 package no.nav.aap.proxy.error
 
+import no.nav.aap.util.LoggerUtil.getLogger
+import no.nav.aap.util.MDCUtil.NAV_CALL_ID
+import no.nav.aap.util.MDCUtil.callId
 import no.nav.security.token.support.core.exceptions.JwtTokenMissingException
 import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnauthorizedException
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.*
+import org.springframework.http.MediaType
+import org.springframework.http.ProblemDetail
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.reactive.function.client.WebClientResponseException
 import org.springframework.web.reactive.function.client.WebClientResponseException.*
-import org.zalando.problem.Status.BAD_REQUEST
-import org.zalando.problem.Status.INTERNAL_SERVER_ERROR
-import org.zalando.problem.Status.NOT_FOUND
-import org.zalando.problem.Status.UNAUTHORIZED
-import org.zalando.problem.spring.web.advice.ProblemHandling
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 
 @ControllerAdvice
-class ProxyExceptionHandler: ProblemHandling {
+class ProxyExceptionHandler: ResponseEntityExceptionHandler() {
+
+    private val log = getLogger(javaClass)
+
 
     @ExceptionHandler(JwtTokenUnauthorizedException::class, JwtTokenMissingException::class)
-    fun handleMissingOrExpiredToken(e: java.lang.Exception, req: NativeWebRequest) = create(UNAUTHORIZED,e,req)
+    fun handleMissingOrExpiredToken(e: Exception, req: NativeWebRequest) = create(UNAUTHORIZED,e,req)
 
     @ExceptionHandler(WebClientResponseException::class)
     fun handleWebClientResponseException(e: WebClientResponseException, req: NativeWebRequest) =
@@ -27,4 +35,14 @@ class ProxyExceptionHandler: ProblemHandling {
             is NotFound -> create(NOT_FOUND,e,req)
             else -> create(INTERNAL_SERVER_ERROR,e,req)
     }
+
+    private fun create(status: HttpStatus,e: Exception, req: NativeWebRequest) =
+        ResponseEntity.status(status)
+            .headers(HttpHeaders().apply { contentType = MediaType.APPLICATION_PROBLEM_JSON })
+            .body(createProblemDetail(e, status, e.message ?: e.javaClass.simpleName, null,null, req).apply {
+                setProperty(NAV_CALL_ID, callId())
+            }.also { log(e, it, req, status) })
+
+    private fun log(t: Throwable, problem: ProblemDetail, req: NativeWebRequest, status: HttpStatus) =
+        log.error("$req $problem ${status.reasonPhrase}: ${t.message}", t)
 }
