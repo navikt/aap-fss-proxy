@@ -42,7 +42,7 @@ class ArenaSoapAdapter(private val operations: WebServiceOperations, private val
                 brukerId = fnr
                 brukertypeKode = PERSON
             }
-            tema = AAP
+            tema = AAP.uppercase()
             isLukket = false
         })
 
