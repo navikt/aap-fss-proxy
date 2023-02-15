@@ -27,7 +27,7 @@ class ArenaSoapAdapter(private val operations: WebServiceOperations, private val
                     log.info("Saker for $fnr er $it")
                 }
         } else {
-            log.info("Oppslag disabled")
+            log.info("Oppslag saker disabled")
             emptyList()
         }
 

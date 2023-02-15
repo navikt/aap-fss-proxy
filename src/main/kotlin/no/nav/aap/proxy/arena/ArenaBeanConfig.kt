@@ -6,6 +6,7 @@ import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENAOIDC
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.LoggerUtil
 import no.nav.aap.util.StringExtensions.asBearer
+import no.nav.security.token.support.core.exceptions.JwtTokenMissingException
 import org.apache.wss4j.common.ConfigurationConstants.USERNAME_TOKEN
 import org.apache.wss4j.common.WSS4JConstants.PW_TEXT
 import org.springframework.beans.factory.annotation.Qualifier
@@ -81,25 +82,15 @@ class ArenaBeanConfig {
                 setInterceptors(interceptors)
                 faultMessageResolver = FaultMessageResolver { msg -> msg as SaajSoapMessage
                     log.warn("OOPS ${msg.faultReason}  $msg")
+                    throw JwtTokenMissingException()  // TODO, noe bedre
                 }
             }
 
     @Bean
-     fun securityInterceptor(cf: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
+     fun securityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
          setSecurementActions(USERNAME_TOKEN)
-         setSecurementUsername(cf.credentials.id)
-         setSecurementPassword(cf.credentials.secret)
+         setSecurementUsername(cfg.credentials.id)
+         setSecurementPassword(cfg.credentials.secret)
          setSecurementPasswordType(PW_TEXT)
      }
-
-    // @Bean
-    fun faultHandler() = object: ClientInterceptorAdapter() {
-        override fun handleFault(ctx: MessageContext): Boolean {
-            with((ctx.response as SoapMessage).envelope.body) {
-                log.error("OOPS FSOR ${fault.faultStringOrReason}")
-                log.error("OOPS CODE ${fault.faultCode}")
-                fault.faultDetail.detailEntries.forEach { log.error("OOPS ENTRY $it") }
-            }
-            return true
-        }}
 }
