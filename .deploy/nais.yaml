@@ -60,3 +60,4 @@ spec:
   envFrom:
     - secret: srvaap-proxy
     - secret: arenalogin
+    - secret: arenasoap
