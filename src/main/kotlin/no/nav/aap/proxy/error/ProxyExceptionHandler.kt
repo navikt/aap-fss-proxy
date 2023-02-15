@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.*
 import org.springframework.http.MediaType
+import org.springframework.http.MediaType.*
 import org.springframework.http.ProblemDetail
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -38,7 +39,7 @@ class ProxyExceptionHandler: ResponseEntityExceptionHandler() {
 
     private fun create(status: HttpStatus,e: Exception, req: NativeWebRequest) =
         ResponseEntity.status(status)
-            .headers(HttpHeaders().apply { contentType = MediaType.APPLICATION_PROBLEM_JSON })
+            .headers(HttpHeaders().apply { contentType = APPLICATION_PROBLEM_JSON })
             .body(createProblemDetail(e, status, e.message ?: e.javaClass.simpleName, null,null, req).apply {
                 setProperty(NAV_CALL_ID, callId())
             }.also { log(e, it, req, status) })
