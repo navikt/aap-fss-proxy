@@ -44,7 +44,6 @@ class GlobalConfig(@Value("\${spring.application.name}") val applicationName: St
      Jackson2ObjectMapperBuilderCustomizer {
          b: Jackson2ObjectMapperBuilder -> b.modules( JavaTimeModule(), KotlinModule.Builder().build())
     }
-
     @Bean
     fun swagger(p: BuildProperties): OpenAPI {
         return OpenAPI()
