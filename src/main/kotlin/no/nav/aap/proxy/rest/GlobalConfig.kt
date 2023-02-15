@@ -34,7 +34,6 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
-import org.zalando.problem.jackson.ProblemModule
 import reactor.netty.http.client.HttpClient
 import reactor.netty.transport.logging.AdvancedByteBufFormat.TEXTUAL
 
@@ -43,7 +42,7 @@ class GlobalConfig(@Value("\${spring.application.name}") val applicationName: St
 @Bean
  fun jacksonCustomizer()  =
      Jackson2ObjectMapperBuilderCustomizer {
-         b: Jackson2ObjectMapperBuilder -> b.modules(ProblemModule(), JavaTimeModule(), KotlinModule.Builder().build())
+         b: Jackson2ObjectMapperBuilder -> b.modules( JavaTimeModule(), KotlinModule.Builder().build())
     }
 
     @Bean
