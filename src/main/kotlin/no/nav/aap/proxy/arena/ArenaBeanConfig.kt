@@ -11,6 +11,7 @@ import no.nav.aap.util.LoggerUtil
 import no.nav.aap.util.StringExtensions.asBearer
 import no.nav.security.token.support.core.exceptions.JwtTokenMissingException
 import org.apache.wss4j.common.ConfigurationConstants
+import org.apache.wss4j.common.ConfigurationConstants.SAML_TOKEN_UNSIGNED
 import org.apache.wss4j.common.ConfigurationConstants.USERNAME_TOKEN
 import org.apache.wss4j.common.WSS4JConstants.PW_TEXT
 import org.apache.wss4j.common.saml.SAMLCallback
@@ -97,7 +98,7 @@ class ArenaBeanConfig {
             .setDefaultUri(cfg.oppgaveUri)
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
-                interceptors = arrayOf(samlSecurityInterceptor(cfg))
+                interceptors = arrayOf(oppgaveSecurityInterceptor(cfg))
                 faultMessageResolver = FaultMessageResolver { msg -> msg as SaajSoapMessage
                     throw IntegrationException(msg.faultReason)
                 }
@@ -114,8 +115,8 @@ class ArenaBeanConfig {
 
     @Bean
     @Qualifier("oppgave")
-    fun samlSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
-       setValidationActions("NoSecurity")
+    fun oppgaveSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
+        setSecurementActions(SAML_TOKEN_UNSIGNED)
        setSecurementSamlCallbackHandler({ log.info("XXXXXXXXXXX") })
     }
 }
