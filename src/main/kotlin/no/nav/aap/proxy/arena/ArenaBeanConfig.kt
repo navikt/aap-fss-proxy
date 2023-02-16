@@ -116,6 +116,7 @@ class ArenaBeanConfig {
     fun oppgaveSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
         setSecurementActions(SAML_TOKEN_UNSIGNED)
         setSecurementSamlCallbackHandler { SamlCallbackHandler() }
+        afterPropertiesSet()
     }
     private class SamlCallbackHandler : CallbackHandler   {
         private val log = LoggerUtil.getLogger(javaClass)
