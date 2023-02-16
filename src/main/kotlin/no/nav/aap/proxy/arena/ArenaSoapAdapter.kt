@@ -2,7 +2,7 @@ package no.nav.aap.proxy.arena
 
 import jakarta.xml.bind.JAXBElement
 import no.nav.aap.proxy.arena.ArenaDTOs.oppgaveReq
-import no.nav.aap.proxy.arena.ArenaDTOs.saker
+import no.nav.aap.proxy.arena.ArenaDTOs.sakerReq
 import no.nav.aap.proxy.arena.ArenaDTOs.toLocalDateTime
 import no.nav.aap.proxy.arena.generated.oppgave.BestillOppgaveResponse
 import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeV2Response
@@ -18,7 +18,7 @@ class ArenaSoapAdapter(private val operations: WebServiceOperations, private val
 
     fun hentSaker(fnr: String) =
         if (cfg.enabled) {
-            (operations.marshalSendAndReceive(cfg.sakerURI,saker(fnr)) as JAXBElement<HentSaksInfoListeV2Response>).value
+            (operations.marshalSendAndReceive(cfg.sakerURI,sakerReq(fnr)) as JAXBElement<HentSaksInfoListeV2Response>).value
                 .saksInfoListe.saksInfo
                 .filter { it.sakstatus.equals(AKTIV,ignoreCase = true) }
                 .filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }

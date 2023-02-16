@@ -19,7 +19,6 @@ import no.nav.aap.proxy.arena.generated.oppgave.WSTema
 import no.nav.aap.proxy.arena.generated.sak.Bruker
 import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeRequestV2
 import no.nav.aap.proxy.arena.generated.sak.ObjectFactory
-import no.nav.aap.util.Constants
 import no.nav.aap.util.Constants.AAP
 
 object ArenaDTOs {
@@ -31,7 +30,7 @@ object ArenaDTOs {
                     oppgavetype = START_VEDTAKTYPE
                     oppgave = oppgave(params)
                 })
-     fun saker(fnr: String)  =
+     fun sakerReq(fnr: String)  =
         ObjectFactory().createHentSaksInfoListeV2(HentSaksInfoListeRequestV2().apply {
             bruker = bruker(fnr)
             tema = AAP.uppercase()
