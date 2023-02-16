@@ -1,5 +1,6 @@
 package no.nav.aap.proxy.arena
 
+import no.nav.aap.api.felles.error.IntegrationException
 import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENA
 import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENAOIDC
@@ -80,8 +81,7 @@ class ArenaBeanConfig {
             .setUnmarshaller(marshaller).build().apply {
                 setInterceptors(interceptors)
                 faultMessageResolver = FaultMessageResolver { msg -> msg as SaajSoapMessage
-                    log.warn("OOPS ${msg.faultReason}  $msg")
-                    throw JwtTokenMissingException()  // TODO, noe bedre
+                    throw IntegrationException(msg.faultReason)
                 }
             }
 
