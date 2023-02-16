@@ -117,6 +117,8 @@ class ArenaBeanConfig {
     @Qualifier("oppgave")
     fun oppgaveSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
         setSecurementActions(SAML_TOKEN_UNSIGNED)
-       setSecurementSamlCallbackHandler({ log.info("XXXXXXXXXXX") })
+        setSecurementPassword("system");
+        setSecurementUsername("password");
+        setSecurementSamlCallbackHandler { log.info("XXXXXXXXXXX $it") }
     }
 }
