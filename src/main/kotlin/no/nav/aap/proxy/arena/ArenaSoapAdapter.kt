@@ -41,7 +41,7 @@ class ArenaSoapAdapter(private val operations: WebServiceOperations, private val
         })
 
     fun opprettOppgave(fnr: String) = Unit
-    
+
    private fun XMLGregorianCalendar.toLocalDateTime() = toGregorianCalendar().toZonedDateTime().toLocalDateTime()
 
     companion object {

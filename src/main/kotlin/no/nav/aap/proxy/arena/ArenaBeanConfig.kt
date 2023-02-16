@@ -70,8 +70,7 @@ class ArenaBeanConfig {
 
     @Bean
     fun webServiceMarshaller() = Jaxb2Marshaller().apply {
-        contextPath = "no.nav.aap.proxy.arena.generated"
-
+        contextPath = "no.nav.aap.proxy.arena.generated.sak"
     }
     @Bean
     fun webServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller,vararg interceptors: ClientInterceptor) =
