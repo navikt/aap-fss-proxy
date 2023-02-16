@@ -1,12 +1,15 @@
 package no.nav.aap.proxy.arena
 
+import jakarta.xml.bind.JAXBElement
 import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
 import javax.xml.datatype.DatatypeFactory
 import javax.xml.datatype.XMLGregorianCalendar
+import javax.xml.namespace.QName
 import no.nav.aap.proxy.arena.ArenaDTOs.ArenaOppgaveType.STARTVEDTAK
+import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.arena.generated.oppgave.WSBestillOppgaveRequest
 import no.nav.aap.proxy.arena.generated.oppgave.WSOppgave
 import no.nav.aap.proxy.arena.generated.oppgave.WSOppgavetype
@@ -16,16 +19,20 @@ import no.nav.aap.proxy.arena.generated.oppgave.WSTema
 import no.nav.aap.proxy.arena.generated.sak.Bruker
 import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeRequestV2
 import no.nav.aap.proxy.arena.generated.sak.ObjectFactory
+import no.nav.aap.proxy.arena.generated.oppgave.ObjectFactory as OppgaveObjectFactory
 import no.nav.aap.util.Constants
+import no.nav.aap.util.Constants.AAP
 
 object ArenaDTOs {
-    fun oppgaveReq(params: ArenaOpprettOppgaveParams) = WSBestillOppgaveRequest().apply {
+    fun oppgaveReq(params: ArenaOpprettOppgaveParams): JAXBElement<WSBestillOppgaveRequest> {
+    val  r = WSBestillOppgaveRequest().apply {
         oppgavetype = WSOppgavetype().apply {
             value = STARTVEDTAK.name
         }
+        OppgaveObjectFactory()
         oppgave = WSOppgave().apply {
             tema = WSTema().apply {
-                value = Constants.AAP.uppercase()
+                value = AAP.uppercase()
             }
             bruker = WSPerson().apply {
                 ident = params.fnr.fnr
@@ -39,6 +46,9 @@ object ArenaDTOs {
             frist = DatatypeFactory.newInstance().newXMLGregorianCalendar(GregorianCalendar.from(ZonedDateTime.now().toInstant().atZone(
                     ZoneId.of("Europe/Oslo"))))
         }
+    }
+        val q =QName("http://nav.no/tjeneste/virksomhet/behandleArbeidOgAktivitetOppgave/v1/Binding", "BehandleArbeidOgAktivitetOppgave_v1")
+        return JAXBElement(q,WSBestillOppgaveRequest::class.java,r)
     }
     private enum class ArenaOppgaveType(val tekst: String) {
         STARTVEDTAK("Start Vedtaksbehandling - automatisk journalfør"),
