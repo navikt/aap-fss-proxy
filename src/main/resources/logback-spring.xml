@@ -6,6 +6,7 @@
     </appender>
     <springProfile name="dev">
         <logger name="org.springframework.ws" level="trace" />
+        <logger name="org.apache.wss4j" level="trace" />
         <logger name="no.nav.security" level="info"/>
         <logger name="reactor.netty.http.client.HttpClient" level="debug"/>
         <logger name="no.nav.aap" level="trace" />
