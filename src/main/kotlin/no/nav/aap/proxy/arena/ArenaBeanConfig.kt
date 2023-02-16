@@ -79,12 +79,12 @@ class ArenaBeanConfig {
     }
     @Bean
     @Qualifier("sak")
-    fun sakServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller, @Qualifier("sak") interceptor: ClientInterceptor) =
+    fun sakServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller) =
         builder.messageSenders(HttpComponentsMessageSender())
             .setDefaultUri(cfg.baseUri)
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
-                setInterceptors(interceptors)
+                interceptors = arrayOf(sakSecurityInterceptor(cfg))
                 faultMessageResolver = FaultMessageResolver { msg -> msg as SaajSoapMessage
                     throw IntegrationException(msg.faultReason)
                 }
@@ -92,12 +92,12 @@ class ArenaBeanConfig {
 
     @Bean
     @Qualifier("oppgave")
-    fun oppgaveServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller, @Qualifier("oppgave") interceptor: ClientInterceptor) =
+    fun oppgaveServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller) =
         builder.messageSenders(HttpComponentsMessageSender())
             .setDefaultUri(cfg.oppgaveUri)
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
-                setInterceptors(interceptors)
+                interceptors = arrayOf(samlSecurityInterceptor(cfg))
                 faultMessageResolver = FaultMessageResolver { msg -> msg as SaajSoapMessage
                     throw IntegrationException(msg.faultReason)
                 }
