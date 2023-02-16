@@ -18,7 +18,7 @@ class ArenaController(private val arena: ArenaClient) {
     @Unprotected
     fun harAktivSak(@PathVariable fnr: Fødselsnummer) = arena.harAktivSak(fnr)
 
-    @PostMapping("/oprettoppgave")
+    @PostMapping("/opprettoppgave")
     @Unprotected
     fun opprettOppgave( @RequestBody opgaveInfo: ArenaOpprettOppgaveParams) = arena.opprettOppgave(opgaveInfo)
 }
