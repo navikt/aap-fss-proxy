@@ -30,6 +30,7 @@ import org.springframework.ws.client.core.FaultMessageResolver
 import org.springframework.ws.soap.saaj.SaajSoapMessage
 import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor
 import org.springframework.ws.transport.http.HttpComponentsMessageSender
+import sun.jvm.hotspot.oops.CellTypeState.value
 
 @Configuration
 class ArenaBeanConfig {
@@ -125,14 +126,12 @@ class ArenaBeanConfig {
 
         override fun handle(callbacks: Array<Callback>) {
             log.info("XXXXXXXXXXX handle")
-            for (value in callbacks) {
-                log.info("XXXXXXXXXXX $value")
-                if (value is SAMLCallback) {
-                    log.info("YYYYYYYY $value is SAMØ")
-                    value.setSamlVersion(SAML_20)
-                    value.subject = SubjectBean("XXXXXXX", "", null)
-                }
-            }
+            val value: SAMLCallback  = callbacks[0] as SAMLCallback
+            log.info("XXXXXXXXXXX $value")
+            log.info("YYYYYYYY $value is SAMØ")
+            value.setSamlVersion(SAML_20)
+            value.subject = SubjectBean("XXXXXXX", "", null)
         }
+    }
     }
 }
