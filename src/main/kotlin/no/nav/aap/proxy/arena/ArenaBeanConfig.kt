@@ -30,7 +30,6 @@ import org.springframework.ws.client.core.FaultMessageResolver
 import org.springframework.ws.soap.saaj.SaajSoapMessage
 import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor
 import org.springframework.ws.transport.http.HttpComponentsMessageSender
-import sun.jvm.hotspot.oops.CellTypeState.value
 
 @Configuration
 class ArenaBeanConfig {
