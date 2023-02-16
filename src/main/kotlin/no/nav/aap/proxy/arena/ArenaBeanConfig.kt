@@ -15,9 +15,7 @@ import org.apache.wss4j.common.WSS4JConstants.PW_TEXT
 import org.apache.wss4j.common.saml.SAMLCallback
 import org.apache.wss4j.common.saml.SAMLUtil
 import org.apache.wss4j.common.saml.bean.SubjectBean
-import org.apache.wss4j.common.saml.bean.Version
 import org.apache.wss4j.common.saml.bean.Version.*
-import org.apache.wss4j.common.saml.builder.SAML2Constants
 import org.opensaml.saml.saml2.core.Assertion
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.webservices.client.WebServiceTemplateBuilder
@@ -121,7 +119,7 @@ class ArenaBeanConfig {
         setValidationActions("NoSecurity")
         setSecurementSamlCallbackHandler { SamlCallbackHandler() }
     }
-    private class SamlCallbackHandler(private val assertion: Assertion): CallbackHandler   {
+    private class SamlCallbackHandler(): CallbackHandler   {
 
         private val log = LoggerUtil.getLogger(javaClass)
 
@@ -132,7 +130,6 @@ class ArenaBeanConfig {
             log.info("YYYYYYYY $value is SAMØ")
             value.setSamlVersion(SAML_20)
             value.subject = SubjectBean("XXXXXXX", "", null)
-            SAMLUtil.doSAMLCallback(this, value)
         }
     }
 }
