@@ -117,13 +117,13 @@ class ArenaBeanConfig {
         setSecurementActions(SAML_TOKEN_UNSIGNED)
         setSecurementSamlCallbackHandler { SamlCallbackHandler() }
     }
-    private class SamlCallbackHandler() : CallbackHandler {
+    private class SamlCallbackHandler() : CallbackHandler   {
         private val log = LoggerUtil.getLogger(javaClass)
 
         override fun handle(callbacks: Array<Callback>) {
             for (value in callbacks) {
+                log.info("XXXXXXXXXXX $value")
                 if (value is SAMLCallback) {
-                    log.info("XXXXXXXXXXX $value")
                     value.setSamlVersion(SAML_20)
                     value.subject = SubjectBean("test-subject", "", null)
                 }
