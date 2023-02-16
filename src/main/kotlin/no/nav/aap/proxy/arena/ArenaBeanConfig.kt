@@ -9,12 +9,14 @@ import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENAOIDC
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.LoggerUtil
 import no.nav.aap.util.StringExtensions.asBearer
-import no.nav.security.token.support.core.exceptions.JwtTokenMissingException
-import org.apache.wss4j.common.ConfigurationConstants
 import org.apache.wss4j.common.ConfigurationConstants.SAML_TOKEN_UNSIGNED
 import org.apache.wss4j.common.ConfigurationConstants.USERNAME_TOKEN
 import org.apache.wss4j.common.WSS4JConstants.PW_TEXT
 import org.apache.wss4j.common.saml.SAMLCallback
+import org.apache.wss4j.common.saml.bean.SubjectBean
+import org.apache.wss4j.common.saml.bean.Version
+import org.apache.wss4j.common.saml.bean.Version.*
+import org.apache.wss4j.common.saml.builder.SAML2Constants
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.webservices.client.WebServiceTemplateBuilder
 import org.springframework.context.annotation.Bean
@@ -25,10 +27,6 @@ import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient.Builder
 import org.springframework.ws.client.core.FaultMessageResolver
-import org.springframework.ws.client.support.interceptor.ClientInterceptor
-import org.springframework.ws.client.support.interceptor.ClientInterceptorAdapter
-import org.springframework.ws.context.MessageContext
-import org.springframework.ws.soap.SoapMessage
 import org.springframework.ws.soap.saaj.SaajSoapMessage
 import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor
 import org.springframework.ws.transport.http.HttpComponentsMessageSender
@@ -117,8 +115,19 @@ class ArenaBeanConfig {
     @Qualifier("oppgave")
     fun oppgaveSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
         setSecurementActions(SAML_TOKEN_UNSIGNED)
-        setSecurementPassword("system");
-        setSecurementUsername("password");
-        setSecurementSamlCallbackHandler { log.info("XXXXXXXXXXX $it") }
+        setSecurementSamlCallbackHandler { SamlCallbackHandler() }
+    }
+    private class SamlCallbackHandler() : CallbackHandler {
+        private val log = LoggerUtil.getLogger(javaClass)
+
+        override fun handle(callbacks: Array<Callback>) {
+            for (value in callbacks) {
+                if (value is SAMLCallback) {
+                    log.info("XXXXXXXXXXX $value")
+                    value.setSamlVersion(SAML_20)
+                    value.subject = SubjectBean("test-subject", "", null)
+                }
+            }
+        }
     }
 }
