@@ -15,6 +15,8 @@
 	<description>Proxy for å kalle tjenester i FSS</description>
 
 	<properties>
+		<arena.sak.package>no.nav.aap.proxy.arena.generated.sak</arena.sak.package>
+		<arena.oppgave.package>no.nav.aap.proxy.arena.generated.oppgave</arena.oppgave.package>
 		<sourcesDir>${project.basedir}/target/generated-sources/jaxws</sourcesDir>
 		<classesDir>${project.basedir}/target/classes</classesDir>
 		<conditionals.version>5.0.2</conditionals.version>
@@ -148,6 +150,30 @@
 		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>set-system-properties</goal>
+						</goals>
+						<configuration>
+							<properties>
+								<property>
+									<name>arena.sak.package</name>
+									<value>${arena.sak.package}</value>
+								</property>
+								<property>
+									<name>arena.oppgave.package</name>
+									<value>${arena.oppgave.package}</value>
+								</property>
+							</properties>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>com.sun.xml.ws</groupId>
 				<artifactId>jaxws-maven-plugin</artifactId>
 				<version>4.0.1</version>
@@ -160,7 +186,7 @@
 						<configuration>
 							<bindingFiles>${project.basedir}/src/main/resources/wsdl/oppgave/behandleArbeidOgAktivitetOppgave/bindings.xml</bindingFiles>
 							<wsdlFiles>${project.basedir}/src/main/resources/wsdl/oppgave/no/nav/tjeneste/virksomhet/behandleArbeidOgAktivitetOppgave/v1/Binding.wsdl</wsdlFiles>
-							<packageName>no.nav.aap.proxy.arena.generated.oppgave</packageName>
+							<packageName>${arena.oppgave.package}</packageName>
 							<sourceDestDir>${sourcesDir}</sourceDestDir>
 							<destDir>${classesDir}</destDir>
 							<extension>true</extension>
@@ -173,7 +199,7 @@
 						</goals>
 						<configuration>
 							<wsdlFiles>${project.basedir}/src/main/resources/wsdl/ytelse/arenasakvedtakservice.wsdl</wsdlFiles>
-							<packageName>no.nav.aap.proxy.arena.generated.sak</packageName>
+							<packageName>${arena.sak.package}</packageName>
 							<sourceDestDir>${sourcesDir}</sourceDestDir>
 							<destDir>${classesDir}</destDir>
 							<extension>true</extension>
