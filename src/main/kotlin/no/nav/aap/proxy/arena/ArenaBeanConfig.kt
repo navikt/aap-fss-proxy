@@ -1,5 +1,7 @@
 package no.nav.aap.proxy.arena
 
+import javax.security.auth.callback.Callback
+import javax.security.auth.callback.CallbackHandler
 import no.nav.aap.api.felles.error.IntegrationException
 import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENA
@@ -8,8 +10,10 @@ import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.LoggerUtil
 import no.nav.aap.util.StringExtensions.asBearer
 import no.nav.security.token.support.core.exceptions.JwtTokenMissingException
+import org.apache.wss4j.common.ConfigurationConstants
 import org.apache.wss4j.common.ConfigurationConstants.USERNAME_TOKEN
 import org.apache.wss4j.common.WSS4JConstants.PW_TEXT
+import org.apache.wss4j.common.saml.SAMLCallback
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.webservices.client.WebServiceTemplateBuilder
 import org.springframework.context.annotation.Bean
@@ -74,7 +78,8 @@ class ArenaBeanConfig {
         setContextPaths("no.nav.aap.proxy.arena.generated.sak","no.nav.aap.proxy.arena.generated.oppgave")
     }
     @Bean
-    fun webServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller,vararg interceptors: ClientInterceptor) =
+    @Qualifier("sak")
+    fun sakServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller, @Qualifier("sak") interceptor: ClientInterceptor) =
         builder.messageSenders(HttpComponentsMessageSender())
             .setDefaultUri(cfg.baseUri)
             .setMarshaller(marshaller)
@@ -86,10 +91,30 @@ class ArenaBeanConfig {
             }
 
     @Bean
+    @Qualifier("oppgave")
+    fun oppgaveServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller, @Qualifier("oppgave") interceptor: ClientInterceptor) =
+        builder.messageSenders(HttpComponentsMessageSender())
+            .setDefaultUri(cfg.baseUri)
+            .setMarshaller(marshaller)
+            .setUnmarshaller(marshaller).build().apply {
+                setInterceptors(interceptors)
+                faultMessageResolver = FaultMessageResolver { msg -> msg as SaajSoapMessage
+                    throw IntegrationException(msg.faultReason)
+                }
+            }
+
+    @Bean
+    @Qualifier("sak")
      fun securityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
          setSecurementActions(USERNAME_TOKEN)
          setSecurementUsername(cfg.credentials.id)
          setSecurementPassword(cfg.credentials.secret)
          setSecurementPasswordType(PW_TEXT)
      }
+
+    @Bean
+    @Qualifier("oppgave")
+    fun samlSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
+       val handler = CallbackHandler { log.info("XXXXXXXXXXX") }
+    }
 }
