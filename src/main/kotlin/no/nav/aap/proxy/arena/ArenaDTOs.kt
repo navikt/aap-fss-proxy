@@ -33,11 +33,8 @@ object ArenaDTOs {
                 })
      fun saker(fnr: String)  =
         ObjectFactory().createHentSaksInfoListeV2(HentSaksInfoListeRequestV2().apply {
-            bruker = Bruker().apply {
-                brukerId = fnr
-                brukertypeKode = PERSON
-            }
-            tema = Constants.AAP.uppercase()
+            bruker = bruker(fnr)
+            tema = AAP.uppercase()
             isLukket = false
         })
 
@@ -45,6 +42,11 @@ object ArenaDTOs {
 
     private fun getFormattedToday() = SimpleDateFormat("dd.MM.yyyy").format( Date());
 
+
+    private fun bruker(fnr: String) = Bruker().apply {
+        brukerId = fnr
+        brukertypeKode = PERSON
+    }
     private const val PERSON = "PERSON"
     private val AAP_TEMA = WSTema().apply { value = AAP.uppercase() }
     private val HØY_PRIORITET =  WSPrioritet().apply { value = "HOY" }
