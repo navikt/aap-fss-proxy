@@ -94,7 +94,7 @@ class ArenaBeanConfig {
     @Qualifier("oppgave")
     fun oppgaveServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller, @Qualifier("oppgave") interceptor: ClientInterceptor) =
         builder.messageSenders(HttpComponentsMessageSender())
-            .setDefaultUri(cfg.baseUri)
+            .setDefaultUri(cfg.oppgaveUri)
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
                 setInterceptors(interceptors)
@@ -105,12 +105,12 @@ class ArenaBeanConfig {
 
     @Bean
     @Qualifier("sak")
-     fun securityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
-         setSecurementActions(USERNAME_TOKEN)
-         setSecurementUsername(cfg.credentials.id)
-         setSecurementPassword(cfg.credentials.secret)
-         setSecurementPasswordType(PW_TEXT)
-     }
+    fun sakSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
+        setSecurementActions(USERNAME_TOKEN)
+        setSecurementUsername(cfg.credentials.id)
+        setSecurementPassword(cfg.credentials.secret)
+        setSecurementPasswordType(PW_TEXT)
+    }
 
     @Bean
     @Qualifier("oppgave")
