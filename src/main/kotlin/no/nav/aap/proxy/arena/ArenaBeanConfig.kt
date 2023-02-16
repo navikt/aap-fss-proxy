@@ -124,8 +124,9 @@ class ArenaBeanConfig {
             for (value in callbacks) {
                 log.info("XXXXXXXXXXX $value")
                 if (value is SAMLCallback) {
+                    log.info("YYYYYYYY $value is SAMØ")
                     value.setSamlVersion(SAML_20)
-                    value.subject = SubjectBean("test-subject", "", null)
+                    value.subject = SubjectBean("XXXXXXX", "", null)
                 }
             }
         }
