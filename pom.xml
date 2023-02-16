@@ -153,20 +153,34 @@
 				<version>4.0.1</version>
 				<executions>
 					<execution>
+						<id>oppgave</id>
 						<goals>
 							<goal>wsimport</goal>
 						</goals>
+						<configuration>
+							<bindingFiles>${project.basedir}/src/main/resources/wsdl/oppgave/behandleArbeidOgAktivitetOppgave/bindings.xml</bindingFiles>
+							<wsdlFiles>${project.basedir}/src/main/resources/wsdl/oppgave/no/nav/tjeneste/virksomhet/behandleArbeidOgAktivitetOppgave/v1/Binding.wsdl</wsdlFiles>
+							<packageName>no.nav.aap.proxy.arena.generated.oppgave</packageName>
+							<sourceDestDir>${sourcesDir}</sourceDestDir>
+							<destDir>${classesDir}</destDir>
+							<extension>true</extension>
+						</configuration>
+					</execution>
+					<execution>
+						<id>sak</id>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<configuration>
+							<wsdlFiles>${project.basedir}/src/main/resources/wsdl/ytelse/arenasakvedtakservice.wsdl</wsdlFiles>
+							<packageName>no.nav.aap.proxy.arena.generated.sak</packageName>
+							<sourceDestDir>${sourcesDir}</sourceDestDir>
+							<destDir>${classesDir}</destDir>
+							<extension>true</extension>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<wsdlFiles>${project.basedir}/src/main/resources/wsdl/ytelse/arenasakvedtakservice.wsdl</wsdlFiles>
-					<packageName>no.nav.aap.proxy.arena.generated</packageName>
-					<sourceDestDir>${sourcesDir}</sourceDestDir>
-					<destDir>${classesDir}</destDir>
-					<extension>true</extension>
-				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>

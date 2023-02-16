@@ -2,15 +2,13 @@ package no.nav.aap.proxy.arena
 
 import jakarta.xml.bind.JAXBElement
 import javax.xml.datatype.XMLGregorianCalendar
-import no.nav.aap.proxy.arena.generated.Bruker
-import no.nav.aap.proxy.arena.generated.HentSaksInfoListeRequestV2
-import no.nav.aap.proxy.arena.generated.HentSaksInfoListeV2Response
-import no.nav.aap.proxy.arena.generated.ObjectFactory
+import no.nav.aap.proxy.arena.generated.sak.Bruker
+import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeRequestV2
+import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeV2Response
+import no.nav.aap.proxy.arena.generated.sak.ObjectFactory
 import no.nav.aap.util.Constants.AAP
-import no.nav.aap.util.LoggerUtil
 import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.StringExtensions.partialMask
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.ws.client.core.WebServiceOperations
 
@@ -21,7 +19,7 @@ class ArenaSoapAdapter(private val operations: WebServiceOperations, private val
 
     fun hentSaker(fnr: String) =
         if (cfg.enabled) {
-            (operations.marshalSendAndReceive(cfg.sakerURI,request(fnr)) as JAXBElement<HentSaksInfoListeV2Response>).value
+            (operations.marshalSendAndReceive(cfg.sakerURI,sakerReq(fnr)) as JAXBElement<HentSaksInfoListeV2Response>).value
                 .saksInfoListe.saksInfo
                 .filter { it.sakstatus.equals(AKTIV,ignoreCase = true) }
                 .filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
@@ -32,7 +30,7 @@ class ArenaSoapAdapter(private val operations: WebServiceOperations, private val
             emptyList()
         }
 
-    private fun request(fnr: String)  =
+    private fun sakerReq(fnr: String)  =
         ObjectFactory().createHentSaksInfoListeV2(HentSaksInfoListeRequestV2().apply {
             bruker = Bruker().apply {
                 brukerId = fnr
@@ -42,6 +40,8 @@ class ArenaSoapAdapter(private val operations: WebServiceOperations, private val
             isLukket = false
         })
 
+    fun opprettOppgave(fnr: String) = Unit
+    
    private fun XMLGregorianCalendar.toLocalDateTime() = toGregorianCalendar().toZonedDateTime().toLocalDateTime()
 
     companion object {
