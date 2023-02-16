@@ -133,5 +133,4 @@ class ArenaBeanConfig {
             value.subject = SubjectBean("XXXXXXX", "", null)
         }
     }
-    }
 }
