@@ -6,6 +6,8 @@ import no.nav.security.token.support.core.api.Unprotected
 import no.nav.security.token.support.spring.ProtectedRestController
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 
 @ProtectedRestController(value = ["/arena"], issuer = AAD, claimMap =[""])
 class ArenaController(private val arena: ArenaClient) {
@@ -15,4 +17,8 @@ class ArenaController(private val arena: ArenaClient) {
     @GetMapping("/haraktivsak/{fnr}")
     @Unprotected
     fun harAktivSak(@PathVariable fnr: Fødselsnummer) = arena.harAktivSak(fnr)
+
+    @PostMapping("/oprettoppgave")
+    @Unprotected
+    fun opprettOppgave( @RequestBody opgaveInfo: ArenaOpprettOppgaveParams) = arena.opprettOppgave(opgaveInfo)
 }

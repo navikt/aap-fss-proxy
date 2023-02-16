@@ -11,6 +11,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 
 @ConfigurationProperties(ARENASOAP)
 class ArenaSoapConfig(val baseUri: String,
+                      val oppgaveUri: String,
                       @NestedConfigurationProperty val credentials: ArenaCredentials,
                       @DefaultValue(SAKER) val saker: String,
                       @DefaultValue("true") val enabled: Boolean) {
