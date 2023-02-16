@@ -117,10 +117,11 @@ class ArenaBeanConfig {
         setSecurementActions(SAML_TOKEN_UNSIGNED)
         setSecurementSamlCallbackHandler { SamlCallbackHandler() }
     }
-    private class SamlCallbackHandler() : CallbackHandler   {
+    private class SamlCallbackHandler : CallbackHandler   {
         private val log = LoggerUtil.getLogger(javaClass)
 
         override fun handle(callbacks: Array<Callback>) {
+            log.info("XXXXXXXXXXX handle")
             for (value in callbacks) {
                 log.info("XXXXXXXXXXX $value")
                 if (value is SAMLCallback) {
