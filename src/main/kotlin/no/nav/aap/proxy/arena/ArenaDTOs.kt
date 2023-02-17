@@ -30,6 +30,12 @@ object ArenaDTOs {
                     oppgavetype = START_VEDTAKTYPE
                     oppgave = oppgave(params)
                 })
+
+    fun oppgaveReq1(params: ArenaOpprettOppgaveParams) =
+                WSBestillOppgaveRequest().apply {
+                    oppgavetype = START_VEDTAKTYPE
+                    oppgave = oppgave(params)
+                }
      fun sakerReq(fnr: String)  =
         ObjectFactory().createHentSaksInfoListeV2(HentSaksInfoListeRequestV2().apply {
             bruker = bruker(fnr)

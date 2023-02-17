@@ -9,6 +9,7 @@ import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENAOIDC
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.LoggerUtil
 import no.nav.aap.util.StringExtensions.asBearer
+import org.apache.wss4j.common.ConfigurationConstants.SAML_TOKEN_SIGNED
 import org.apache.wss4j.common.ConfigurationConstants.SAML_TOKEN_UNSIGNED
 import org.apache.wss4j.common.ConfigurationConstants.USERNAME_TOKEN
 import org.apache.wss4j.common.WSS4JConstants.PW_TEXT
@@ -16,6 +17,7 @@ import org.apache.wss4j.common.saml.SAMLCallback
 import org.apache.wss4j.common.saml.SAMLUtil
 import org.apache.wss4j.common.saml.bean.SubjectBean
 import org.apache.wss4j.common.saml.bean.Version.*
+import org.apache.wss4j.dom.engine.WSSConfig
 import org.opensaml.saml.saml2.core.Assertion
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.webservices.client.WebServiceTemplateBuilder
@@ -103,7 +105,18 @@ class ArenaBeanConfig {
             }
 
     @Bean
-    @Qualifier("sak")
+    @Qualifier("sts")
+    fun stsServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller) =
+        builder.messageSenders(HttpComponentsMessageSender())
+            .setDefaultUri("https://sts-q1.preprod.local/SecurityTokenServiceProvider")
+            .setMarshaller(marshaller)
+            .setUnmarshaller(marshaller).build().apply {
+                interceptors = arrayOf(stsSecurityInterceptor(cfg))
+                faultMessageResolver = FaultMessageResolver { msg -> msg as SaajSoapMessage
+                    throw IntegrationException(msg.faultReason)
+                }
+            }
+
     fun sakSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
         setSecurementActions(USERNAME_TOKEN)
         setSecurementUsername(cfg.credentials.id)
@@ -111,11 +124,17 @@ class ArenaBeanConfig {
         setSecurementPasswordType(PW_TEXT)
     }
 
-    @Bean
-    @Qualifier("oppgave")
+    fun stsSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
+        setSecurementActions(USERNAME_TOKEN)
+        setSecurementUsername(cfg.credentials.id)
+        setSecurementPassword(cfg.credentials.secret)
+        setSecurementPasswordType(PW_TEXT)
+
+    }
+
     fun oppgaveSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
-        setSecurementActions(SAML_TOKEN_UNSIGNED)
-        setValidationActions("NoSecurity")
+        setSecurementActions(SAML_TOKEN_SIGNED)
+
         setSecurementSamlCallbackHandler { SamlCallbackHandler() }
     }
     private class SamlCallbackHandler(): CallbackHandler   {
