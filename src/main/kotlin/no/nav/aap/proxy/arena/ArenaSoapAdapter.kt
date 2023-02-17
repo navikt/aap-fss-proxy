@@ -5,7 +5,7 @@ import java.net.URL
 import no.nav.aap.proxy.arena.ArenaDTOs.oppgaveReq1
 import no.nav.aap.proxy.arena.ArenaDTOs.sakerReq
 import no.nav.aap.proxy.arena.ArenaDTOs.toLocalDateTime
-import no.nav.aap.proxy.arena.STSUtil.wrapWithSts
+import no.nav.aap.proxy.arena.TheSTSUtil.wrapWithSts
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1_Service
 import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeV2Response
 import no.nav.aap.util.LoggerUtil.getLogger

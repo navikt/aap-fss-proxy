@@ -9,7 +9,7 @@ import org.apache.cxf.ws.security.tokenstore.TokenStore
 import org.apache.cxf.ws.security.tokenstore.TokenStoreFactory
 import org.apache.cxf.ws.security.trust.STSClient
 
-class NAVSTSClient(b: Bus) : STSClient(b) {
+class TheNAVSTSClient(b: Bus) : STSClient(b) {
 
     private val log = getLogger(javaClass)
 
