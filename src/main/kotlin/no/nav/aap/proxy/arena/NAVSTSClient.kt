@@ -1,19 +1,17 @@
 package no.nav.aap.proxy.arena
 
 import java.security.Principal
-import jdk.incubator.vector.VectorOperators.LOG
-import no.nav.aap.util.LoggerUtil
+import no.nav.aap.util.LoggerUtil.getLogger
 import org.apache.cxf.Bus
 import org.apache.cxf.ws.security.SecurityConstants
 import org.apache.cxf.ws.security.tokenstore.SecurityToken
 import org.apache.cxf.ws.security.tokenstore.TokenStore
 import org.apache.cxf.ws.security.tokenstore.TokenStoreFactory
 import org.apache.cxf.ws.security.trust.STSClient
-import org.slf4j.LoggerFactory
 
 class NAVSTSClient(b: Bus) : STSClient(b) {
 
-    private val log = LoggerUtil.getLogger(javaClass)
+    private val log = getLogger(javaClass)
 
     lateinit var tokenStore: TokenStore
     override fun useSecondaryParameters() = false
@@ -28,16 +26,16 @@ class NAVSTSClient(b: Bus) : STSClient(b) {
             log.debug("Missing token cache key {}, fetching it from STS", keyUtenSignatur)
             token = super.requestSecurityToken(appliesTo, action, requestType, binaryExchange)
             token.principal = principal
-            tokenStore!!.add(key, token)
+            tokenStore.add(key, token)
         }
         else if (token.isExpired) {
             log.debug("Token cache key {} is expired ({}) fetching a new one from STS",
                     keyUtenSignatur,
                     token.expires)
-            tokenStore!!.remove(key)
+            tokenStore.remove(key)
             token = super.requestSecurityToken(appliesTo, action, requestType, binaryExchange)
             token.principal = principal
-            tokenStore!!.add(key, token)
+            tokenStore.add(key, token)
         }
         else {
             log.debug("Retrived token, cache key {} from tokenStore", keyUtenSignatur)

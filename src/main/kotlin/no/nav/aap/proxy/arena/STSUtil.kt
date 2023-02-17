@@ -5,15 +5,17 @@ import org.apache.cxf.Bus
 import org.apache.cxf.binding.soap.Soap12
 import org.apache.cxf.binding.soap.SoapMessage
 import org.apache.cxf.endpoint.Client
+import org.apache.cxf.ext.logging.LoggingInInterceptor
+import org.apache.cxf.ext.logging.LoggingOutInterceptor
 import org.apache.cxf.frontend.ClientProxy
-import org.apache.cxf.interceptor.LoggingInInterceptor
-import org.apache.cxf.interceptor.LoggingOutInterceptor
-import org.apache.cxf.message.Message.*
+import org.apache.cxf.message.Message.ENDPOINT_ADDRESS
+import org.apache.cxf.rt.security.SecurityConstants.CACHE_ISSUED_TOKEN_IN_ENDPOINT
+import org.apache.cxf.rt.security.SecurityConstants.PASSWORD
+import org.apache.cxf.rt.security.SecurityConstants.USERNAME
 import org.apache.cxf.ws.addressing.WSAddressingFeature
 import org.apache.cxf.ws.policy.PolicyBuilder
 import org.apache.cxf.ws.policy.PolicyEngine
 import org.apache.cxf.ws.policy.attachment.reference.RemoteReferenceResolver
-import org.apache.cxf.ws.security.SecurityConstants.*
 import org.apache.neethi.Policy
 
 object STSUtil {
@@ -29,7 +31,7 @@ object STSUtil {
             setClientEndpointPolicy(this, RemoteReferenceResolver("", bus.getExtension(PolicyBuilder::class.java)).resolveReference("classpath:stsPolicy.xml"))
         }
     private fun createBasicSTSClient(bus: Bus, location: String, username: String, password: String) =
-         NAVSTSClient(bus).apply {
+        NAVSTSClient(bus).apply {
             wsdlLocation = "wsdl/ws-trust-1.4-service.wsdl"
             serviceQName = QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl", "SecurityTokenServiceProvider")
             endpointQName = QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl", "SecurityTokenServiceSOAP")
