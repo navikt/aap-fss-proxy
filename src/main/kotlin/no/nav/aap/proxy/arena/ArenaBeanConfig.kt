@@ -57,7 +57,7 @@ class ArenaBeanConfig {
         return ws.configureClientForSystemUser(port)
     }
     @Bean
-    fun stsClient(bus: Bus, cfg: STSWSClientConfig): STSClient {
+    fun arenaStsClient(bus: Bus, cfg: STSWSClientConfig): STSClient {
         val sts = STSClient(bus)
         sts.isEnableAppliesTo = false
         sts.isAllowRenewing = false
