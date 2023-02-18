@@ -12,9 +12,7 @@ import org.springframework.cache.annotation.EnableCaching
 @SpringBootApplication
 @ConfigurationPropertiesScan
 @EnableCaching
-@AutoConfiguration(SpringBus)
 @EnableJwtTokenValidation(ignore = ["org.springdoc", "org.springframework"])
-
 class ProxyApplication
 fun main(args: Array<String>) {
 	runApplication<ProxyApplication>(*args) {
