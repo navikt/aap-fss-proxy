@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component
 import org.springframework.ws.client.core.WebServiceOperations
 
 @Component
-class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, val oppgave: BehandleArbeidOgAktivitetOppgaveV1 , @Qualifier("sts") private val sts: WebServiceOperations, private val cfg: ArenaSoapConfig) {
+class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, val oppgave: BehandleArbeidOgAktivitetOppgaveV1, private val cfg: ArenaSoapConfig) {
 
     private val log = getLogger(javaClass)
 
