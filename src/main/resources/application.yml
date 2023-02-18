@@ -9,7 +9,7 @@ spring:
          health-indicator:
             enabled: false
   application:
-    name: "fss-proxy"
+    name: fss-proxy
   main:
     banner-mode: off
   jackson:
