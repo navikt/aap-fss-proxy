@@ -30,8 +30,3 @@ arena:
 arenasoap:
   base-uri: https://arena-q1.adeo.no/arena_ws/services/
   oppgave-uri: https://arena-q1.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
-
-securitytokenservice:
-   url: http://www.vg.no
-   username: TODO
-   password: TODO
