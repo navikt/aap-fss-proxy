@@ -21,10 +21,6 @@ management :
       show-values: always
     health:
       show-details : always
-spring:
-  mvc:
-    log-request-details : true
-
 sts:
   base-uri: https://security-token-service.dev.adeo.no
 inntektskomponent:
