@@ -5,6 +5,8 @@ import no.nav.aap.api.felles.error.IntegrationException
 import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENA
 import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENAOIDC
+import no.nav.aap.proxy.arena.ArenaSoapAdapter.STSWSClientConfig
+import no.nav.aap.proxy.arena.ArenaSoapAdapter.WsClient
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.LoggerUtil
@@ -50,7 +52,7 @@ class ArenaBeanConfig {
         return ws.configureClientForSystemUser(port)
     }
     @Bean
-    fun arenaStsClient(bus: Bus, cfg: ArenaSTSConfig): STSClient {
+    fun arenaStsClient(bus: Bus, cfg: STSWSClientConfig): STSClient {
         val sts = STSClient(bus)
         sts.isEnableAppliesTo = false
         sts.isAllowRenewing = false

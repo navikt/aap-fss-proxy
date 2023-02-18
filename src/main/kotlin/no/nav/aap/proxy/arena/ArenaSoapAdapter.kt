@@ -70,7 +70,7 @@ class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, 
             client.inInterceptors.add(loggingInInterceptor)
             client.inFaultInterceptors.add(loggingInInterceptor)
             client.outInterceptors.add(loggingOutInterceptor)
-            client.outFaultInterceptors.add(loggingInInterceptor)
+            client.outFaultInterceptors.add(loggingOutInterceptor)
             endpointStsClientConfig.configureRequestSamlToken(port)
             return port
         }
