@@ -1,24 +1,30 @@
 package no.nav.aap.proxy.arena
 
+import java.util.Map
 import javax.security.auth.callback.Callback
 import javax.security.auth.callback.CallbackHandler
 import no.nav.aap.api.felles.error.IntegrationException
 import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENA
 import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENAOIDC
+import no.nav.aap.proxy.arena.ArenaSoapAdapter.STSWSClientConfig
+import no.nav.aap.proxy.arena.ArenaSoapAdapter.WsClient
+import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.LoggerUtil
 import no.nav.aap.util.StringExtensions.asBearer
+import org.apache.cxf.Bus
+import org.apache.cxf.ext.logging.LoggingInInterceptor
+import org.apache.cxf.ext.logging.LoggingOutInterceptor
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean
+import org.apache.cxf.rt.security.SecurityConstants
+import org.apache.cxf.ws.security.trust.STSClient
 import org.apache.wss4j.common.ConfigurationConstants.SAML_TOKEN_SIGNED
-import org.apache.wss4j.common.ConfigurationConstants.SAML_TOKEN_UNSIGNED
 import org.apache.wss4j.common.ConfigurationConstants.USERNAME_TOKEN
 import org.apache.wss4j.common.WSS4JConstants.PW_TEXT
 import org.apache.wss4j.common.saml.SAMLCallback
-import org.apache.wss4j.common.saml.SAMLUtil
 import org.apache.wss4j.common.saml.bean.SubjectBean
 import org.apache.wss4j.common.saml.bean.Version.*
-import org.apache.wss4j.dom.engine.WSSConfig
-import org.opensaml.saml.saml2.core.Assertion
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.webservices.client.WebServiceTemplateBuilder
 import org.springframework.context.annotation.Bean
@@ -37,6 +43,36 @@ import org.springframework.ws.transport.http.HttpComponentsMessageSender
 class ArenaBeanConfig {
 
     private val log = LoggerUtil.getLogger(javaClass)
+
+    companion object {
+        const val STS_CLIENT_AUTHENTICATION_POLICY = "classpath:policy/untPolicy.xml"
+    }
+
+    @Bean
+    fun oppgaveClient(ws: WsClient<BehandleArbeidOgAktivitetOppgaveV1>): BehandleArbeidOgAktivitetOppgaveV1 {
+        val jaxWsProxyFactoryBean = JaxWsProxyFactoryBean()
+        jaxWsProxyFactoryBean.address ="https://arena-q1.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1"
+        jaxWsProxyFactoryBean.serviceClass = BehandleArbeidOgAktivitetOppgaveV1::class.java
+        val port: BehandleArbeidOgAktivitetOppgaveV1 = jaxWsProxyFactoryBean.create() as BehandleArbeidOgAktivitetOppgaveV1
+        return ws.configureClientForSystemUser(port)
+    }
+    @Bean
+    fun stsClient(bus: Bus, cfg: STSWSClientConfig): STSClient {
+        val sts = STSClient(bus)
+        sts.isEnableAppliesTo = false
+        sts.isAllowRenewing = false
+        sts.location = cfg.url.toString()
+        sts.properties =
+            Map.of<String, Any>(SecurityConstants.USERNAME, cfg.username, SecurityConstants.PASSWORD, cfg.password)
+        sts.setPolicy(STS_CLIENT_AUTHENTICATION_POLICY)
+        val loggingInInterceptor = LoggingInInterceptor()
+        loggingInInterceptor.setPrettyLogging(true)
+        val loggingOutInterceptor = LoggingOutInterceptor()
+        loggingOutInterceptor.setPrettyLogging(true)
+        sts.inFaultInterceptors.add(loggingInInterceptor)
+        sts.outFaultInterceptors.add(loggingOutInterceptor)
+        return sts
+    }
 
     @Bean
     @Qualifier(ARENAOIDC)
@@ -91,63 +127,10 @@ class ArenaBeanConfig {
                 }
             }
 
-    @Bean
-    @Qualifier("oppgave")
-    fun oppgaveServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller) =
-        builder.messageSenders(HttpComponentsMessageSender())
-            .setDefaultUri(cfg.oppgaveUri)
-            .setMarshaller(marshaller)
-            .setUnmarshaller(marshaller).build().apply {
-                interceptors = arrayOf(oppgaveSecurityInterceptor(cfg))
-                faultMessageResolver = FaultMessageResolver { msg -> msg as SaajSoapMessage
-                    throw IntegrationException(msg.faultReason)
-                }
-            }
-
-    @Bean
-    @Qualifier("sts")
-    fun stsServiceOperations(builder: WebServiceTemplateBuilder,cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller) =
-        builder.messageSenders(HttpComponentsMessageSender())
-            .setDefaultUri("https://sts-q1.preprod.local/SecurityTokenServiceProvider")
-            .setMarshaller(marshaller)
-            .setUnmarshaller(marshaller).build().apply {
-                interceptors = arrayOf(stsSecurityInterceptor(cfg))
-                faultMessageResolver = FaultMessageResolver { msg -> msg as SaajSoapMessage
-                    throw IntegrationException(msg.faultReason)
-                }
-            }
-
     fun sakSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
         setSecurementActions(USERNAME_TOKEN)
         setSecurementUsername(cfg.credentials.id)
         setSecurementPassword(cfg.credentials.secret)
         setSecurementPasswordType(PW_TEXT)
-    }
-
-    fun stsSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
-        setSecurementActions(USERNAME_TOKEN)
-        setSecurementUsername(cfg.credentials.id)
-        setSecurementPassword(cfg.credentials.secret)
-        setSecurementPasswordType(PW_TEXT)
-
-    }
-
-    fun oppgaveSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
-        setSecurementActions(SAML_TOKEN_SIGNED)
-
-        setSecurementSamlCallbackHandler { SamlCallbackHandler() }
-    }
-    private class SamlCallbackHandler(): CallbackHandler   {
-
-        private val log = LoggerUtil.getLogger(javaClass)
-
-        override fun handle(callbacks: Array<Callback>) {
-            log.info("XXXXXXXXXXX handle")
-            val value: SAMLCallback  = callbacks[0] as SAMLCallback
-            log.info("XXXXXXXXXXX $value")
-            log.info("YYYYYYYY $value is SAMØ")
-            value.setSamlVersion(SAML_20)
-            value.subject = SubjectBean("XXXXXXX", "", null)
-        }
     }
 }
