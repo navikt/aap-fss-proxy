@@ -1,14 +1,10 @@
 package no.nav.aap.proxy.arena
 
 import java.util.Map
-import javax.security.auth.callback.Callback
-import javax.security.auth.callback.CallbackHandler
 import no.nav.aap.api.felles.error.IntegrationException
 import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENA
 import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENAOIDC
-import no.nav.aap.proxy.arena.ArenaSoapAdapter.STSWSClientConfig
-import no.nav.aap.proxy.arena.ArenaSoapAdapter.WsClient
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.LoggerUtil
@@ -19,11 +15,8 @@ import org.apache.cxf.ext.logging.LoggingOutInterceptor
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean
 import org.apache.cxf.rt.security.SecurityConstants
 import org.apache.cxf.ws.security.trust.STSClient
-import org.apache.wss4j.common.ConfigurationConstants.SAML_TOKEN_SIGNED
 import org.apache.wss4j.common.ConfigurationConstants.USERNAME_TOKEN
 import org.apache.wss4j.common.WSS4JConstants.PW_TEXT
-import org.apache.wss4j.common.saml.SAMLCallback
-import org.apache.wss4j.common.saml.bean.SubjectBean
 import org.apache.wss4j.common.saml.bean.Version.*
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.webservices.client.WebServiceTemplateBuilder
@@ -57,7 +50,7 @@ class ArenaBeanConfig {
         return ws.configureClientForSystemUser(port)
     }
     @Bean
-    fun arenaStsClient(bus: Bus, cfg: STSWSClientConfig): STSClient {
+    fun arenaStsClient(bus: Bus, cfg: ArenaSTSConfig): STSClient {
         val sts = STSClient(bus)
         sts.isEnableAppliesTo = false
         sts.isAllowRenewing = false
