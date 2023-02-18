@@ -122,7 +122,7 @@ class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, 
     }
 
     @Configuration
-     class ArenaConfiguration(stsCfg: EndpointSTSClientConfig) : WsClient<BehandleArbeidOgAktivitetOppgaveV1>(stsCfg) {
+     class ArenaCfg(stsCfg: EndpointSTSClientConfig) : WsClient<BehandleArbeidOgAktivitetOppgaveV1>(stsCfg) {
         @Bean
          fun oppgaveClient(): BehandleArbeidOgAktivitetOppgaveV1 {
             val jaxWsProxyFactoryBean = JaxWsProxyFactoryBean()
