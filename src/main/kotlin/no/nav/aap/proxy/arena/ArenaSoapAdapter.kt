@@ -39,7 +39,7 @@ import org.springframework.stereotype.Component
 import org.springframework.ws.client.core.WebServiceOperations
 
 @Component
-class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations,/* val oppgave: BehandleArbeidOgAktivitetOppgaveV1 */ @Qualifier("sts") private val sts: WebServiceOperations, private val cfg: ArenaSoapConfig) {
+class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, val oppgave: BehandleArbeidOgAktivitetOppgaveV1 , @Qualifier("sts") private val sts: WebServiceOperations, private val cfg: ArenaSoapConfig) {
 
     private val log = getLogger(javaClass)
 
@@ -55,13 +55,13 @@ class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations,/
         } else {
             emptyList()
         }
-    fun opprettOppgave(params: ArenaOpprettOppgaveParams) = Unit // oppgave.bestillOppgave(oppgaveReq1(params))
+    fun opprettOppgave(params: ArenaOpprettOppgaveParams) = oppgave.bestillOppgave(oppgaveReq1(params))
 
     companion object {
         private const val AKTIV = "Aktiv"
         private const val KLAGEANKE = "KLAN"
     }
-/*
+
     @Component
     class WsClient<T>(val endpointStsClientConfig: EndpointSTSClientConfig) {
 
@@ -155,5 +155,5 @@ class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations,/
 
     @ConfigurationProperties(prefix = "securitytokenservice")
     data class STSWSClientConfig( val url: URI,  val username: String,  val password: String, )
-*/
+
 }
