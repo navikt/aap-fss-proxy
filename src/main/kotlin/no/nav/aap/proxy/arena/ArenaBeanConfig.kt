@@ -65,7 +65,9 @@ class ArenaBeanConfig {
         val loggingOutInterceptor = LoggingOutInterceptor()
         loggingOutInterceptor.setPrettyLogging(true)
         sts.inFaultInterceptors.add(loggingInInterceptor)
+        sts.inInterceptors.add(loggingInInterceptor)
         sts.outFaultInterceptors.add(loggingOutInterceptor)
+        sts.outInterceptors.add(loggingOutInterceptor)
         return sts
     }
 
