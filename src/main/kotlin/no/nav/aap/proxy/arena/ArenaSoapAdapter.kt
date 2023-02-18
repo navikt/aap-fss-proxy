@@ -13,7 +13,6 @@ import kotlin.collections.sortedByDescending
 import no.nav.aap.proxy.arena.ArenaDTOs.oppgaveReq1
 import no.nav.aap.proxy.arena.ArenaDTOs.sakerReq
 import no.nav.aap.proxy.arena.ArenaDTOs.toLocalDateTime
-import no.nav.aap.proxy.arena.ArenaSoapAdapter.STSWSClientConfig.Companion.STS_CLIENT_AUTHENTICATION_POLICY
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeV2Response
 import no.nav.aap.util.LoggerUtil.getLogger
@@ -26,7 +25,6 @@ import org.apache.cxf.ext.logging.LoggingInInterceptor
 import org.apache.cxf.ext.logging.LoggingOutInterceptor
 import org.apache.cxf.frontend.ClientProxy
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean
-import org.apache.cxf.rt.security.SecurityConstants
 import org.apache.cxf.rt.security.SecurityConstants.*
 import org.apache.cxf.ws.policy.PolicyBuilder
 import org.apache.cxf.ws.policy.PolicyEngine
