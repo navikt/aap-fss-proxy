@@ -11,7 +11,6 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor
 import org.apache.cxf.phase.Phase.PRE_STREAM
 
 class ArenaSoapCallIdHeaderInterceptor : AbstractPhaseInterceptor<Message>(PRE_STREAM) {
-     val logger = getLogger(javaClass)
 
     override fun handleMessage(msg: Message) =
         runCatching {
@@ -20,6 +19,7 @@ class ArenaSoapCallIdHeaderInterceptor : AbstractPhaseInterceptor<Message>(PRE_S
             logger.warn("Error while setting CallId header", it)
         }
     companion object  {
+        private val logger = getLogger(ArenaSoapCallIdHeaderInterceptor::class.java)
         private const val URI = "uri:no.nav.applikasjonsrammeverk"
     }
 }
