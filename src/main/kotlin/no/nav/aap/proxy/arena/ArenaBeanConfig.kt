@@ -54,13 +54,11 @@ class ArenaBeanConfig {
     }
 
     @Bean
-    fun oppgaveClient(ws: WsClient<BehandleArbeidOgAktivitetOppgaveV1>): BehandleArbeidOgAktivitetOppgaveV1 {
-        val port =  JaxWsProxyFactoryBean().apply {
-            address ="https://arena-q1.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1"
+    fun oppgaveClient(ws: WsClient<BehandleArbeidOgAktivitetOppgaveV1>) =
+        ws.configureClientForSystemUser(JaxWsProxyFactoryBean().apply {
+            address = "https://arena-q1.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1"
             serviceClass = BehandleArbeidOgAktivitetOppgaveV1::class.java
-        }.create() as BehandleArbeidOgAktivitetOppgaveV1
-        return ws.configureClientForSystemUser(port)
-    }
+        }.create() as BehandleArbeidOgAktivitetOppgaveV1)
     @Bean
     fun arenaStsClient(bus: Bus, cfg: STSWSClientConfig): STSClient {
         val sts = STSClient(bus)
