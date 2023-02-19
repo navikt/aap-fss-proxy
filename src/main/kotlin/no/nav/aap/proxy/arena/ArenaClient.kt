@@ -1,6 +1,9 @@
 package no.nav.aap.proxy.arena
 
 import no.nav.aap.api.felles.Fødselsnummer
+import no.nav.aap.proxy.arena.rest.ArenaRestAdapter
+import no.nav.aap.proxy.arena.soap.ArenaOpprettOppgaveParams
+import no.nav.aap.proxy.arena.soap.ArenaSoapAdapter
 import org.springframework.stereotype.Component
 
 @Component

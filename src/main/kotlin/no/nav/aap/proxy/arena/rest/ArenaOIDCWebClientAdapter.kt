@@ -1,15 +1,12 @@
-package no.nav.aap.proxy.arena
+package no.nav.aap.proxy.arena.rest
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.*
 import com.fasterxml.jackson.databind.annotation.JsonNaming
-import java.time.LocalDateTime
 import java.time.LocalDateTime.*
-import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENAOIDC
+import no.nav.aap.proxy.arena.rest.ArenaRestConfig.Companion.ARENAOIDC
 import no.nav.aap.rest.AbstractWebClientAdapter
 import no.nav.aap.util.LoggerUtil.getLogger
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.http.MediaType
 import org.springframework.http.MediaType.*
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient

@@ -1,4 +1,4 @@
-package no.nav.aap.proxy.arena
+package no.nav.aap.proxy.arena.soap
 
 import jakarta.xml.bind.JAXBElement
 import jakarta.xml.ws.BindingProvider.*
@@ -8,12 +8,12 @@ import kotlin.collections.filter
 import kotlin.collections.filterNot
 import kotlin.collections.set
 import kotlin.collections.sortedByDescending
-import no.nav.aap.proxy.arena.ArenaBeanConfig.CallIdHeaderInterceptor
-import no.nav.aap.proxy.arena.ArenaDTOs.oppgaveReq1
-import no.nav.aap.proxy.arena.ArenaDTOs.sakerReq
-import no.nav.aap.proxy.arena.ArenaDTOs.toLocalDateTime
+import no.nav.aap.proxy.arena.soap.ArenaDTOs.oppgaveReq
+import no.nav.aap.proxy.arena.soap.ArenaDTOs.sakerReq
+import no.nav.aap.proxy.arena.soap.ArenaDTOs.toLocalDateTime
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeV2Response
+import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
 import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.StringExtensions.partialMask
 import org.apache.cxf.binding.soap.Soap12
@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component
 import org.springframework.ws.client.core.WebServiceOperations
 
 @Component
-class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, val oppgave: BehandleArbeidOgAktivitetOppgaveV1, private val cfg: ArenaSoapConfig) {
+class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, val oppgave: BehandleArbeidOgAktivitetOppgaveV1, private val cfg: ArenaSoapConfig) {
 
     private val log = getLogger(javaClass)
 
@@ -46,7 +46,7 @@ class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, 
             .sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
                 log.info("Saker for ${fnr.partialMask()} er $it")
             }.isNotEmpty()
-    fun opprettOppgave(params: ArenaOpprettOppgaveParams) = oppgave.bestillOppgave(oppgaveReq1(params))
+    fun opprettOppgave(params: ArenaOpprettOppgaveParams) = oppgave.bestillOppgave(oppgaveReq(params))
 
     companion object {
         private const val AKTIV = "Aktiv"
@@ -58,7 +58,7 @@ class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, 
 
         fun configureClientForSystemUser(port: T): T {
             ClientProxy.getClient(port).apply {
-                outInterceptors.add(CallIdHeaderInterceptor())
+                outInterceptors.add(ArenaSoapCallIdHeaderInterceptor())
                 with(loggingIn)  {
                     inInterceptors.add(this)
                     inFaultInterceptors.add(this)

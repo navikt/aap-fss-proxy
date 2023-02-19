@@ -1,10 +1,8 @@
 package no.nav.aap.proxy.arena
 
 import no.nav.aap.api.felles.Fødselsnummer
-import no.nav.aap.util.Constants.AAD
-import no.nav.boot.conditionals.ConditionalOnDev
+import no.nav.aap.proxy.arena.soap.ArenaOpprettOppgaveParams
 import no.nav.security.token.support.core.api.Unprotected
-import no.nav.security.token.support.spring.ProtectedRestController
 import no.nav.security.token.support.spring.UnprotectedRestController
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

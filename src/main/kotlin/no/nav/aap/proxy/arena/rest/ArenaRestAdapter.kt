@@ -1,6 +1,6 @@
-package no.nav.aap.proxy.arena
+package no.nav.aap.proxy.arena.rest
 
-import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENA
+import no.nav.aap.proxy.arena.rest.ArenaRestConfig.Companion.ARENA
 import no.nav.aap.rest.AbstractWebClientAdapter
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component

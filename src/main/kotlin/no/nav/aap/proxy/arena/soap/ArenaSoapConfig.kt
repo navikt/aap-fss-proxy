@@ -1,10 +1,7 @@
-package no.nav.aap.proxy.arena
+package no.nav.aap.proxy.arena.soap
 
-import java.net.URI
-import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENA
-import no.nav.aap.proxy.arena.ArenaSoapConfig.Companion.ARENASOAP
-import no.nav.aap.rest.AbstractRestConfig
-import no.nav.aap.rest.AbstractRestConfig.RetryConfig.Companion.DEFAULT
+import no.nav.aap.proxy.arena.ArenaCredentials
+import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.ARENASOAP
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty
 import org.springframework.boot.context.properties.bind.DefaultValue
@@ -19,6 +16,7 @@ class ArenaSoapConfig(val baseUri: String,
     val sakerURI = "$baseUri$saker"
 
     companion object {
+        const val SAK = "sak"
         const val SAKER = "/ArenaSakVedtakService"
         const val ARENASOAP = "arenasoap"
     }

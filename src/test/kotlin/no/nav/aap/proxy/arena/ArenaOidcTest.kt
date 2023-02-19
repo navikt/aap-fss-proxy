@@ -2,7 +2,7 @@ package no.nav.aap.proxy.arena
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import java.net.URI
-import no.nav.aap.proxy.sts.StsClientTest.Companion.shortLived
+import no.nav.aap.proxy.arena.rest.ArenaRestConfig
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.json.JsonTest

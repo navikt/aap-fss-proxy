@@ -1,15 +1,13 @@
-package no.nav.aap.proxy.arena
+package no.nav.aap.proxy.arena.soap
 
-import jakarta.xml.bind.JAXBElement
 import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
 import javax.xml.datatype.DatatypeFactory
 import javax.xml.datatype.XMLGregorianCalendar
-import javax.xml.namespace.QName
 import no.nav.aap.api.felles.Fødselsnummer
-import no.nav.aap.proxy.arena.ArenaDTOs.ArenaOppgaveType.STARTVEDTAK
+import no.nav.aap.proxy.arena.soap.ArenaDTOs.ArenaOppgaveType.STARTVEDTAK
 import no.nav.aap.proxy.arena.generated.oppgave.WSBestillOppgaveRequest
 import no.nav.aap.proxy.arena.generated.oppgave.WSOppgave
 import no.nav.aap.proxy.arena.generated.oppgave.WSOppgavetype
@@ -22,16 +20,8 @@ import no.nav.aap.proxy.arena.generated.sak.ObjectFactory
 import no.nav.aap.util.Constants.AAP
 
 object ArenaDTOs {
-    fun oppgaveReq(params: ArenaOpprettOppgaveParams) =
-        JAXBElement(QName("http://nav.no/tjeneste/virksomhet/behandleArbeidOgAktivitetOppgave/v1/Binding",
-                "BehandleArbeidOgAktivitetOppgave_v1"),
-                WSBestillOppgaveRequest::class.java,
-                WSBestillOppgaveRequest().apply {
-                    oppgavetype = START_VEDTAKTYPE
-                    oppgave = oppgave(params)
-                })
 
-    fun oppgaveReq1(params: ArenaOpprettOppgaveParams) =
+    fun oppgaveReq(params: ArenaOpprettOppgaveParams) =
                 WSBestillOppgaveRequest().apply {
                     oppgavetype = START_VEDTAKTYPE
                     oppgave = oppgave(params)
@@ -45,7 +35,7 @@ object ArenaDTOs {
 
     fun XMLGregorianCalendar.toLocalDateTime() = toGregorianCalendar().toZonedDateTime().toLocalDateTime()
 
-    private fun getFormattedToday() = SimpleDateFormat("dd.MM.yyyy").format( Date());
+    private fun idag() = SimpleDateFormat("dd.MM.yyyy").format( Date());
 
 
     private fun bruker(fnr: String) = Bruker().apply {
@@ -73,14 +63,14 @@ object ArenaDTOs {
         STARTVEDTAK("Start Vedtaksbehandling - automatisk journalfør"),
         BEHENVPERSON("Behandle henvendelse - automatisk journalført")
     }
-    private fun oppgaveBeskrivelse(tittel: String, dokumenttitler: List<String>) =
+    private fun oppgaveBeskrivelse(tittel: String, dokumentTitler: List<String>) =
         """
             Hoveddokument: $tittel
             
             
-            ${vedleggBeskrivelse(dokumenttitler)}
+            ${vedleggBeskrivelse(dokumentTitler)}
             
-            Registrert dato: ${getFormattedToday()}
+            Registrert dato: ${idag()}
             
             Dokumentet er automatisk journalført. Gjennomfør rutinen "Etterkontroll av automatisk journalførte dokumenter"
         """
@@ -104,3 +94,5 @@ object ArenaDTOs {
         }
 
 }
+
+data class ArenaOpprettOppgaveParams(val fnr: Fødselsnummer, val enhet: String, val tittel: String, val titler: List<String>)

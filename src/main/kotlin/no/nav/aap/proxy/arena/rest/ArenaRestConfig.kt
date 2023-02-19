@@ -1,7 +1,8 @@
-package no.nav.aap.proxy.arena
+package no.nav.aap.proxy.arena.rest
 
 import java.net.URI
-import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENA
+import no.nav.aap.proxy.arena.ArenaCredentials
+import no.nav.aap.proxy.arena.rest.ArenaRestConfig.Companion.ARENA
 import no.nav.aap.rest.AbstractRestConfig
 import no.nav.aap.rest.AbstractRestConfig.RetryConfig.Companion.DEFAULT
 import no.nav.aap.util.StringExtensions.encode
