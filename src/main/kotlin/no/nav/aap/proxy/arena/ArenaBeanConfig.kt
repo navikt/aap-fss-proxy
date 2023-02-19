@@ -25,6 +25,7 @@ import org.apache.cxf.message.Message
 import org.apache.cxf.phase.AbstractPhaseInterceptor
 import org.apache.cxf.phase.Phase.*
 import org.apache.cxf.rt.security.SecurityConstants
+import org.apache.cxf.rt.security.SecurityConstants.*
 import org.apache.cxf.ws.security.trust.STSClient
 import org.apache.wss4j.common.ConfigurationConstants.USERNAME_TOKEN
 import org.apache.wss4j.common.WSS4JConstants.PW_TEXT
@@ -60,26 +61,27 @@ class ArenaBeanConfig {
             serviceClass = BehandleArbeidOgAktivitetOppgaveV1::class.java
         }.create() as BehandleArbeidOgAktivitetOppgaveV1)
     @Bean
-    fun arenaStsClient(bus: Bus, cfg: STSWSClientConfig): STSClient {
-        val sts = STSClient(bus)
-        sts.isEnableAppliesTo = false
-        sts.isAllowRenewing = false
-        sts.location = cfg.url.toString()
-        sts.properties =
-            Map.of<String, Any>(SecurityConstants.USERNAME, cfg.username, SecurityConstants.PASSWORD, cfg.password)
-        sts.setPolicy(STS_CLIENT_AUTHENTICATION_POLICY)
-        val loggingInInterceptor = LoggingInInterceptor()
-        loggingInInterceptor.setPrettyLogging(true)
-        val loggingOutInterceptor = LoggingOutInterceptor()
-        loggingOutInterceptor.setPrettyLogging(true)
-        sts.inFaultInterceptors.add(loggingInInterceptor)
-        sts.inInterceptors.add(loggingInInterceptor)
-        sts.outFaultInterceptors.add(loggingOutInterceptor)
-        sts.outInterceptors.add(loggingOutInterceptor)
-        sts.outInterceptors.add(CallIdHeaderInterceptor())
-
+    fun arenaStsClient(bus: Bus, cfg: STSWSClientConfig, loggingIn: LoggingInInterceptor, loggingOut : LoggingOutInterceptor): STSClient {
+        val sts = STSClient(bus).apply {
+            isEnableAppliesTo = false
+            isAllowRenewing = false
+            location = cfg.url.toString()
+            properties = Map.of<String, Any>(USERNAME, cfg.username, PASSWORD, cfg.password)
+            setPolicy(STS_CLIENT_AUTHENTICATION_POLICY)
+            inFaultInterceptors.add(loggingIn)
+            inInterceptors.add(loggingIn)
+            outFaultInterceptors.add(loggingOut)
+            outInterceptors.add(loggingOut)
+            outInterceptors.add(CallIdHeaderInterceptor())
+        }
         return sts
     }
+
+    @Bean
+    fun loggingInInterceptor() = LoggingInInterceptor().apply { setPrettyLogging(true) }
+
+    @Bean
+    fun loggingOutInterceptor() = LoggingOutInterceptor().apply { setPrettyLogging(true) }
 
     @Bean
     @Qualifier(ARENAOIDC)
