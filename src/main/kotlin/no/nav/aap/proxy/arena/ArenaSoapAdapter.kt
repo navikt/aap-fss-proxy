@@ -29,7 +29,6 @@ import org.apache.cxf.ws.policy.PolicyEngine
 import org.apache.cxf.ws.policy.attachment.reference.RemoteReferenceResolver
 import org.apache.cxf.ws.security.trust.STSClient
 import org.apache.neethi.Policy
-import org.bouncycastle.crypto.tls.ConnectionEnd.client
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
@@ -79,10 +78,11 @@ class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, 
     @Component
     class EndpointSTSClientConfig(private val stsClient: STSClient) {
         fun <T> configureRequestSamlToken(port: T): T {
-            val client = ClientProxy.getClient(port)
-            client.requestContext[STS_CLIENT] = stsClient
-            client.requestContext[CACHE_ISSUED_TOKEN_IN_ENDPOINT] = true
-            setClientEndpointPolicy(client, policy(client, STS_REQUEST_SAML_POLICY))
+            val client = ClientProxy.getClient(port).apply {
+                requestContext[STS_CLIENT] = stsClient
+                requestContext[CACHE_ISSUED_TOKEN_IN_ENDPOINT] = true
+            }
+             setClientEndpointPolicy(client, policy(client, STS_REQUEST_SAML_POLICY))
             return port
         }
         private fun policy(client: Client, uri: String) = RemoteReferenceResolver("", client.bus.getExtension(PolicyBuilder::class.java)).resolveReference(uri)
