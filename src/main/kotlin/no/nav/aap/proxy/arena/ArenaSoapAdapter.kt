@@ -4,7 +4,6 @@ import jakarta.xml.bind.JAXBElement
 import jakarta.xml.ws.BindingProvider.*
 import java.net.URI
 import java.util.*
-import kotlin.collections.emptyList
 import kotlin.collections.filter
 import kotlin.collections.filterNot
 import kotlin.collections.set
@@ -78,11 +77,11 @@ class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, 
     @Component
     class EndpointSTSClientConfig(private val stsClient: STSClient) {
         fun <T> configureRequestSamlToken(port: T): T {
-            val client = ClientProxy.getClient(port).apply {
+            ClientProxy.getClient(port).apply {
                 requestContext[STS_CLIENT] = stsClient
                 requestContext[CACHE_ISSUED_TOKEN_IN_ENDPOINT] = true
+                setClientEndpointPolicy(this, policy(this, STS_REQUEST_SAML_POLICY))
             }
-             setClientEndpointPolicy(client, policy(client, STS_REQUEST_SAML_POLICY))
             return port
         }
         private fun policy(client: Client, uri: String) = RemoteReferenceResolver("", client.bus.getExtension(PolicyBuilder::class.java)).resolveReference(uri)
