@@ -12,6 +12,7 @@ import no.nav.aap.proxy.arena.ArenaSoapAdapter.WsClient
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.LoggerUtil
+import no.nav.aap.util.MDCUtil
 import no.nav.aap.util.MDCUtil.NAV_CALL_ID
 import no.nav.aap.util.StringExtensions.asBearer
 import org.apache.cxf.Bus
@@ -151,7 +152,7 @@ class ArenaBeanConfig {
         override fun handleMessage(message: Message) {
             try {
                 val qName = QName("uri:no.nav.applikasjonsrammeverk", "callId")
-                val header = SoapHeader(qName, MDC.get(NAV_CALL_ID), JAXBDataBinding(String::class.java))
+                val header = SoapHeader(qName, MDCUtil.callId(), JAXBDataBinding(String::class.java))
                 (message as SoapMessage).headers.add(header)
             }
             catch (ex: JAXBException) {
