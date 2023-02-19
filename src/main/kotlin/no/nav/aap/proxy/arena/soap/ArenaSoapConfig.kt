@@ -1,5 +1,6 @@
 package no.nav.aap.proxy.arena.soap
 
+import java.net.URI
 import no.nav.aap.proxy.arena.ArenaCredentials
 import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.ARENASOAP
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -20,4 +21,7 @@ class ArenaSoapConfig(val baseUri: String,
         const val SAKER = "/ArenaSakVedtakService"
         const val ARENASOAP = "arenasoap"
     }
+
+    @ConfigurationProperties(prefix = "securitytokenservice")
+    data class ArenaSTSConfig(val url: URI, val username: String, val password: String)
 }

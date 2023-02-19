@@ -21,6 +21,10 @@ import no.nav.aap.util.Constants.AAP
 
 object ArenaDTOs {
 
+    private const val PERSON = "PERSON"
+    private val AAP_TEMA = WSTema().apply { value = AAP.uppercase() }
+    private val HØY_PRIORITET =  WSPrioritet().apply { value = "HOY" }
+    private val START_VEDTAKTYPE =  WSOppgavetype().apply { value = STARTVEDTAK.name }
     fun oppgaveReq(params: ArenaOpprettOppgaveParams) =
                 WSBestillOppgaveRequest().apply {
                     oppgavetype = START_VEDTAKTYPE
@@ -37,15 +41,11 @@ object ArenaDTOs {
 
     private fun idag() = SimpleDateFormat("dd.MM.yyyy").format( Date());
 
-
     private fun bruker(fnr: String) = Bruker().apply {
         brukerId = fnr
         brukertypeKode = PERSON
     }
-    private const val PERSON = "PERSON"
-    private val AAP_TEMA = WSTema().apply { value = AAP.uppercase() }
-    private val HØY_PRIORITET =  WSPrioritet().apply { value = "HOY" }
-    private val START_VEDTAKTYPE =  WSOppgavetype().apply { value = STARTVEDTAK.name }
+
     private fun person(fnr: Fødselsnummer) =  WSPerson().apply { ident = fnr.fnr }
     private fun oppgave(params: ArenaOpprettOppgaveParams) = WSOppgave().apply {
         tema = AAP_TEMA
@@ -61,7 +61,6 @@ object ArenaDTOs {
     }
     private enum class ArenaOppgaveType(val tekst: String) {
         STARTVEDTAK("Start Vedtaksbehandling - automatisk journalfør"),
-        BEHENVPERSON("Behandle henvendelse - automatisk journalført")
     }
     private fun oppgaveBeskrivelse(tittel: String, dokumentTitler: List<String>) =
         """
