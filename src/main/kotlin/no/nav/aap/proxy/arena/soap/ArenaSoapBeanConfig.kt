@@ -9,7 +9,6 @@ import org.apache.cxf.Bus
 import org.apache.cxf.binding.soap.Soap12
 import org.apache.cxf.binding.soap.SoapMessage
 import org.apache.cxf.endpoint.Client
-import org.apache.cxf.ext.logging.LoggingInInterceptor
 import org.apache.cxf.ext.logging.LoggingOutInterceptor
 import org.apache.cxf.frontend.ClientProxy
 import org.apache.cxf.interceptor.InterceptorProvider
@@ -37,7 +36,7 @@ import org.springframework.ws.transport.http.HttpComponentsMessageSender
 @Configuration
 class ArenaSoapBeanConfig {
     @Bean
-    fun oppgaveClient(ws: WsClient<BehandleArbeidOgAktivitetOppgaveV1>) =
+    fun arenaOppgaveClient(ws: WsClient<BehandleArbeidOgAktivitetOppgaveV1>) =
         ws.configureClientForSystemUserSAML(JaxWsProxyFactoryBean().apply {
             address = "https://arena-q1.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1" // TODO
             serviceClass = BehandleArbeidOgAktivitetOppgaveV1::class.java
@@ -55,21 +54,21 @@ class ArenaSoapBeanConfig {
         }
     @Bean
     fun webServiceMarshaller() = Jaxb2Marshaller().apply {
-        setContextPaths("no.nav.aap.proxy.arena.generated.sak","no.nav.aap.proxy.arena.generated.oppgave")
+        setContextPaths("no.nav.aap.proxy.arena.generated.sak")
     }
     @Bean
     @Qualifier(SAK)
-    fun sakServiceOperations(builder: WebServiceTemplateBuilder, cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller) =
+    fun arenaSakClient(builder: WebServiceTemplateBuilder, cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller) =
         builder.messageSenders(HttpComponentsMessageSender())
             .setDefaultUri(cfg.baseUri)
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
-                interceptors = arrayOf(sakSecurityInterceptor(cfg))
+                interceptors = arrayOf(arenaSakSecurityInterceptor(cfg))
                 faultMessageResolver = FaultMessageResolver {
                     throw IntegrationException((it as SaajSoapMessage).faultReason)
                 }
             }
-    fun sakSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply {
+    fun arenaSakSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply {
         setSecurementActions(USERNAME_TOKEN)
         with(cfg.credentials) {
             setSecurementUsername(id)
