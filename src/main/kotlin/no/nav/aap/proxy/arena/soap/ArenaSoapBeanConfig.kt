@@ -36,9 +36,9 @@ import org.springframework.ws.transport.http.HttpComponentsMessageSender
 @Configuration
 class ArenaSoapBeanConfig {
     @Bean
-    fun arenaOppgaveClient(ws: WsClient<BehandleArbeidOgAktivitetOppgaveV1>) =
+    fun arenaOppgaveClient(ws: WsClient<BehandleArbeidOgAktivitetOppgaveV1>, cfg: ArenaSoapConfig) =
         ws.configureClientForSystemUserSAML(JaxWsProxyFactoryBean().apply {
-            address = "https://arena-q1.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1" // TODO
+            address = cfg.oppgaveUri
             serviceClass = BehandleArbeidOgAktivitetOppgaveV1::class.java
         }.create() as BehandleArbeidOgAktivitetOppgaveV1)
 
