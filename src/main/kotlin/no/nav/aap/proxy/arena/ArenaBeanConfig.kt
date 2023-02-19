@@ -60,7 +60,6 @@ class ArenaBeanConfig {
     fun arenaStsClient(bus: Bus, cfg: STSWSClientConfig, loggingIn: LoggingInInterceptor, loggingOut: LoggingOutInterceptor) = STSClient(bus).apply {
         isEnableAppliesTo = false
         isAllowRenewing = false
-        isRequiresEntropy = true
         location = "${cfg.url}"
         properties = Map.of<String, Any>(USERNAME, cfg.username, PASSWORD, cfg.password)
         setPolicy(STS_CLIENT_AUTHENTICATION_POLICY)
