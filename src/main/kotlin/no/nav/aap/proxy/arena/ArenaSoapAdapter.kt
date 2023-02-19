@@ -29,6 +29,7 @@ import org.apache.cxf.ws.policy.PolicyEngine
 import org.apache.cxf.ws.policy.attachment.reference.RemoteReferenceResolver
 import org.apache.cxf.ws.security.trust.STSClient
 import org.apache.neethi.Policy
+import org.bouncycastle.crypto.tls.ConnectionEnd.client
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
@@ -62,12 +63,13 @@ class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, 
     class WsClient<T>(val endpointStsClientConfig: EndpointSTSClientConfig, private val loggingIn: LoggingInInterceptor, private val loggingOut: LoggingOutInterceptor) {
 
         fun configureClientForSystemUser(port: T): T {
-            val client = ClientProxy.getClient(port)
-            client.outInterceptors.add(CallIdHeaderInterceptor())
-            client.inInterceptors.add(loggingIn)
-            client.inFaultInterceptors.add(loggingIn)
-            client.outInterceptors.add(loggingOut)
-            client.outFaultInterceptors.add(loggingOut)
+            ClientProxy.getClient(port).apply {
+                outInterceptors.add(CallIdHeaderInterceptor())
+                inInterceptors.add(loggingIn)
+                inFaultInterceptors.add(loggingIn)
+                outInterceptors.add(loggingOut)
+                outFaultInterceptors.add(loggingOut)
+            }
             endpointStsClientConfig.configureRequestSamlToken(port)
             return port
         }
