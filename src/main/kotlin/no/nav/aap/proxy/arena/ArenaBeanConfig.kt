@@ -1,6 +1,8 @@
 package no.nav.aap.proxy.arena
 
+import jakarta.xml.bind.JAXBException
 import java.util.Map
+import javax.xml.namespace.QName
 import no.nav.aap.api.felles.error.IntegrationException
 import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENA
@@ -10,16 +12,28 @@ import no.nav.aap.proxy.arena.ArenaSoapAdapter.WsClient
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.LoggerUtil
+import no.nav.aap.util.MDCUtil.NAV_CALL_ID
 import no.nav.aap.util.StringExtensions.asBearer
 import org.apache.cxf.Bus
+import org.apache.cxf.binding.soap.SoapHeader
+import org.apache.cxf.binding.soap.SoapMessage
 import org.apache.cxf.ext.logging.LoggingInInterceptor
 import org.apache.cxf.ext.logging.LoggingOutInterceptor
+import org.apache.cxf.interceptor.Fault
+import org.apache.cxf.jaxb.JAXBDataBinding
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean
+import org.apache.cxf.message.Message
+import org.apache.cxf.phase.AbstractPhaseInterceptor
+import org.apache.cxf.phase.Phase
+import org.apache.cxf.phase.Phase.*
 import org.apache.cxf.rt.security.SecurityConstants
 import org.apache.cxf.ws.security.trust.STSClient
 import org.apache.wss4j.common.ConfigurationConstants.USERNAME_TOKEN
 import org.apache.wss4j.common.WSS4JConstants.PW_TEXT
 import org.apache.wss4j.common.saml.bean.Version.*
+import org.bouncycastle.crypto.tls.ConnectionEnd.client
+import org.jboss.logging.MDC
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.webservices.client.WebServiceTemplateBuilder
 import org.springframework.context.annotation.Bean
@@ -68,6 +82,8 @@ class ArenaBeanConfig {
         sts.inInterceptors.add(loggingInInterceptor)
         sts.outFaultInterceptors.add(loggingOutInterceptor)
         sts.outInterceptors.add(loggingOutInterceptor)
+        sts.outInterceptors.add(CallIdHeaderInterceptor())
+
         return sts
     }
 
@@ -129,5 +145,22 @@ class ArenaBeanConfig {
         setSecurementUsername(cfg.credentials.id)
         setSecurementPassword(cfg.credentials.secret)
         setSecurementPasswordType(PW_TEXT)
+    }
+
+    class CallIdHeaderInterceptor : AbstractPhaseInterceptor<Message>(PRE_STREAM) {
+        override fun handleMessage(message: Message) {
+            try {
+                val qName = QName("uri:no.nav.applikasjonsrammeverk", "callId")
+                val header = SoapHeader(qName, MDC.get(NAV_CALL_ID), JAXBDataBinding(String::class.java))
+                (message as SoapMessage).headers.add(header)
+            }
+            catch (ex: JAXBException) {
+                logger.warn("Error while setting CallId header", ex)
+            }
+        }
+
+        companion object {
+            private val logger = LoggerFactory.getLogger(CallIdHeaderInterceptor::class.java)
+        }
     }
 }

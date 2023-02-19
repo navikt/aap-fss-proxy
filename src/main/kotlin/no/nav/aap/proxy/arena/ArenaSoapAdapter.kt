@@ -9,6 +9,7 @@ import kotlin.collections.filter
 import kotlin.collections.filterNot
 import kotlin.collections.set
 import kotlin.collections.sortedByDescending
+import no.nav.aap.proxy.arena.ArenaBeanConfig.CallIdHeaderInterceptor
 import no.nav.aap.proxy.arena.ArenaDTOs.oppgaveReq1
 import no.nav.aap.proxy.arena.ArenaDTOs.sakerReq
 import no.nav.aap.proxy.arena.ArenaDTOs.toLocalDateTime
@@ -62,7 +63,7 @@ class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, 
 
         fun configureClientForSystemUser(port: T): T {
             val client = ClientProxy.getClient(port)
-            // client.outInterceptors.add(CallIdHeaderInterceptor())
+            client.outInterceptors.add(CallIdHeaderInterceptor())
             val loggingInInterceptor = LoggingInInterceptor()
             loggingInInterceptor.setPrettyLogging(true)
             val loggingOutInterceptor = LoggingOutInterceptor()
