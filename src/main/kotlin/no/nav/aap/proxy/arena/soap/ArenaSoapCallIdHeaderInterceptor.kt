@@ -2,6 +2,7 @@ package no.nav.aap.proxy.arena.soap
 
 import jakarta.xml.bind.JAXBException
 import javax.xml.namespace.QName
+import no.nav.aap.util.LoggerUtil
 import no.nav.aap.util.MDCUtil
 import org.apache.cxf.binding.soap.SoapHeader
 import org.apache.cxf.binding.soap.SoapMessage
@@ -12,7 +13,7 @@ import org.apache.cxf.phase.Phase
 import org.slf4j.LoggerFactory
 
 class ArenaSoapCallIdHeaderInterceptor : AbstractPhaseInterceptor<Message>(Phase.PRE_STREAM) {
-     val logger = LoggerFactory.getLogger(ArenaSoapCallIdHeaderInterceptor::class.java)
+     val logger = LoggerUtil.getLogger(javaClass)
 
     override fun handleMessage(message: Message) {
         try {

@@ -38,5 +38,4 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
         private const val AKTIV = "Aktiv"
         private const val KLAGEANKE = "KLAN"
     }
-
 }
