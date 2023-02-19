@@ -1,5 +1,6 @@
 package no.nav.aap.proxy.error
 
+import jakarta.xml.ws.soap.SOAPFaultException
 import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.MDCUtil.NAV_CALL_ID
 import no.nav.aap.util.MDCUtil.callId
@@ -37,6 +38,10 @@ class ProxyExceptionHandler: ResponseEntityExceptionHandler() {
             else -> create(INTERNAL_SERVER_ERROR,e,req)
     }
 
+    @ExceptionHandler(SOAPFaultException::class)
+    fun soapFault(e: SOAPFaultException, req: NativeWebRequest) = create(UNAUTHORIZED,e, req )
+
+
     @ExceptionHandler(Exception::class)
     fun catchAll(e: Exception, req: NativeWebRequest) = create(INTERNAL_SERVER_ERROR,e, req )
 
@@ -45,7 +50,7 @@ class ProxyExceptionHandler: ResponseEntityExceptionHandler() {
             .headers(HttpHeaders().apply { contentType = APPLICATION_PROBLEM_JSON })
             .body(createProblemDetail(e, status, e.message ?: e.javaClass.simpleName, null,null, req).apply {
                 setProperty(NAV_CALL_ID, callId())
-                setProperty("exception",e.javaClass.simpleName)
+                setProperty("exception",e.javaClass.name)
             }.also { log(e, it, req, status) })
 
     private fun log(t: Throwable, problem: ProblemDetail, req: NativeWebRequest, status: HttpStatus) =
