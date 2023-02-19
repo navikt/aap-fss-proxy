@@ -97,7 +97,7 @@ class ArenaSoapBeanConfig {
     }
 }
 @Component
-class WsClient<T>(val endpointStsClientConfig: EndpointSTSClientConfig, private val loggingIn: LoggingInInterceptor, private val loggingOut: LoggingOutInterceptor) {
+class WsClient<T>( private val sts: STSClient, private val loggingIn: LoggingInInterceptor, private val loggingOut: LoggingOutInterceptor) {
 
     fun configureClientForSystemUser(port: T): T {
         ClientProxy.getClient(port).apply {
@@ -111,32 +111,26 @@ class WsClient<T>(val endpointStsClientConfig: EndpointSTSClientConfig, private 
                 outFaultInterceptors.add(this)
             }
         }
-        return endpointStsClientConfig.configureRequestSamlToken(port)
-        //return port
+        return configureRequestSamlToken(port)
     }
-
-}
-
-@Component
-class EndpointSTSClientConfig(private val stsClient: STSClient) {
     fun <T> configureRequestSamlToken(port: T): T {
         ClientProxy.getClient(port).apply {
-            requestContext[STS_CLIENT] = stsClient
+            requestContext[STS_CLIENT] = sts
             requestContext[CACHE_ISSUED_TOKEN_IN_ENDPOINT] = true
-            setClientEndpointPolicy(this, policy(this, STS_REQUEST_SAML_POLICY))
+            setClientEndpointPolicy(this, policy(this))
         }
         return port
     }
-    private fun policy(client: Client, uri: String) = RemoteReferenceResolver("",
-            client.bus.getExtension(PolicyBuilder::class.java)).resolveReference(uri)
+    private fun policy(client: Client) = RemoteReferenceResolver("",
+            client.bus.getExtension(PolicyBuilder::class.java)).resolveReference(STS_REQUEST_SAML_POLICY)
 
     private fun setClientEndpointPolicy(client: Client, policy: Policy) {
-        val endpointInfo = client.endpoint.endpointInfo
-        val policyEngine = client.bus.getExtension(PolicyEngine::class.java)
-        val message = SoapMessage(Soap12.getInstance())
-        val endpointPolicy = policyEngine.getClientEndpointPolicy(endpointInfo, null, message)
-        policyEngine.setClientEndpointPolicy(endpointInfo, endpointPolicy.updatePolicy(policy, message))
-    }
+        with(client.bus.getExtension(PolicyEngine::class.java)) {
+            val message = SoapMessage(Soap12.getInstance())
+            val endpointInfo = client.endpoint.endpointInfo
+            setClientEndpointPolicy(endpointInfo, getClientEndpointPolicy(endpointInfo, null, message).updatePolicy(policy, message))
+        }
+}
 
     companion object {
         private const val STS_REQUEST_SAML_POLICY = "classpath:policy/requestSamlPolicy.xml"
