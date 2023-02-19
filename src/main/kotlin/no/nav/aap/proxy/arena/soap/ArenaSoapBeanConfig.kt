@@ -94,16 +94,16 @@ class WsClient<T>( private val sts: STSClient, private val env: Environment) {
         return port
     }
 
-    private fun policy(client: Client) = RemoteReferenceResolver("",
-            client.bus.getExtension(PolicyBuilder::class.java)).resolveReference(STS_REQUEST_SAML_POLICY)
-
     private fun setClientEndpointPolicy(client: Client, policy: Policy) {
         with(client.bus.getExtension(PolicyEngine::class.java)) {
             val message = SoapMessage(Soap12.getInstance())
             val endpointInfo = client.endpoint.endpointInfo
             setClientEndpointPolicy(endpointInfo, getClientEndpointPolicy(endpointInfo, null, message).updatePolicy(policy, message))
         }
-}
+    }
+
+    private fun policy(client: Client) = RemoteReferenceResolver("",
+            client.bus.getExtension(PolicyBuilder::class.java)).resolveReference(STS_REQUEST_SAML_POLICY)
 
     companion object {
         private const val STS_REQUEST_SAML_POLICY = "classpath:policy/requestSamlPolicy.xml"
