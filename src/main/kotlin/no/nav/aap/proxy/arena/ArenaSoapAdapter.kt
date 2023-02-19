@@ -39,18 +39,14 @@ class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, 
 
     private val log = getLogger(javaClass)
 
-    fun hentSaker(fnr: String) =
-        if (cfg.enabled) {
-            (sak.marshalSendAndReceive(cfg.sakerURI,sakerReq(fnr)) as JAXBElement<HentSaksInfoListeV2Response>).value
-                .saksInfoListe.saksInfo
-                .filter { it.sakstatus.equals(AKTIV,ignoreCase = true) }
-                .filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
-                .sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
-                    log.info("Saker for ${fnr.partialMask()} er $it")
-                }
-        } else {
-            emptyList()
-        }
+    fun harAktivSak(fnr: String) =
+        (sak.marshalSendAndReceive(cfg.sakerURI,sakerReq(fnr)) as JAXBElement<HentSaksInfoListeV2Response>).value
+            .saksInfoListe.saksInfo
+            .filter { it.sakstatus.equals(AKTIV,ignoreCase = true) }
+            .filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
+            .sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
+                log.info("Saker for ${fnr.partialMask()} er $it")
+            }.isNotEmpty()
     fun opprettOppgave(params: ArenaOpprettOppgaveParams) = oppgave.bestillOppgave(oppgaveReq1(params))
 
     companion object {
@@ -64,10 +60,14 @@ class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, 
         fun configureClientForSystemUser(port: T): T {
             ClientProxy.getClient(port).apply {
                 outInterceptors.add(CallIdHeaderInterceptor())
-                inInterceptors.add(loggingIn)
-                inFaultInterceptors.add(loggingIn)
-                outInterceptors.add(loggingOut)
-                outFaultInterceptors.add(loggingOut)
+                with(loggingIn)  {
+                    inInterceptors.add(this)
+                    inFaultInterceptors.add(this)
+                }
+                with(loggingOut) {
+                    outInterceptors.add(this)
+                    outFaultInterceptors.add(this)
+                }
             }
             endpointStsClientConfig.configureRequestSamlToken(port)
             return port

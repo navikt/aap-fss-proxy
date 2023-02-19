@@ -5,6 +5,7 @@ import java.util.Map
 import javax.xml.namespace.QName
 import no.nav.aap.api.felles.error.IntegrationException
 import no.nav.aap.health.AbstractPingableHealthIndicator
+import no.nav.aap.proxy.arena.ArenaBeanConfig.CallIdHeaderInterceptor.Companion.STS_CLIENT_AUTHENTICATION_POLICY
 import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENA
 import no.nav.aap.proxy.arena.ArenaRestConfig.Companion.ARENAOIDC
 import no.nav.aap.proxy.arena.ArenaSoapAdapter.STSWSClientConfig
@@ -24,7 +25,6 @@ import org.apache.cxf.jaxws.JaxWsProxyFactoryBean
 import org.apache.cxf.message.Message
 import org.apache.cxf.phase.AbstractPhaseInterceptor
 import org.apache.cxf.phase.Phase.*
-import org.apache.cxf.rt.security.SecurityConstants
 import org.apache.cxf.rt.security.SecurityConstants.*
 import org.apache.cxf.ws.security.trust.STSClient
 import org.apache.wss4j.common.ConfigurationConstants.USERNAME_TOKEN
@@ -49,32 +49,29 @@ import org.springframework.ws.transport.http.HttpComponentsMessageSender
 class ArenaBeanConfig {
 
     private val log = LoggerUtil.getLogger(javaClass)
-
-    companion object {
-        const val STS_CLIENT_AUTHENTICATION_POLICY = "classpath:policy/untPolicy.xml"
-    }
-
     @Bean
     fun oppgaveClient(ws: WsClient<BehandleArbeidOgAktivitetOppgaveV1>) =
         ws.configureClientForSystemUser(JaxWsProxyFactoryBean().apply {
             address = "https://arena-q1.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1"
             serviceClass = BehandleArbeidOgAktivitetOppgaveV1::class.java
         }.create() as BehandleArbeidOgAktivitetOppgaveV1)
+
     @Bean
-    fun arenaStsClient(bus: Bus, cfg: STSWSClientConfig, loggingIn: LoggingInInterceptor, loggingOut : LoggingOutInterceptor): STSClient {
-        val sts = STSClient(bus).apply {
-            isEnableAppliesTo = false
-            isAllowRenewing = false
-            location = cfg.url.toString()
-            properties = Map.of<String, Any>(USERNAME, cfg.username, PASSWORD, cfg.password)
-            setPolicy(STS_CLIENT_AUTHENTICATION_POLICY)
-            inFaultInterceptors.add(loggingIn)
-            inInterceptors.add(loggingIn)
-            outFaultInterceptors.add(loggingOut)
-            outInterceptors.add(loggingOut)
-            outInterceptors.add(CallIdHeaderInterceptor())
+    fun arenaStsClient(bus: Bus, cfg: STSWSClientConfig, loggingIn: LoggingInInterceptor, loggingOut: LoggingOutInterceptor) = STSClient(bus).apply {
+        isEnableAppliesTo = false
+        isAllowRenewing = false
+        location = "${cfg.url}"
+        properties = Map.of<String, Any>(USERNAME, cfg.username, PASSWORD, cfg.password)
+        setPolicy(STS_CLIENT_AUTHENTICATION_POLICY)
+        with(loggingIn) {
+            inInterceptors.add(this)
+            inFaultInterceptors.add(this)
         }
-        return sts
+        with(loggingOut) {
+            outFaultInterceptors.add(this)
+            outInterceptors.add(this)
+        }
+        outInterceptors.add(CallIdHeaderInterceptor())
     }
 
     @Bean
@@ -117,7 +114,7 @@ class ArenaBeanConfig {
         }
 
     @Bean
-    fun arenaHealthIndicator(a: StsWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {}
+    fun arenaRestHealthIndicator(a: StsWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {}
 
     @Bean
     fun webServiceMarshaller() = Jaxb2Marshaller().apply {
@@ -136,10 +133,12 @@ class ArenaBeanConfig {
                 }
             }
 
-    fun sakSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply{
+    fun sakSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply {
         setSecurementActions(USERNAME_TOKEN)
-        setSecurementUsername(cfg.credentials.id)
-        setSecurementPassword(cfg.credentials.secret)
+        with(cfg.credentials) {
+            setSecurementUsername(id)
+            setSecurementPassword(secret)
+        }
         setSecurementPasswordType(PW_TEXT)
     }
 
@@ -156,6 +155,7 @@ class ArenaBeanConfig {
         }
 
         companion object {
+            const val STS_CLIENT_AUTHENTICATION_POLICY = "classpath:policy/untPolicy.xml"
             private val logger = LoggerFactory.getLogger(CallIdHeaderInterceptor::class.java)
         }
     }
