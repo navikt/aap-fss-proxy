@@ -36,7 +36,7 @@ import org.springframework.ws.transport.http.HttpComponentsMessageSender
 class ArenaSoapBeanConfig {
     @Bean
     fun oppgaveClient(ws: WsClient<BehandleArbeidOgAktivitetOppgaveV1>) =
-        ws.configureClientForSystemUser(JaxWsProxyFactoryBean().apply {
+        ws.configureClientForSystemUserSAML(JaxWsProxyFactoryBean().apply {
             address = "https://arena-q1.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1" // TODO
             serviceClass = BehandleArbeidOgAktivitetOppgaveV1::class.java
         }.create() as BehandleArbeidOgAktivitetOppgaveV1)
@@ -99,10 +99,10 @@ class ArenaSoapBeanConfig {
 @Component
 class WsClient<T>( private val sts: STSClient, private val loggingIn: LoggingInInterceptor, private val loggingOut: LoggingOutInterceptor) {
 
-    fun configureClientForSystemUser(port: T): T {
+    fun configureClientForSystemUserSAML(port: T): T {
         ClientProxy.getClient(port).apply {
             outInterceptors.add(ArenaSoapCallIdHeaderInterceptor())
-            with(loggingIn)  {
+            with(loggingIn) {
                 inInterceptors.add(this)
                 inFaultInterceptors.add(this)
             }
@@ -110,17 +110,13 @@ class WsClient<T>( private val sts: STSClient, private val loggingIn: LoggingInI
                 outInterceptors.add(this)
                 outFaultInterceptors.add(this)
             }
-        }
-        return configureRequestSamlToken(port)
-    }
-    fun <T> configureRequestSamlToken(port: T): T {
-        ClientProxy.getClient(port).apply {
             requestContext[STS_CLIENT] = sts
             requestContext[CACHE_ISSUED_TOKEN_IN_ENDPOINT] = true
             setClientEndpointPolicy(this, policy(this))
         }
         return port
     }
+
     private fun policy(client: Client) = RemoteReferenceResolver("",
             client.bus.getExtension(PolicyBuilder::class.java)).resolveReference(STS_REQUEST_SAML_POLICY)
 
