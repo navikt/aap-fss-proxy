@@ -5,8 +5,9 @@ on:
     branches:
       - main
 env:    
+  IMAGE_BASE: ghcr.io/${{ github.repository }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}      
 jobs:
   bygg:
     runs-on: ubuntu-latest
