@@ -59,19 +59,15 @@ class ArenaSoapAdapter(@Qualifier("sak") private val sak: WebServiceOperations, 
     }
 
     @Component
-    class WsClient<T>(val endpointStsClientConfig: EndpointSTSClientConfig) {
+    class WsClient<T>(val endpointStsClientConfig: EndpointSTSClientConfig, private val loggingIn: LoggingInInterceptor, private val loggingOut: LoggingOutInterceptor) {
 
         fun configureClientForSystemUser(port: T): T {
             val client = ClientProxy.getClient(port)
             client.outInterceptors.add(CallIdHeaderInterceptor())
-            val loggingInInterceptor = LoggingInInterceptor()
-            loggingInInterceptor.setPrettyLogging(true)
-            val loggingOutInterceptor = LoggingOutInterceptor()
-            loggingOutInterceptor.setPrettyLogging(true)
-            client.inInterceptors.add(loggingInInterceptor)
-            client.inFaultInterceptors.add(loggingInInterceptor)
-            client.outInterceptors.add(loggingOutInterceptor)
-            client.outFaultInterceptors.add(loggingOutInterceptor)
+            client.inInterceptors.add(loggingIn)
+            client.inFaultInterceptors.add(loggingIn)
+            client.outInterceptors.add(loggingOut)
+            client.outFaultInterceptors.add(loggingOut)
             endpointStsClientConfig.configureRequestSamlToken(port)
             return port
         }
