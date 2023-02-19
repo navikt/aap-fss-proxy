@@ -37,7 +37,7 @@ class ArenaSoapBeanConfig {
     @Bean
     fun oppgaveClient(ws: WsClient<BehandleArbeidOgAktivitetOppgaveV1>) =
         ws.configureClientForSystemUser(JaxWsProxyFactoryBean().apply {
-            address = "https://arena-q1.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1"
+            address = "https://arena-q1.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1" // TODO
             serviceClass = BehandleArbeidOgAktivitetOppgaveV1::class.java
         }.create() as BehandleArbeidOgAktivitetOppgaveV1)
 
