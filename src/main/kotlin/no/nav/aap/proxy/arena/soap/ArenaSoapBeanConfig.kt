@@ -95,51 +95,50 @@ class ArenaSoapBeanConfig {
     companion object {
         private const val STS_CLIENT_AUTHENTICATION_POLICY = "classpath:policy/untPolicy.xml"
     }
+}
+@Component
+class WsClient<T>(val endpointStsClientConfig: EndpointSTSClientConfig, private val loggingIn: LoggingInInterceptor, private val loggingOut: LoggingOutInterceptor) {
 
-    @Component
-    class WsClient<T>(val endpointStsClientConfig: EndpointSTSClientConfig, private val loggingIn: LoggingInInterceptor, private val loggingOut: LoggingOutInterceptor) {
-
-        fun configureClientForSystemUser(port: T): T {
-            ClientProxy.getClient(port).apply {
-                outInterceptors.add(ArenaSoapCallIdHeaderInterceptor())
-                with(loggingIn)  {
-                    inInterceptors.add(this)
-                    inFaultInterceptors.add(this)
-                }
-                with(loggingOut) {
-                    outInterceptors.add(this)
-                    outFaultInterceptors.add(this)
-                }
+    fun configureClientForSystemUser(port: T): T {
+        ClientProxy.getClient(port).apply {
+            outInterceptors.add(ArenaSoapCallIdHeaderInterceptor())
+            with(loggingIn)  {
+                inInterceptors.add(this)
+                inFaultInterceptors.add(this)
             }
-            endpointStsClientConfig.configureRequestSamlToken(port)
-            return port
+            with(loggingOut) {
+                outInterceptors.add(this)
+                outFaultInterceptors.add(this)
+            }
         }
-
+        return endpointStsClientConfig.configureRequestSamlToken(port)
+        //return port
     }
 
-    @Component
-    class EndpointSTSClientConfig(private val stsClient: STSClient) {
-        fun <T> configureRequestSamlToken(port: T): T {
-            ClientProxy.getClient(port).apply {
-                requestContext[STS_CLIENT] = stsClient
-                requestContext[CACHE_ISSUED_TOKEN_IN_ENDPOINT] = true
-                setClientEndpointPolicy(this, policy(this, STS_REQUEST_SAML_POLICY))
-            }
-            return port
-        }
-        private fun policy(client: Client, uri: String) = RemoteReferenceResolver("",
-                client.bus.getExtension(PolicyBuilder::class.java)).resolveReference(uri)
+}
 
-        private fun setClientEndpointPolicy(client: Client, policy: Policy) {
-            val endpointInfo = client.endpoint.endpointInfo
-            val policyEngine = client.bus.getExtension(PolicyEngine::class.java)
-            val message = SoapMessage(Soap12.getInstance())
-            val endpointPolicy = policyEngine.getClientEndpointPolicy(endpointInfo, null, message)
-            policyEngine.setClientEndpointPolicy(endpointInfo, endpointPolicy.updatePolicy(policy, message))
+@Component
+class EndpointSTSClientConfig(private val stsClient: STSClient) {
+    fun <T> configureRequestSamlToken(port: T): T {
+        ClientProxy.getClient(port).apply {
+            requestContext[STS_CLIENT] = stsClient
+            requestContext[CACHE_ISSUED_TOKEN_IN_ENDPOINT] = true
+            setClientEndpointPolicy(this, policy(this, STS_REQUEST_SAML_POLICY))
         }
+        return port
+    }
+    private fun policy(client: Client, uri: String) = RemoteReferenceResolver("",
+            client.bus.getExtension(PolicyBuilder::class.java)).resolveReference(uri)
 
-        companion object {
-            private const val STS_REQUEST_SAML_POLICY = "classpath:policy/requestSamlPolicy.xml"
-        }
+    private fun setClientEndpointPolicy(client: Client, policy: Policy) {
+        val endpointInfo = client.endpoint.endpointInfo
+        val policyEngine = client.bus.getExtension(PolicyEngine::class.java)
+        val message = SoapMessage(Soap12.getInstance())
+        val endpointPolicy = policyEngine.getClientEndpointPolicy(endpointInfo, null, message)
+        policyEngine.setClientEndpointPolicy(endpointInfo, endpointPolicy.updatePolicy(policy, message))
+    }
+
+    companion object {
+        private const val STS_REQUEST_SAML_POLICY = "classpath:policy/requestSamlPolicy.xml"
     }
 }
