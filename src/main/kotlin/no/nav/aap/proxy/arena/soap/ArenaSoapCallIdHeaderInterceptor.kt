@@ -1,28 +1,25 @@
 package no.nav.aap.proxy.arena.soap
 
-import jakarta.xml.bind.JAXBException
 import javax.xml.namespace.QName
-import no.nav.aap.util.LoggerUtil
-import no.nav.aap.util.MDCUtil
+import no.nav.aap.util.LoggerUtil.getLogger
+import no.nav.aap.util.MDCUtil.callId
 import org.apache.cxf.binding.soap.SoapHeader
 import org.apache.cxf.binding.soap.SoapMessage
 import org.apache.cxf.jaxb.JAXBDataBinding
 import org.apache.cxf.message.Message
 import org.apache.cxf.phase.AbstractPhaseInterceptor
-import org.apache.cxf.phase.Phase
-import org.slf4j.LoggerFactory
+import org.apache.cxf.phase.Phase.PRE_STREAM
 
-class ArenaSoapCallIdHeaderInterceptor : AbstractPhaseInterceptor<Message>(Phase.PRE_STREAM) {
-     val logger = LoggerUtil.getLogger(javaClass)
+class ArenaSoapCallIdHeaderInterceptor : AbstractPhaseInterceptor<Message>(PRE_STREAM) {
+     val logger = getLogger(javaClass)
 
-    override fun handleMessage(message: Message) {
-        try {
-            val qName = QName("uri:no.nav.applikasjonsrammeverk", "callId")
-            val header = SoapHeader(qName, MDCUtil.callId(), JAXBDataBinding(String::class.java))
-            (message as SoapMessage).headers.add(header)
+    override fun handleMessage(msg: Message) =
+        runCatching {
+            (msg as SoapMessage).headers += SoapHeader(QName(URI, "callId"), callId(), JAXBDataBinding(String::class.java))
+        }.getOrElse {
+            logger.warn("Error while setting CallId header", it)
         }
-        catch (ex: JAXBException) {
-            logger.warn("Error while setting CallId header", ex)
-        }
+    companion object  {
+        private const val URI = "uri:no.nav.applikasjonsrammeverk"
     }
 }
