@@ -55,7 +55,7 @@ jobs:
       APIKEY: ${{secrets.NAIS_DEPLOY_APIKEY}}
       RESOURCE: .deploy/nais.yaml
       CLUSTER: dev-fss
-      VARS: .nais/dev-fss.json
+      VARS: .deploy/dev-fss.json
       IMAGE: ${{needs.bygg.outputs.image}}
     steps:
       -   uses: actions/checkout@v3
