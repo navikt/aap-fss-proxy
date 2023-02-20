@@ -43,7 +43,7 @@ class ArenaSoapBeanConfig(private val  cfg: ArenaSoapConfig) {
         }.create() as BehandleArbeidOgAktivitetOppgaveV1)
 
     @Bean
-    fun arenaStsClient(bus: env: Environment) =
+    fun arenaStsClient(bus: Bus, env: Environment) =
         STSClient(bus).apply {
             isEnableAppliesTo = false
             isAllowRenewing = false
