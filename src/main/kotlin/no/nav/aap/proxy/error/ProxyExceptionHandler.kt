@@ -44,7 +44,7 @@ class ProxyExceptionHandler: ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(SOAPFaultException::class)
-    fun soapFault(e: SOAPFaultException, req: NativeWebRequest) = create(UNAUTHORIZED,e, req )
+    fun soapFault(e: SOAPFaultException, req: NativeWebRequest) = create(INTERNAL_SERVER_ERROR,e, req )
 
     @ExceptionHandler(Exception::class)
     fun catchAll(e: Exception, req: NativeWebRequest) = create(INTERNAL_SERVER_ERROR,e, req )
