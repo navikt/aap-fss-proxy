@@ -10,8 +10,10 @@ import no.nav.aap.proxy.arena.soap.ArenaDTOs.oppgaveReq
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.sakerReq
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.toLocalDateTime
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
+import no.nav.aap.proxy.arena.generated.oppgave.BestillOppgaveSakIkkeOpprettet
 import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeV2Response
 import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
+import no.nav.aap.proxy.arena.soap.OpprettetOppgave.Companion.TIL_MANUELL
 import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.StringExtensions.partialMask
 import org.apache.cxf.rt.security.SecurityConstants.*
@@ -37,7 +39,7 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
             oppgave.bestillOppgave(oppgaveReq(params)).let {
                 OpprettetOppgave(it.oppgaveId,it.arenaSakId)
             }
-        }.getOrThrow()
+        }.getOrElse { if (it is BestillOppgaveSakIkkeOpprettet) TIL_MANUELL else throw it }
 
     companion object {
         private const val AKTIV = "Aktiv"
