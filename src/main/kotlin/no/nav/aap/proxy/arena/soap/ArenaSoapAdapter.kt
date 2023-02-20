@@ -32,9 +32,11 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
             .sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
                 log.info("Saker for ${fnr.partialMask()} er $it")
             }.isNotEmpty()
-    fun opprettOppgave(params: ArenaOpprettOppgaveParams)  {
-        oppgave.bestillOppgave(oppgaveReq(params))
-    }
+    fun opprettOppgave(params: ArenaOpprettOppgaveParams)  =
+        oppgave.bestillOppgave(oppgaveReq(params)).let {
+            OpprettetOppgave(it.oppgaveId,it.arenaSakId)
+        }
+
 
     companion object {
         private const val AKTIV = "Aktiv"

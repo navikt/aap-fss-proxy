@@ -95,3 +95,4 @@ object ArenaDTOs {
 }
 
 data class ArenaOpprettOppgaveParams(val fnr: Fødselsnummer, val enhet: String, val tittel: String, val titler: List<String> = emptyList())
+data class OpprettetOppgave(val oppgaveId: String, val arenaSakId: String)
