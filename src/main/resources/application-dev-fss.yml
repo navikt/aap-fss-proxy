@@ -33,5 +33,5 @@ arenasoap:
 
 securitytokenservice:
    url: https://sts-q1.preprod.local/SecurityTokenServiceProvider/
-   username: ${arenasoap.id}
-   password: ${arenasoap.secret}
+   username: ${serviceuser.username}
+   password: ${serviceuser.password}
