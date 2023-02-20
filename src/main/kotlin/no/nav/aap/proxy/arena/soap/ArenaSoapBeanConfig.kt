@@ -34,16 +34,16 @@ import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor
 import org.springframework.ws.transport.http.HttpComponentsMessageSender
 
 @Configuration
-class ArenaSoapBeanConfig {
+class ArenaSoapBeanConfig(private val  cfg: ArenaSoapConfig) {
     @Bean
-    fun arenaOppgaveClient(ws: WsClient<BehandleArbeidOgAktivitetOppgaveV1>, cfg: ArenaSoapConfig) =
+    fun arenaOppgaveClient(ws: WsClient<BehandleArbeidOgAktivitetOppgaveV1>) =
         ws.configureClientForSystemUserSAML(JaxWsProxyFactoryBean().apply {
             address = cfg.oppgaveUri
             serviceClass = BehandleArbeidOgAktivitetOppgaveV1::class.java
         }.create() as BehandleArbeidOgAktivitetOppgaveV1)
 
     @Bean
-    fun arenaStsClient(bus: Bus, cfg: ArenaSoapConfig, env: Environment) =
+    fun arenaStsClient(bus: env: Environment) =
         STSClient(bus).apply {
             isEnableAppliesTo = false
             isAllowRenewing = false
@@ -58,17 +58,17 @@ class ArenaSoapBeanConfig {
     }
     @Bean
     @Qualifier(SAK)
-    fun arenaSakClient(builder: WebServiceTemplateBuilder, cfg: ArenaSoapConfig, marshaller: Jaxb2Marshaller) =
+    fun arenaSakClient(builder: WebServiceTemplateBuilder, marshaller: Jaxb2Marshaller) =
         builder.messageSenders(HttpComponentsMessageSender())
             .setDefaultUri(cfg.baseUri)
             .setMarshaller(marshaller)
             .setUnmarshaller(marshaller).build().apply {
-                interceptors = arrayOf(arenaSakSecurityInterceptor(cfg))
+                interceptors = arrayOf(arenaSakSecurityInterceptor())
                 faultMessageResolver = FaultMessageResolver {
                     throw IntegrationException((it as SaajSoapMessage).faultReason)
                 }
             }
-    fun arenaSakSecurityInterceptor(cfg: ArenaSoapConfig) = Wss4jSecurityInterceptor().apply {
+    fun arenaSakSecurityInterceptor() = Wss4jSecurityInterceptor().apply {
         setSecurementActions(USERNAME_TOKEN)
         with(cfg.credentials) {
             setSecurementUsername(id)
