@@ -37,7 +37,7 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
             oppgave.bestillOppgave(oppgaveReq(params)).let {
                 OpprettetOppgave(it.oppgaveId,it.arenaSakId)
             }
-        }.getOrElse { log.warn("OOPS",it) }
+        }.getOrElse { log.warn("OOPS ${it.javaClass.name}",it) }
 
     companion object {
         private const val AKTIV = "Aktiv"
