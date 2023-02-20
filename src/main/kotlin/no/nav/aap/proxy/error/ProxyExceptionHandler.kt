@@ -64,7 +64,6 @@ class ProxyExceptionHandler: ResponseEntityExceptionHandler() {
             .headers(HttpHeaders().apply { contentType = APPLICATION_PROBLEM_JSON })
             .body(createProblemDetail(e, status, e.message ?: e.javaClass.simpleName, null,null, req).apply {
                 setProperty(NAV_CALL_ID, callId())
-                setProperty("exception",e.javaClass.name)
             }.also { log(e, it, req, status) })
 
     private fun log(t: Throwable, problem: ProblemDetail, req: NativeWebRequest, status: HttpStatus) =
