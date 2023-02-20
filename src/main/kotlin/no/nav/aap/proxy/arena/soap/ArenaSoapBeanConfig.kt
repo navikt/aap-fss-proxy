@@ -43,12 +43,12 @@ class ArenaSoapBeanConfig {
         }.create() as BehandleArbeidOgAktivitetOppgaveV1)
 
     @Bean
-    fun arenaStsClient(bus: Bus, cfg: ArenaSTSConfig, env: Environment) =
+    fun arenaStsClient(bus: Bus, cfg: ArenaSoapConfig, env: Environment) =
         STSClient(bus).apply {
             isEnableAppliesTo = false
             isAllowRenewing = false
-            location = "${cfg.url}"
-            properties = mapOf(USERNAME to cfg.username, PASSWORD to cfg.password)
+            location = "${cfg.sts.url}"
+            properties = mapOf(USERNAME to cfg.sts.username, PASSWORD to cfg.sts.password)
             setPolicy(STS_CLIENT_AUTHENTICATION_POLICY)
             addLoggingInterceptors(env)
         }

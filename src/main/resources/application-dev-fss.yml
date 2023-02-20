@@ -30,8 +30,7 @@ arena:
 arenasoap:
   base-uri: https://arena-q1.adeo.no/arena_ws/services/
   oppgave-uri: https://arena-q1.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
-
-securitytokenservice:
-   url: https://sts-q1.preprod.local/SecurityTokenServiceProvider/
-   username: ${serviceuser.username}
-   password: ${serviceuser.password}
+  sts:
+      url: https://sts-q1.preprod.local/SecurityTokenServiceProvider/
+      username: ${serviceuser.username}
+      password: ${serviceuser.password}

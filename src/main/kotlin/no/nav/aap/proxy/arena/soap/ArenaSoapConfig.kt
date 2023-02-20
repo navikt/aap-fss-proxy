@@ -10,6 +10,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 @ConfigurationProperties(ARENASOAP)
 class ArenaSoapConfig(val baseUri: String,
                       val oppgaveUri: String,
+                      @NestedConfigurationProperty val sts: ArenaSTSConfig,
                       @NestedConfigurationProperty val credentials: ArenaCredentials,
                       @DefaultValue(SAKER) val saker: String,
                       @DefaultValue("true") val enabled: Boolean) {
@@ -22,6 +23,5 @@ class ArenaSoapConfig(val baseUri: String,
         const val ARENASOAP = "arenasoap"
     }
 
-    @ConfigurationProperties(prefix = "securitytokenservice")
     data class ArenaSTSConfig(val url: URI, val username: String, val password: String)
 }
