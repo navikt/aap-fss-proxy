@@ -33,10 +33,11 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
                 log.info("Saker for ${fnr.partialMask()} er $it")
             }.isNotEmpty()
     fun opprettOppgave(params: ArenaOpprettOppgaveParams)  =
-        oppgave.bestillOppgave(oppgaveReq(params)).let {
-            OpprettetOppgave(it.oppgaveId,it.arenaSakId)
-        }
-
+        runCatching {
+            oppgave.bestillOppgave(oppgaveReq(params)).let {
+                OpprettetOppgave(it.oppgaveId,it.arenaSakId)
+            }
+        }.getOrElse { log.warn("OOPS",it) }
 
     companion object {
         private const val AKTIV = "Aktiv"
