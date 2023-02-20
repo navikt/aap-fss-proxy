@@ -1,6 +1,10 @@
 package no.nav.aap.proxy.error
 
 import jakarta.xml.ws.soap.SOAPFaultException
+import no.nav.aap.proxy.arena.generated.oppgave.BestillOppgavePersonErInaktiv
+import no.nav.aap.proxy.arena.generated.oppgave.BestillOppgavePersonIkkeFunnet
+import no.nav.aap.proxy.arena.generated.oppgave.BestillOppgaveSikkerhetsbegrensning
+import no.nav.aap.proxy.arena.generated.oppgave.BestillOppgaveUgyldigInput
 import no.nav.aap.proxy.arena.generated.oppgave.WSForretningsmessigUnntak
 import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.MDCUtil.NAV_CALL_ID
@@ -44,6 +48,16 @@ class ProxyExceptionHandler: ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(Exception::class)
     fun catchAll(e: Exception, req: NativeWebRequest) = create(INTERNAL_SERVER_ERROR,e, req )
+
+    @ExceptionHandler(BestillOppgavePersonIkkeFunnet::class, BestillOppgavePersonIkkeFunnet::class)
+    fun ikkeFunnet(e: Exception, req: NativeWebRequest) = create(NOT_FOUND,e, req )
+
+    @ExceptionHandler(BestillOppgaveSikkerhetsbegrensning::class)
+    fun sikkerhet(e: BestillOppgaveSikkerhetsbegrensning, req: NativeWebRequest) = create(UNAUTHORIZED,e, req )
+
+    @ExceptionHandler(BestillOppgaveUgyldigInput::class)
+    fun ugyldigInput(e: BestillOppgaveUgyldigInput, req: NativeWebRequest) = create(BAD_REQUEST,e, req )
+
 
     private fun create(status: HttpStatus,e: Exception, req: NativeWebRequest) =
         ResponseEntity.status(status)
