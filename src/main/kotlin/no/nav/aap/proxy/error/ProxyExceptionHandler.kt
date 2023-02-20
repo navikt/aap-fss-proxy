@@ -1,6 +1,7 @@
 package no.nav.aap.proxy.error
 
 import jakarta.xml.ws.soap.SOAPFaultException
+import no.nav.aap.proxy.arena.generated.oppgave.WSForretningsmessigUnntak
 import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.MDCUtil.NAV_CALL_ID
 import no.nav.aap.util.MDCUtil.callId
@@ -40,7 +41,6 @@ class ProxyExceptionHandler: ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(SOAPFaultException::class)
     fun soapFault(e: SOAPFaultException, req: NativeWebRequest) = create(UNAUTHORIZED,e, req )
-
 
     @ExceptionHandler(Exception::class)
     fun catchAll(e: Exception, req: NativeWebRequest) = create(INTERNAL_SERVER_ERROR,e, req )

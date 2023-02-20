@@ -9,6 +9,7 @@ import org.apache.cxf.Bus
 import org.apache.cxf.binding.soap.Soap12
 import org.apache.cxf.binding.soap.SoapMessage
 import org.apache.cxf.endpoint.Client
+import org.apache.cxf.ext.logging.LoggingInInterceptor
 import org.apache.cxf.ext.logging.LoggingOutInterceptor
 import org.apache.cxf.frontend.ClientProxy
 import org.apache.cxf.interceptor.InterceptorProvider
@@ -112,7 +113,7 @@ class WsClient<T>( private val sts: STSClient, private val env: Environment) {
 private fun InterceptorProvider.addLoggingInterceptors(env: Environment)  {
     outInterceptors.add(ArenaSoapCallIdHeaderInterceptor())
     if (isDevOrLocal(env)) {
-        val inI = LoggingOutInterceptor().apply { setPrettyLogging(true) }
+        val inI = LoggingInInterceptor().apply { setPrettyLogging(true) }
         val outI = LoggingOutInterceptor().apply { setPrettyLogging(true) }
         with(this) {
             inInterceptors.add(inI)
