@@ -21,6 +21,10 @@ class ArenaController(private val arena: ArenaClient) {
     @Unprotected
     fun harAktivSak(@PathVariable fnr: Fødselsnummer) = arena.harAktivSak(fnr)
 
+    @GetMapping("/nyesteaktivesak/{fnr}")
+    @Unprotected
+    fun nyesteaktivesak(@PathVariable fnr: Fødselsnummer) = arena.nyesteSak(fnr)
+
     @PostMapping("/opprettoppgave")
     @Unprotected
     @ResponseStatus(CREATED)

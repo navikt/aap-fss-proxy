@@ -15,6 +15,7 @@ import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
 import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.StringExtensions.partialMask
 import org.apache.cxf.rt.security.SecurityConstants.*
+import org.bouncycastle.asn1.ua.DSTU4145NamedCurves.params
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 import org.springframework.ws.client.core.WebServiceOperations
@@ -24,14 +25,19 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
 
     private val log = getLogger(javaClass)
 
-    fun harAktivSak(fnr: String) =
-        (sak.marshalSendAndReceive(cfg.sakerURI,sakerReq(fnr)) as JAXBElement<HentSaksInfoListeV2Response>).value
+    fun harAktivSak(fnr: String) = aktiveSaker(fnr).isNotEmpty()
+
+    fun nyesteAktiveSak(fnr: String) = aktiveSaker(fnr).first()
+
+    private fun aktiveSaker(fnr: String) =
+        (sak.marshalSendAndReceive(cfg.sakerURI, sakerReq(fnr)) as JAXBElement<HentSaksInfoListeV2Response>).value
             .saksInfoListe.saksInfo
-            .filter { it.sakstatus.equals(AKTIV,ignoreCase = true) }
+            .filter { it.sakstatus.equals(AKTIV, ignoreCase = true) }
             .filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
             .sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
                 log.info("Saker for ${fnr.partialMask()} er $it")
-            }.isNotEmpty()
+            }
+
     fun opprettOppgave(params: ArenaOpprettOppgaveParams)  =
         runCatching {
             oppgave.bestillOppgave(oppgaveReq(params)).let {

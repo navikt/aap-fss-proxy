@@ -10,5 +10,6 @@ import org.springframework.stereotype.Component
 class ArenaClient(private val rest: ArenaRestAdapter, val soap: ArenaSoapAdapter) {
     fun sisteVedtak(fnr: Fødselsnummer) = rest.sisteVedtak(fnr.fnr)
     fun harAktivSak(fnr: Fødselsnummer) = soap.harAktivSak(fnr.fnr)
+    fun nyesteSak(fnr: Fødselsnummer) = soap.nyesteAktiveSak(fnr.fnr)
     fun opprettOppgave(params: ArenaOpprettOppgaveParams) = soap.opprettOppgave(params)
 }
