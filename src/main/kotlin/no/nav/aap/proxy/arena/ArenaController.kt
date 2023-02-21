@@ -25,7 +25,7 @@ class ArenaController(private val arena: ArenaClient) {
 
     @GetMapping("/nyesteaktivesak/{fnr}")
     @Unprotected
-    fun nyesteaktivesak(@PathVariable fnr: Fødselsnummer) = arena.nyesteSak(fnr)?.let { ok(it) } ?: notFound().build()
+    fun nyesteaktivesak(@PathVariable fnr: Fødselsnummer) = arena.nyesteSak(fnr)?.let { ok(it) } ?: noContent().build()
 
     @PostMapping("/opprettoppgave")
     @Unprotected
