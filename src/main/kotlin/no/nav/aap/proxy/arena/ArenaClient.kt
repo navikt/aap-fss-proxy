@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 class ArenaClient(private val rest: ArenaRestAdapter, val soap: ArenaSoapAdapter) {
     fun sisteVedtak(fnr: Fødselsnummer) = rest.sisteVedtak(fnr.fnr)
     fun harAktivSak(fnr: Fødselsnummer) = soap.harAktivSak(fnr.fnr)
-    fun nyesteSak(fnr: Fødselsnummer) = soap.nyesteAktiveSak(fnr.fnr)?.let { ok(it) } ?: notFound().build()
+    fun nyesteSak(fnr: Fødselsnummer) = soap.nyesteAktiveSak(fnr.fnr)
     @ResponseStatus(CREATED)
     fun opprettOppgave(params: ArenaOpprettOppgaveParams) = soap.opprettOppgave(params)
 }
