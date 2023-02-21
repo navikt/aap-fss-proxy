@@ -1,11 +1,9 @@
 package no.nav.aap.proxy.error
 
 import jakarta.xml.ws.soap.SOAPFaultException
-import no.nav.aap.proxy.arena.generated.oppgave.BestillOppgavePersonErInaktiv
 import no.nav.aap.proxy.arena.generated.oppgave.BestillOppgavePersonIkkeFunnet
 import no.nav.aap.proxy.arena.generated.oppgave.BestillOppgaveSikkerhetsbegrensning
 import no.nav.aap.proxy.arena.generated.oppgave.BestillOppgaveUgyldigInput
-import no.nav.aap.proxy.arena.generated.oppgave.WSForretningsmessigUnntak
 import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.MDCUtil.NAV_CALL_ID
 import no.nav.aap.util.MDCUtil.callId
@@ -14,7 +12,6 @@ import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnaut
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.*
-import org.springframework.http.MediaType
 import org.springframework.http.MediaType.*
 import org.springframework.http.ProblemDetail
 import org.springframework.http.ResponseEntity

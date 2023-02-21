@@ -7,7 +7,6 @@ import java.util.*
 import javax.xml.datatype.DatatypeFactory
 import javax.xml.datatype.XMLGregorianCalendar
 import no.nav.aap.api.felles.Fødselsnummer
-import no.nav.aap.proxy.arena.soap.ArenaDTOs.ArenaOppgaveType.STARTVEDTAK
 import no.nav.aap.proxy.arena.generated.oppgave.WSBestillOppgaveRequest
 import no.nav.aap.proxy.arena.generated.oppgave.WSOppgave
 import no.nav.aap.proxy.arena.generated.oppgave.WSOppgavetype
@@ -17,6 +16,7 @@ import no.nav.aap.proxy.arena.generated.oppgave.WSTema
 import no.nav.aap.proxy.arena.generated.sak.Bruker
 import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeRequestV2
 import no.nav.aap.proxy.arena.generated.sak.ObjectFactory
+import no.nav.aap.proxy.arena.soap.ArenaDTOs.ArenaOppgaveType.STARTVEDTAK
 import no.nav.aap.util.Constants.AAP
 
 object ArenaDTOs {

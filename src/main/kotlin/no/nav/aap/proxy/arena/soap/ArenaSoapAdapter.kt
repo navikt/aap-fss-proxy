@@ -3,15 +3,11 @@ package no.nav.aap.proxy.arena.soap
 import jakarta.xml.bind.JAXBElement
 import jakarta.xml.ws.BindingProvider.*
 import java.util.*
-import kotlin.collections.filter
-import kotlin.collections.filterNot
-import kotlin.collections.sortedByDescending
+import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
+import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeV2Response
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.oppgaveReq
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.sakerReq
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.toLocalDateTime
-import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
-import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeV2Response
-import no.nav.aap.proxy.arena.generated.sak.SaksInfo
 import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
 import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.StringExtensions.partialMask

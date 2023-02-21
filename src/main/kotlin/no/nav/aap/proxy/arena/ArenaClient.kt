@@ -4,9 +4,7 @@ import no.nav.aap.api.felles.Fødselsnummer
 import no.nav.aap.proxy.arena.rest.ArenaRestAdapter
 import no.nav.aap.proxy.arena.soap.ArenaOpprettOppgaveParams
 import no.nav.aap.proxy.arena.soap.ArenaSoapAdapter
-import org.apache.coyote.Response
 import org.springframework.http.HttpStatus.CREATED
-import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.*
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.ResponseStatus

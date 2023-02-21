@@ -2,7 +2,6 @@ package no.nav.aap.proxy.arena.soap
 
 import no.nav.aap.api.felles.error.IntegrationException
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
-import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.ArenaSTSConfig
 import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
 import no.nav.boot.conditionals.EnvUtil.isDevOrLocal
 import org.apache.cxf.Bus
