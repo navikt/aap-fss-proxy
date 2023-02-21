@@ -28,8 +28,9 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
     fun harAktivSak(fnr: String) = aktiveSaker(fnr).isNotEmpty()
 
     fun nyesteAktiveSak(fnr: String) = aktiveSaker(fnr).firstOrNull()?.let {
+        log.info("Nyeste aktive sak er ${it.saksId}")
         it.saksId
-    }
+    } ?: log.info("Inger aktive saker")
 
     private fun aktiveSaker(fnr: String) =
         (sak.marshalSendAndReceive(cfg.sakerURI, sakerReq(fnr)) as JAXBElement<HentSaksInfoListeV2Response>).value
