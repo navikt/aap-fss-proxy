@@ -15,7 +15,6 @@ import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
 import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.StringExtensions.partialMask
 import org.apache.cxf.rt.security.SecurityConstants.*
-import org.bouncycastle.asn1.ua.DSTU4145NamedCurves.params
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 import org.springframework.ws.client.core.WebServiceOperations
