@@ -11,6 +11,7 @@ import no.nav.aap.proxy.arena.soap.ArenaDTOs.sakerReq
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.toLocalDateTime
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeV2Response
+import no.nav.aap.proxy.arena.generated.sak.SaksInfo
 import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
 import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.StringExtensions.partialMask
@@ -36,7 +37,7 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
             .filter { it.sakstatus.equals(AKTIV, ignoreCase = true) }
             .filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
             .sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
-                log.info("Saker for ${fnr.partialMask()} er $it")
+                log.info("Saker for ${fnr.partialMask()} er ${it.map { SaksInfo::getSaksId }}")
             }
 
     fun opprettOppgave(params: ArenaOpprettOppgaveParams)  =
