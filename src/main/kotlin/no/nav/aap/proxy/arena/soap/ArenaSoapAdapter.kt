@@ -25,19 +25,17 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
 
     private val log = getLogger(javaClass)
 
-    fun harAktivSak(fnr: String) = aktiveSaker(fnr).isNotEmpty()
+    fun harAktivSak(fnr: String) = nyesteAktiveSak(fnr) != null
 
-    fun nyesteAktiveSak(fnr: String) = aktiveSaker(fnr).firstOrNull()?.let {
-        it.saksId
-    }
-
-    private fun aktiveSaker(fnr: String) =
+    fun nyesteAktiveSak(fnr: String) =
         (sak.marshalSendAndReceive(cfg.sakerURI, sakerReq(fnr)) as JAXBElement<HentSaksInfoListeV2Response>).value
             .saksInfoListe.saksInfo
             .filter { it.sakstatus.equals(AKTIV, ignoreCase = true) }
             .filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
-            .sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
-                log.info("Saker for ${fnr.partialMask()} er ${it.map { s -> s.saksId }}")
+            .sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also<List<SaksInfo>> {
+                log.info("Saker for ${fnr.partialMask()} er ${it.map<SaksInfo?, String?> { s -> s.saksId }}")
+            }.firstOrNull()?.let {
+                it.saksId
             }
 
     fun opprettOppgave(params: ArenaOpprettOppgaveParams)  =
