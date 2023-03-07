@@ -70,7 +70,7 @@ class ArenaSoapBeanConfig(private val  cfg: ArenaSoapConfig) {
             }
     fun arenaSakSecurityInterceptor() = Wss4jSecurityInterceptor().apply {
         setSecurementActions(USERNAME_TOKEN)
-        with(cfg.credentials) {
+        with(cfg.credentials!!) {
             setSecurementUsername(id)
             setSecurementPassword(secret)
         }
