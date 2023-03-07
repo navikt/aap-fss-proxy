@@ -2,3 +2,8 @@ sts:
   url: https://security-token-service.adeo.no
 inntektskomponent:
   base-uri: https://app.adeo.no/inntektskomponenten-ws/rs
+arena:
+  base-uri: https://arena-ords.nais.adeo.no/arena/api
+arenasoap:
+  base-uri: https://arena.adeo.no/arena_ws/services
+  oppgave-uri: https://arena.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
