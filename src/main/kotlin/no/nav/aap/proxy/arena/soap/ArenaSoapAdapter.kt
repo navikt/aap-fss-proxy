@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component
 import org.springframework.ws.client.core.WebServiceOperations
 
 @Component
-class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, val oppgave: BehandleArbeidOgAktivitetOppgaveV1, private val cfg: ArenaSoapConfig) {
+class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, val arenaOppgave: BehandleArbeidOgAktivitetOppgaveV1, private val cfg: ArenaSoapConfig) {
 
     private val log = getLogger(javaClass)
 
@@ -34,7 +34,7 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
 
     fun opprettOppgave(params: ArenaOpprettOppgaveParams)  =
         runCatching {
-            oppgave.bestillOppgave(oppgaveReq(params)).let {
+            arenaOppgave.bestillOppgave(oppgaveReq(params)).let {
                 OpprettetOppgave(it.oppgaveId,it.arenaSakId)
             }
         }.getOrElse {
