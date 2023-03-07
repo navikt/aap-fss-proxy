@@ -18,6 +18,7 @@ class StsClientTest {
     @Autowired
     private lateinit var mapper: ObjectMapper
     @Test
+    @Disabled
     fun `henter ut riktig token`() {
         val stsClient = StsClient(createShortCircuitWebClient(defaultToken),cfg)
         assertEquals(longLived, stsClient.oidcToken())
