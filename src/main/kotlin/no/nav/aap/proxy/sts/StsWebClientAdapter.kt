@@ -3,17 +3,22 @@ package no.nav.aap.proxy.sts
 import no.nav.aap.rest.AbstractWebClientAdapter
 import no.nav.aap.util.Constants.STS
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 
 @Component
-class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: StsConfig) :
+class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: StsConfig, private val env: Environment) :
     AbstractWebClientAdapter(webClient, cf) {
 
-    var token  = getTheToken()
+        lateinit var token: OidcToken  //= getTheToken()
+
 
     fun oidcToken(): String {
+        if (token == null) {
+            token = getTheToken()
+        }
         if (token.hasExpired()) {
             log.trace("Fornyer token")
             token = getTheToken()
