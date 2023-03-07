@@ -11,6 +11,8 @@ metadata:
   labels:
     team: aap
 spec:
+  securelogs:
+    enabled: true
   accessPolicy:
     inbound:
       rules:
