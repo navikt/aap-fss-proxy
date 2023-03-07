@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 
 @Component
-class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: StsConfig, private val env: Environment) :
+class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: StsConfig) :
     AbstractWebClientAdapter(webClient, cf) {
 
         lateinit var token: OidcToken  //= getTheToken()
