@@ -7,7 +7,7 @@ arena:
 arenasoap:
   base-uri: https://arena.adeo.no/arena_ws/services
   oppgave-uri: https://arena.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
-sts:
-  url: https://sts.adeo.no/SecurityTokenServiceProvider
-  username: ${serviceuser.username}
-  password: ${serviceuser.password}
+  sts:
+    url: https://sts.adeo.no/SecurityTokenServiceProvider
+    username: ${serviceuser.username}
+    password: ${serviceuser.password}
