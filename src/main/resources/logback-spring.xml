@@ -32,6 +32,7 @@
             <Marker>CONFIDENTIAL</Marker>
             <OnMatch>DENY</OnMatch>
         </turboFilter>
+        <!--
         <appender name="secureJson" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>/secure-logs/secure.log</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
@@ -47,5 +48,6 @@
         <logger name="secure" level="debug" additivity="false">
             <appender-ref ref="secureJson"/>
         </logger>
+        -->
     </springProfile>
 </configuration>
