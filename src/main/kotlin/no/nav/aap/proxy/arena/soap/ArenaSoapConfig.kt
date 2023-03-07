@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty
 import org.springframework.boot.context.properties.bind.DefaultValue
 
-@ConfigurationProperties(ARENASOAP)
+@ConfigurationProperties(ARENASOAP, ignoreUnknownFields = true)  // TODO FOR NOW
 class ArenaSoapConfig(val baseUri: String,
                       val oppgaveUri: String,
                       @NestedConfigurationProperty val sts: ArenaSTSConfig,
