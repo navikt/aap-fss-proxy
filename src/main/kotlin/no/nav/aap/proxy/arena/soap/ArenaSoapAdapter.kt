@@ -9,6 +9,7 @@ import no.nav.aap.proxy.arena.soap.ArenaDTOs.oppgaveReq
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.sakerReq
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.toLocalDateTime
 import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
+import no.nav.aap.proxy.arena.soap.OpprettetOppgave.Companion.EMPTY
 import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.StringExtensions.partialMask
 import org.apache.cxf.rt.security.SecurityConstants.*
@@ -33,13 +34,18 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
             }
 
     fun opprettOppgave(params: ArenaOpprettOppgaveParams)  =
-        runCatching {
-            arenaOppgave.bestillOppgave(oppgaveReq(params)).let {
-                OpprettetOppgave(it.oppgaveId,it.arenaSakId)
+        if (cfg.enabled) {
+            runCatching {
+                arenaOppgave.bestillOppgave(oppgaveReq(params)).let {
+                    OpprettetOppgave(it.oppgaveId,it.arenaSakId)
+                }
+            }.getOrElse {
+                log.warn("Opprettelse av oppgave feilet")
+                throw it
             }
-        }.getOrElse {
-            log.warn("Opprettelse av oppgave feilet")
-            throw it
+        }
+        else {
+            EMPTY
         }
 
     companion object {
