@@ -48,7 +48,7 @@ jobs:
       runs-on: ubuntu-latest
       env:
         PRINT_PAYLOAD: true
-        RESOURCE: .deploy/nais.yaml,.deploy/alerts.yaml
+        RESOURCE: .deploy/nais.yaml
         CLUSTER: ${{ matrix.cluster }}
         VARS: .deploy/${{ matrix.cluster }}.yaml
         IMAGE: ${{needs.bygg.outputs.image}}
