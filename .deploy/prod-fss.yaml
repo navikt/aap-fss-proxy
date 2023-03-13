@@ -1,6 +1,6 @@
 tenant: nav.no
 ingresses:
   -   https://aap-fss-proxy.prod-fss-pub.nais.io
-  -   https://aap-fss-proxy.intern.nav.io
+  -   https://aap-fss-proxy.intern.nav.no
 kvPath: prod
 env: prod
