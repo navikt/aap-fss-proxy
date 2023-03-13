@@ -12,13 +12,10 @@ import org.springframework.web.reactive.function.client.bodyToMono
 class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: StsConfig) :
     AbstractWebClientAdapter(webClient, cf) {
 
-        lateinit var token: OidcToken  //= getTheToken()
+    var token: OidcToken = getTheToken()
 
 
     fun oidcToken(): String {
-        if (token == null) {
-            token = getTheToken()
-        }
         if (token.hasExpired()) {
             log.trace("Fornyer token")
             token = getTheToken()
