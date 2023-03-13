@@ -5,6 +5,7 @@ inntektskomponent:
 arena:
   base-uri: https://arena-ords.nais.adeo.no/arena/api
 arenasoap:
+  enabled: false
   base-uri: https://arena.adeo.no/arena_ws/services
   oppgave-uri: https://arena.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
   sts:
