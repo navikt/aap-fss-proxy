@@ -19,11 +19,9 @@ class ArenaController(private val arena: ArenaClient) {
     fun sisteVedtak(@PathVariable fnr: Fødselsnummer) = arena.sisteVedtak(fnr)
     
     @GetMapping("/nyesteaktivesak/{fnr}")
-    @Unprotected
     fun nyesteaktivesak(@PathVariable fnr: Fødselsnummer) = arena.nyesteSak(fnr)?.let { ok(it) } ?: noContent().build()
 
     @PostMapping("/opprettoppgave")
-    @Unprotected
     @ResponseStatus(CREATED)
     fun opprettOppgave( @RequestBody opgaveInfo: ArenaOpprettOppgaveParams) = arena.opprettOppgave(opgaveInfo)
 }
