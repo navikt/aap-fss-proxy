@@ -1,3 +1,19 @@
+management :
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:  '*'
+  endpoint:
+    configprops:
+      show-values: always
+    env:
+      additional-keys-to-sanitize: client-jwk,*jwk,*jwks,secret
+      show-values: always
+    health:
+      show-details : always
 sts:
   base-uri: https://security-token-service.nais.adeo.no
 inntektskomponent:
