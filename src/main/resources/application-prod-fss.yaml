@@ -1,5 +1,5 @@
 sts:
-  base-uri: https://security-token-service.adeo.no
+  base-uri: https://security-token-service.nais.adeo.no
 inntektskomponent:
   base-uri: https://app.adeo.no/inntektskomponenten-ws/rs
 arena:
