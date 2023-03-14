@@ -19,7 +19,7 @@
 		<arena.oppgave.package>no.nav.aap.proxy.arena.generated.oppgave</arena.oppgave.package>
 		<sourcesDir>${project.basedir}/target/generated-sources/jaxws</sourcesDir>
 		<classesDir>${project.basedir}/target/classes</classesDir>
-		<conditionals.version>5.0.3</conditionals.version>
+		<conditionals.version>5.0.4</conditionals.version>
 		<cxf.version>4.0.0</cxf.version>
 		<domain.version>2.0.11</domain.version>
 		<jib.version>3.3.1</jib.version>
@@ -30,7 +30,7 @@
 		<revision>0.0.1-SNAPSHOT</revision>
 		<springdoc.version>2.0.3</springdoc.version>
 		<swagger.annotations.version>2.2.8</swagger.annotations.version>
-		<token.validation.version>3.0.4</token.validation.version>
+		<token.validation.version>3.0.8</token.validation.version>
 	</properties>
 	<dependencies>
 		<dependency>
