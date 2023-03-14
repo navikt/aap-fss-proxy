@@ -2,7 +2,7 @@ package no.nav.aap.proxy.arena
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import java.net.URI
-import no.nav.aap.proxy.arena.rest.ArenaRestConfig
+import no.nav.aap.proxy.arena.rest.ArenaVedtakRestConfig
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.json.JsonTest
@@ -20,7 +20,7 @@ class ArenaOidcTest {
     }
 
     companion object {
-        val cfg = ArenaRestConfig(URI.create("http://localhost"), "/jalla","/token",ArenaCredentials("user","pasword"),true)
+        val cfg = ArenaVedtakRestConfig(URI.create("http://localhost"), "/jalla","/token",ArenaCredentials("user","pasword"),true)
         const val longLived =  "retwretwertre"
         const val shortLived =  "etyrtyertytry"
         val defaultToken = """

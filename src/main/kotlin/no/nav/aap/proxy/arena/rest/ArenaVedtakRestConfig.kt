@@ -2,7 +2,7 @@ package no.nav.aap.proxy.arena.rest
 
 import java.net.URI
 import no.nav.aap.proxy.arena.ArenaCredentials
-import no.nav.aap.proxy.arena.rest.ArenaRestConfig.Companion.ARENA
+import no.nav.aap.proxy.arena.rest.ArenaVedtakRestConfig.Companion.ARENA
 import no.nav.aap.rest.AbstractRestConfig
 import no.nav.aap.rest.AbstractRestConfig.RetryConfig.Companion.DEFAULT
 import no.nav.aap.util.StringExtensions.encode
@@ -11,11 +11,11 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty
 import org.springframework.boot.context.properties.bind.DefaultValue
 
 @ConfigurationProperties(ARENA)
-class ArenaRestConfig(baseUri: URI,
-                      @DefaultValue(SISTE_VEDTAK) val path: String,
-                      @DefaultValue(TOKEN_PATH) val tokenPath: String,
-                      @NestedConfigurationProperty val credentials: ArenaCredentials,
-                      @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,"", ARENA,enabled, DEFAULT) {
+class ArenaVedtakRestConfig(baseUri: URI,
+                            @DefaultValue(SISTE_VEDTAK) val path: String,
+                            @DefaultValue(TOKEN_PATH) val tokenPath: String,
+                            @NestedConfigurationProperty val credentials: ArenaCredentials,
+                            @DefaultValue("true") enabled: Boolean): AbstractRestConfig(baseUri,"", ARENA,enabled, DEFAULT) {
 
     val asBasic =  "Basic ${"${credentials.id}:${credentials.secret}".encode()}"
 

@@ -1,8 +1,8 @@
 package no.nav.aap.proxy.arena.rest
 
 import no.nav.aap.health.AbstractPingableHealthIndicator
-import no.nav.aap.proxy.arena.rest.ArenaRestConfig.Companion.ARENA
-import no.nav.aap.proxy.arena.rest.ArenaRestConfig.Companion.ARENAOIDC
+import no.nav.aap.proxy.arena.rest.ArenaVedtakRestConfig.Companion.ARENA
+import no.nav.aap.proxy.arena.rest.ArenaVedtakRestConfig.Companion.ARENAOIDC
 import no.nav.aap.proxy.sts.StsWebClientAdapter
 import no.nav.aap.util.LoggerUtil
 import no.nav.aap.util.StringExtensions.asBearer
@@ -15,14 +15,14 @@ import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient.Builder
 
 @Configuration
-class ArenaRestBeanConfig {
+class ArenaVedtakRestBeanConfig {
 
     private val log = LoggerUtil.getLogger(javaClass)
 
 
     @Bean
     @Qualifier(ARENAOIDC)
-    fun arenaOIDCWebClient(builder: Builder, cfg: ArenaRestConfig, @Qualifier(ARENAOIDC) filter: ExchangeFilterFunction) =
+    fun arenaOIDCWebClient(builder: Builder, cfg: ArenaVedtakRestConfig, @Qualifier(ARENAOIDC) filter: ExchangeFilterFunction) =
         builder
             .baseUrl("${cfg.baseUri}")
             .filter(filter)
@@ -30,7 +30,7 @@ class ArenaRestBeanConfig {
 
     @Bean
     @Qualifier(ARENAOIDC)
-    fun arenaOIDCExchangeFilterFunction(cfg: ArenaRestConfig) =
+    fun arenaOIDCExchangeFilterFunction(cfg: ArenaVedtakRestConfig) =
         ExchangeFilterFunction {
             req, next -> next.exchange(
                 ClientRequest.from(req).header(AUTHORIZATION, cfg.asBasic)
@@ -39,7 +39,7 @@ class ArenaRestBeanConfig {
 
     @Bean
     @Qualifier(ARENA)
-    fun arenaWebClient(builder: Builder, cfg: ArenaRestConfig, @Qualifier(ARENA) arenaExchangeFilterFunction: ExchangeFilterFunction) =
+    fun arenaWebClient(builder: Builder, cfg: ArenaVedtakRestConfig, @Qualifier(ARENA) arenaExchangeFilterFunction: ExchangeFilterFunction) =
         builder
             .baseUrl("${cfg.baseUri}")
             .filter(arenaExchangeFilterFunction)
@@ -54,6 +54,9 @@ class ArenaRestBeanConfig {
         }
 
     @Bean
-    fun arenaRestHealthIndicator(a: StsWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {}
+    fun arenaVedtakHealthIndicator(a: ArenaVedtakWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {}
 
+
+    @Bean
+    fun arenaRestSTSHealthIndicator(a: StsWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {}
 }
