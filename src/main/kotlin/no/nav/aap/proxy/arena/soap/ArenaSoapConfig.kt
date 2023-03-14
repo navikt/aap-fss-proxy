@@ -19,7 +19,7 @@ class ArenaSoapConfig(val baseUri: String,
 
     companion object {
         const val SAK = "sak"
-        const val SAKER = "ArenaSakVedtakService"
+        const val SAKER = "/ArenaSakVedtakService"
         const val ARENASOAP = "arenasoap"
     }
 
