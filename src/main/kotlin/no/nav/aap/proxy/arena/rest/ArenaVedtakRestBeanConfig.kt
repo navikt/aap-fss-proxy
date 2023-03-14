@@ -55,8 +55,4 @@ class ArenaVedtakRestBeanConfig {
 
     @Bean
     fun arenaVedtakHealthIndicator(a: ArenaVedtakWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {}
-
-
-    @Bean
-    fun arenaRestSTSHealthIndicator(a: StsWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {}
 }
