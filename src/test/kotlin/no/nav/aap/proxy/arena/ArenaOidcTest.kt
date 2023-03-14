@@ -20,7 +20,7 @@ class ArenaOidcTest {
     }
 
     companion object {
-        val cfg = ArenaVedtakRestConfig(URI.create("http://localhost"), "/jalla","/token",ArenaCredentials("user","pasword"),true)
+        val cfg = ArenaVedtakRestConfig(URI.create("http://localhost"), "/jalla","/token","jalla",ArenaCredentials("user","pasword"),true)
         const val longLived =  "retwretwertre"
         const val shortLived =  "etyrtyertytry"
         val defaultToken = """
