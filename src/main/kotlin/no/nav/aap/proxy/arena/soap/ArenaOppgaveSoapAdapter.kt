@@ -7,7 +7,7 @@ import no.nav.aap.util.LoggerUtil.getLogger
 import org.springframework.stereotype.Component
 
 @Component
-class ArenaOppgaveSoapAdapter(val arenaOppgave: BehandleArbeidOgAktivitetOppgaveV1, cfg: ArenaSoapConfig) : AbstractPingableSoapAdapter(cfg) {
+class ArenaOppgaveSoapAdapter(val arenaOppgave: BehandleArbeidOgAktivitetOppgaveV1, cfg: ArenaSoapConfig) : ArenaAbstractPingableSoapAdapter(cfg) {
 
     private val log = getLogger(javaClass)
 

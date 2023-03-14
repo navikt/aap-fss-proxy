@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 import org.springframework.ws.client.core.WebServiceOperations
 
 @Component
-class ArenaSakSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, cfg: ArenaSoapConfig) : AbstractPingableSoapAdapter(cfg) {
+class ArenaSakSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, cfg: ArenaSoapConfig) : ArenaAbstractPingableSoapAdapter(cfg) {
 
     private val log = getLogger(javaClass)
 
