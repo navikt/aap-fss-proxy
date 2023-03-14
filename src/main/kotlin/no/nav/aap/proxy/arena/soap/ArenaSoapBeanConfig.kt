@@ -117,7 +117,7 @@ class WsClient<T>( private val sts: STSClient, private val env: Environment) {
 }
 private fun InterceptorProvider.addLoggingInterceptors(env: Environment)  {
     outInterceptors.add(ArenaSoapCallIdHeaderInterceptor())
-    if (isDevOrLocal(env)) {
+   // if (isDevOrLocal(env)) {
         val inI = LoggingInInterceptor().apply { setPrettyLogging(true) }
         val outI = LoggingOutInterceptor().apply { setPrettyLogging(true) }
         with(this) {
@@ -126,5 +126,5 @@ private fun InterceptorProvider.addLoggingInterceptors(env: Environment)  {
             outInterceptors.add(outI)
             outFaultInterceptors.add(outI)
         }
-    }
+   // }
 }
