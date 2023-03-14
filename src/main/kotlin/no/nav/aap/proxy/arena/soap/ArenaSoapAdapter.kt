@@ -5,8 +5,6 @@ import jakarta.xml.ws.BindingProvider.*
 import java.util.*
 import no.nav.aap.health.Pingable
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
-import no.nav.aap.proxy.arena.generated.oppgave.Ping
-import no.nav.aap.proxy.arena.generated.oppgave.PingResponse
 import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeV2Response
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.oppgaveReq
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.sakerReq
@@ -52,7 +50,7 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
         }
 
     override fun isEnabled() = cfg.enabled
-    override fun pingEndpoint() = cfg.pingURI
+    override fun pingEndpoint() = cfg.oppgaveUri
 
     override fun name() = "Arenaoppgave"
 
