@@ -1,14 +1,4 @@
-info:
-  nais:
-    cluster: ${nais.cluster.name}
-    image : ${nais.app.image}
-    app : ${nais.app.name}
-    namespace: ${nais.namespace}
-
 management :
-  info:
-    env:
-      enabled: true
   endpoints:
     web:
       exposure:
