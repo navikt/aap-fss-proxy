@@ -13,16 +13,13 @@ class ArenaSoapConfig(val baseUri: String,
                       @NestedConfigurationProperty val sts: ArenaSTSConfig,
                       @NestedConfigurationProperty val credentials: ArenaCredentials,
                       @DefaultValue(SAKER) val saker: String,
-                      @DefaultValue(PING) val ping: String,
                       @DefaultValue("true") val enabled: Boolean) {
 
     val sakerURI = "$baseUri$saker"
-    val pingURI = "$baseUri$ping"
 
     companion object {
         const val SAK = "sak"
         const val SAKER = "/ArenaSakVedtakService"
-        const val PING = "/Ping"
         const val ARENASOAP = "arenasoap"
     }
 

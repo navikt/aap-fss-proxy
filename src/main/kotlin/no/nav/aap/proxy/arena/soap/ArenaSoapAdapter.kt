@@ -57,7 +57,7 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
     override fun name() = "Arenaoppgave"
 
     override fun ping(): Map<String, String> {
-        (sak.marshalSendAndReceive(cfg.pingURI,Ping()) as JAXBElement<PingResponse>).value
+        arenaOppgave.ping()
         return mapOf("ping" to "OK")
     }
 
