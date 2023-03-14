@@ -1,6 +1,5 @@
 package no.nav.aap.proxy.arena.soap
 
-import no.nav.aap.health.Pingable
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.oppgaveReq
 import no.nav.aap.proxy.arena.soap.OpprettetOppgave.Companion.EMPTY
@@ -33,9 +32,4 @@ class ArenaOppgaveSoapAdapter(val arenaOppgave: BehandleArbeidOgAktivitetOppgave
         arenaOppgave.ping()
         return mapOf("ping" to "OK")
     }
-}
-
-abstract class AbstractPingableSoapAdapter(protected val cfg: ArenaSoapConfig) : Pingable{
-    override fun isEnabled() = cfg.enabled
-    override fun name() = javaClass.simpleName
 }
