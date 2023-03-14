@@ -51,8 +51,7 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
 
     override fun isEnabled() = cfg.enabled
     override fun pingEndpoint() = cfg.oppgaveUri
-
-    override fun name() = "Arenaoppgave"
+    override fun name() = this.javaClass.simpleName
 
     override fun ping(): Map<String, String> {
         arenaOppgave.ping()

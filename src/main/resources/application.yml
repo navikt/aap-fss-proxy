@@ -26,6 +26,9 @@ spring:
       write-empty-json-arrays: false
       fail-on-empty-beans: false
 management:
+  endpoint:
+    health:
+      show-details: always
   info:
     env:
       enabled: true
@@ -33,10 +36,6 @@ management:
       enabled: true
     java:
       enabled: true
-  health:
-    show-details: always
-    refresh:
-      enabled: false
     ping:
       enabled: false
     diskspace:
