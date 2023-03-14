@@ -37,5 +37,8 @@ class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: 
             .doOnSuccess { log.trace("STS oppslag OK, utgår om ${it.expiresIn}s") }
             .block() ?: throw IllegalStateException("Ingen respons fra STS")
 
-    override fun ping() = mapOf("status" to "TODO")  // TODO hvordan pinge denne
+    override fun ping(): Map<String, String> {
+        getTheToken()
+       return  mapOf("status" to "TODO")
+    }
  }
