@@ -39,7 +39,7 @@ import org.springframework.ws.transport.http.HttpComponentsMessageSender
 class ArenaSoapBeanConfig(private val  cfg: ArenaSoapConfig) {
 
     @Bean
-    fun arenaOppgaveHealtIndicator(a: ArenaSoapAdapter) = object : AbstractPingableHealthIndicator(a) {}
+    fun arenaOppgaveHealthIndicator(a: ArenaOppgaveSoapAdapter) = object : AbstractPingableHealthIndicator(a) {}
 
     @Bean
     fun arenaOppgaveClient(ws: WsClient<BehandleArbeidOgAktivitetOppgaveV1>) =
