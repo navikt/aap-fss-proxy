@@ -3,7 +3,10 @@ package no.nav.aap.proxy.arena.soap
 import jakarta.xml.bind.JAXBElement
 import jakarta.xml.ws.BindingProvider.*
 import java.util.*
+import no.nav.aap.health.Pingable
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
+import no.nav.aap.proxy.arena.generated.oppgave.Ping
+import no.nav.aap.proxy.arena.generated.oppgave.PingResponse
 import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeV2Response
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.oppgaveReq
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.sakerReq
@@ -18,7 +21,7 @@ import org.springframework.stereotype.Component
 import org.springframework.ws.client.core.WebServiceOperations
 
 @Component
-class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, val arenaOppgave: BehandleArbeidOgAktivitetOppgaveV1, private val cfg: ArenaSoapConfig) {
+class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, val arenaOppgave: BehandleArbeidOgAktivitetOppgaveV1, private val cfg: ArenaSoapConfig) : Pingable {
 
     private val log = getLogger(javaClass)
 
@@ -40,13 +43,23 @@ class ArenaSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations, va
                     OpprettetOppgave(it.oppgaveId,it.arenaSakId)
                 }
             }.getOrElse {
-                log.warn("Opprettelse av oppgave feilet")
+                log.warn("Opprettelse av oppgave feilet",it)
                 throw it
             }
         }
         else {
             EMPTY
         }
+
+    override fun isEnabled() = cfg.enabled
+    override fun pingEndpoint() = cfg.pingURI
+
+    override fun name() = "Arenaoppgave"
+
+    override fun ping(): Map<String, String> {
+        (sak.marshalSendAndReceive(cfg.pingURI,Ping()) as JAXBElement<PingResponse>).value
+        return mapOf("ping" to "OK")
+    }
 
     companion object {
         private const val AKTIV = "Aktiv"
