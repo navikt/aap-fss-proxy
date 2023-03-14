@@ -62,6 +62,9 @@ arena:
        secret: ${arenaclient.secret}
 
 arenasoap:
+    sts:
+      username: ${serviceuser.username}
+      password: ${serviceuser.password}
     credentials:
-       id: ${arenasoap.id}
-       secret: ${arenasoap.secret}
+      id: ${arenasoap.id}
+      secret: ${arenasoap.secret}

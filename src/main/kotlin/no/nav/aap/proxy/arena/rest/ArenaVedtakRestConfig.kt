@@ -24,7 +24,7 @@ class ArenaVedtakRestConfig(baseUri: URI,
     companion object {
         private const val TOKEN_PATH = "/oauth/token"
         const val SISTE_VEDTAK = "/v1/aap/sisteVedtak"
-        const val PING_PATH = "/v1/test/ping"
+        const val PING_PATH = "v1/test/ping"
         const val ARENA = "arena"
         const val ARENAOIDC = "arenaoidc"
     }

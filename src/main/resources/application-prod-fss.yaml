@@ -21,5 +21,3 @@ arenasoap:
   oppgave-uri: https://arena.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
   sts:
     url: https://sts.adeo.no/SecurityTokenServiceProvider
-    username: ${serviceuser.username}
-    password: ${serviceuser.password}

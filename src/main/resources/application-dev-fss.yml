@@ -22,5 +22,3 @@ arenasoap:
   oppgave-uri: https://arena-q1.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
   sts:
       url: https://sts-q1.preprod.local/SecurityTokenServiceProvider/
-      username: ${serviceuser.username}
-      password: ${serviceuser.password}
