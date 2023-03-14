@@ -19,7 +19,7 @@ class ArenaController(private val arena: ArenaClient) {
     fun sisteVedtak(@PathVariable fnr: Fødselsnummer) = arena.sisteVedtak(fnr)
     
     @GetMapping("/nyesteaktivesak/{fnr}")
-    fun nyesteaktivesak(@PathVariable fnr: Fødselsnummer) = arena.nyesteSak(fnr)?.let { ok(it) } ?: noContent().build()
+    fun nyesteAktiveSak(@PathVariable fnr: Fødselsnummer) = arena.nyesteSak(fnr)?.let { ok(it) } ?: noContent().build()
 
     @PostMapping("/opprettoppgave")
     @ResponseStatus(CREATED)
