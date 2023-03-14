@@ -39,6 +39,6 @@ class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: 
 
     override fun ping(): Map<String, String> {
         getTheToken()
-       return  mapOf("status" to "TODO")
+       return  mapOf("status" to "OK")
     }
  }
