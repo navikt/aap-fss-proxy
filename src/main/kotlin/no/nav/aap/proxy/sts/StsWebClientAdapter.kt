@@ -34,7 +34,7 @@ class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: 
             .retrieve()
             .bodyToMono<OidcToken>()
             .doOnError { t: Throwable -> log.warn("STS oppslag feilet", t) }
-            .doOnSuccess { log.trace("STS oppslag OK, utgår om ${it.expiresIn}s") }
+            .doOnSuccess { log.info("STS oppslag OK, utgår om ${it.expiresIn}s") }
             .block() ?: throw IllegalStateException("Ingen respons fra STS")
 
     override fun ping(): Map<String, String> {
