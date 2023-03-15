@@ -32,7 +32,7 @@ class ArenaSakSoapAdapter(@Qualifier(SAK) private val sak: WebServiceOperations,
 
     override fun ping(): Map<String, String> {
         nyesteAktiveSak("11111111111")
-        return mapOf("ping" to "TODO") // TODO
+        return mapOf("ping" to "OK") 
     }
     override fun pingEndpoint() = cfg.sakerURI
 
