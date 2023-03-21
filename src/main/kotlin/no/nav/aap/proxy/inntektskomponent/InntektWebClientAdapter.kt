@@ -1,5 +1,6 @@
 package no.nav.aap.proxy.inntektskomponent
 
+import no.nav.aap.api.felles.error.IrrecoverableIntegrationException
 import no.nav.aap.rest.AbstractWebClientAdapter
 import no.nav.aap.util.Constants.INNTEKTSKOMPONENT
 import no.nav.aap.util.WebClientExtensions.toResponse
@@ -21,6 +22,6 @@ class InntektWebClientAdapter(@Qualifier(INNTEKTSKOMPONENT) webClient: WebClient
             .retryWhen(cf.retrySpec(log))
             .doOnError { t: Throwable -> log.warn("Inntektsoppslag feilet", t) }
             .doOnSuccess { log.trace("Inntektsoppslag OK") }
-            .block()
+            .block() ?: throw IrrecoverableIntegrationException("Null reponse fra inntekt")
             .also { log.trace("Inntekt response $it") }
 }

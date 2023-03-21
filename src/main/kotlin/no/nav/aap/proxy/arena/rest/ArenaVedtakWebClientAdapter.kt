@@ -1,5 +1,6 @@
 package no.nav.aap.proxy.arena.rest
 
+import no.nav.aap.api.felles.error.IrrecoverableIntegrationException
 import no.nav.aap.proxy.arena.rest.ArenaVedtakRestConfig.Companion.ARENA
 import no.nav.aap.rest.AbstractWebClientAdapter
 import no.nav.aap.util.WebClientExtensions.toResponse
@@ -19,7 +20,7 @@ class ArenaVedtakWebClientAdapter(@Qualifier(ARENA) webClient: WebClient, privat
             .doOnError { t: Throwable -> log.warn("Arenaoppslag feilet", t) }
             .doOnSuccess { log.trace("Arena oppslag OK") }
             .retryWhen(cf.retrySpec(log))
-            .block()
+            .block() ?: throw IrrecoverableIntegrationException("Null respons fra arena vedtak")
             .also { log.trace("Arena response $it") }
 
 }
