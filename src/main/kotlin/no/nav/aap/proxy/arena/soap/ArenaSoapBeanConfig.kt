@@ -1,11 +1,9 @@
 package no.nav.aap.proxy.arena.soap
 
-import no.nav.aap.api.felles.error.IntegrationException
+import no.nav.aap.api.felles.error.IrrecoverableIntegrationException
 import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
-import no.nav.aap.proxy.inntektskomponent.InntektWebClientAdapter
-import no.nav.boot.conditionals.EnvUtil.isDevOrLocal
 import org.apache.cxf.Bus
 import org.apache.cxf.binding.soap.Soap12
 import org.apache.cxf.binding.soap.SoapMessage
@@ -74,7 +72,7 @@ class ArenaSoapBeanConfig(private val  cfg: ArenaSoapConfig) {
             .setUnmarshaller(marshaller).build().apply {
                 interceptors = arrayOf(arenaSakSecurityInterceptor())
                 faultMessageResolver = FaultMessageResolver {
-                    throw IntegrationException((it as SaajSoapMessage).faultReason)
+                    throw IrrecoverableIntegrationException((it as SaajSoapMessage).faultReason)
                 }
             }
     fun arenaSakSecurityInterceptor() = Wss4jSecurityInterceptor().apply {
