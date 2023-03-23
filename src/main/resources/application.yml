@@ -26,9 +26,6 @@ spring:
       write-empty-json-arrays: false
       fail-on-empty-beans: false
 management:
-  endpoints:
-    web:
-      base-path: /manage
   endpoint:
     health:
       show-details: always

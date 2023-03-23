@@ -36,10 +36,10 @@ spec:
   cpuThresholdPercentage: 50
   image: {{image}}
   liveness:
-    path: /manage/health/liveness
+    path: /actuator/health/liveness
     initialDelay: 60
   readiness:
-    path: /manage/health/readiness
+    path: /actuator/health/readiness
     initialDelay: 60
   prometheus:
     enabled: true
