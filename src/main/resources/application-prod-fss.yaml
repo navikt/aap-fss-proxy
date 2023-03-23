@@ -2,7 +2,7 @@ management :
   endpoints:
     web:
       exposure:
-        include:  '*'
+        include:  health,prometheus
   endpoint:
     configprops:
       show-values: always
