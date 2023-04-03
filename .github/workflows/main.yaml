@@ -5,12 +5,15 @@ on:
     branches:
       - main
 env:
-  IMAGE_BASE: ghcr.io/${{ github.repository }}
+  IMAGE_BASE: europe-north1-docker.pkg.dev/${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}/aap/${{ github.event.repository.name }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
 
 jobs:
   bygg:
+    permissions:
+      contents: "read"
+      id-token: "write"
     runs-on: ubuntu-latest
     outputs:
       image: ${{ steps.kompiler.outputs.image }}
@@ -35,7 +38,7 @@ jobs:
         id: kompiler
         run: |
           echo "::set-output name=image::${{ env.IMAGE }}"                              
-          ./mvnw --settings .github/.m2/settings.xml -Drevision=${TAG} package jib:build
+          ./mvnw --settings .github/.m2/settings.xml -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} package jib:build
           
 
   deploy:

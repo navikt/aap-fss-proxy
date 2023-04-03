@@ -243,7 +243,7 @@
 						<auth>
 							<username>x-access-token</username>
 							<!--suppress UnresolvedMavenProperty -->
-							<password>${env.GITHUB_TOKEN}</password>
+							<password>${env.GAR_TOKEN}</password>
 						</auth>
 					</to>
 					<container>
