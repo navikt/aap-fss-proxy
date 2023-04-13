@@ -6,12 +6,11 @@ import java.time.LocalDateTime.*
 import no.nav.aap.proxy.arena.rest.ArenaVedtakRestConfig.Companion.ARENAOIDC
 import no.nav.aap.rest.AbstractWebClientAdapter
 import no.nav.aap.util.LoggerUtil.getLogger
-import no.nav.aap.util.WebClientExtensions.toResponse
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.MediaType.*
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.bodyToMono
+import no.nav.aap.util.WebClientExtensions.response
 
 @Component
 class ArenaOIDCWebClientAdapter(@Qualifier(ARENAOIDC) webClient: WebClient, private val cf: ArenaVedtakRestConfig) :
@@ -32,7 +31,7 @@ class ArenaOIDCWebClientAdapter(@Qualifier(ARENAOIDC) webClient: WebClient, priv
             .uri { b -> b.path(cf.tokenPath).build() }
             .contentType(APPLICATION_FORM_URLENCODED)
             .bodyValue("grant_type=client_credentials")
-            .exchangeToMono { it.toResponse<ArenaOidcToken>(log)}
+            .exchangeToMono { it.response<ArenaOidcToken>(log)}
             .retryWhen(cfg.retrySpec(log))
             .doOnError { t: Throwable -> log.warn("Arena OIDC oppslag feilet!", t) }
             .doOnSuccess { log.trace("Arena OIDC oppslag OK, utgår om ${it.expiresIn}s") }

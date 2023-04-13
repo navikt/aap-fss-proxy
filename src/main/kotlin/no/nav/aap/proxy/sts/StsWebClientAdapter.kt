@@ -2,10 +2,10 @@ package no.nav.aap.proxy.sts
 
 import no.nav.aap.rest.AbstractWebClientAdapter
 import no.nav.aap.util.Constants.STS
-import no.nav.aap.util.WebClientExtensions.toResponse
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
+import no.nav.aap.util.WebClientExtensions.response
 
 @Component
 class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: StsConfig) :
@@ -30,7 +30,7 @@ class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: 
                     .queryParam("scope", "openid")
                     .build()
             }
-            .exchangeToMono { it.toResponse<OidcToken>(log)}
+            .exchangeToMono { it.response<OidcToken>(log)}
             .doOnError { t: Throwable -> log.warn("STS oppslag feilet", t) }
             .doOnSuccess { log.info("STS oppslag OK, utgår om ${it.expiresIn}s") }
             .block() ?: throw IllegalStateException("Ingen respons fra STS")
