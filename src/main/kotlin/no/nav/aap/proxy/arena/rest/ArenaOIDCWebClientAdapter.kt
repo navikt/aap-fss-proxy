@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.MediaType.*
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
+import no.nav.aap.api.felles.error.IrrecoverableIntegrationException
 import no.nav.aap.util.WebClientExtensions.response
 
 @Component
@@ -35,7 +36,7 @@ class ArenaOIDCWebClientAdapter(@Qualifier(ARENAOIDC) webClient: WebClient, priv
             .retryWhen(cfg.retrySpec(log))
             .doOnError { t: Throwable -> log.warn("Arena OIDC oppslag feilet!", t) }
             .doOnSuccess { log.trace("Arena OIDC oppslag OK, utgår om ${it.expiresIn}s") }
-            .block() ?: throw IllegalStateException("Ingen respons fra Arena OIDC")
+            .block() ?: throw IrrecoverableIntegrationException("Ingen respons fra Arena OIDC")
 
     override fun ping() = mapOf("status" to "OK")  // TODO hvordan pinge denne
 

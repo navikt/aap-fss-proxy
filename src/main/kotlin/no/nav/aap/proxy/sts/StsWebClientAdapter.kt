@@ -5,6 +5,7 @@ import no.nav.aap.util.Constants.STS
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
+import no.nav.aap.api.felles.error.IrrecoverableIntegrationException
 import no.nav.aap.util.WebClientExtensions.response
 
 @Component
@@ -34,7 +35,7 @@ class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: 
             .doOnError { t: Throwable -> log.warn("STS oppslag feilet", t) }
             .doOnSuccess { log.info("STS oppslag OK, utgår om ${it.expiresIn}s") }
              .contextCapture()
-            .block() ?: throw IllegalStateException("Ingen respons fra STS")
+            .block() ?: throw IrrecoverableIntegrationException("Ingen respons fra STS")
 
     override fun ping(): Map<String, String> {
         getTheToken()
