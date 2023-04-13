@@ -20,6 +20,7 @@ class ArenaVedtakWebClientAdapter(@Qualifier(ARENA) webClient: WebClient, privat
             .doOnError { t: Throwable -> log.warn("Arenaoppslag feilet", t) }
             .doOnSuccess { log.trace("Arena oppslag OK") }
             .retryWhen(cf.retrySpec(log))
+            .contextCapture()
             .block() ?: throw IrrecoverableIntegrationException("Null respons fra arena vedtak")
             .also { log.trace("Arena response $it") }
 

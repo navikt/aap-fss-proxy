@@ -7,6 +7,7 @@ import org.springframework.boot.context.metrics.buffering.BufferingApplicationSt
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
 import org.springframework.cache.annotation.EnableCaching
+import no.nav.aap.util.AccessorUtil
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
@@ -16,6 +17,7 @@ class ProxyApplication
 fun main(args: Array<String>) {
 	runApplication<ProxyApplication>(*args) {
 		setAdditionalProfiles(*Cluster.profiler())
+		AccessorUtil.init()
 		applicationStartup = BufferingApplicationStartup(4096)
 	}
 }
