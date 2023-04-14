@@ -36,6 +36,7 @@ import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import reactor.netty.http.client.HttpClient
 import reactor.netty.transport.logging.AdvancedByteBufFormat.TEXTUAL
+import no.nav.aap.util.PropertyValueSanitzer
 
 @Configuration
 class GlobalConfig(@Value("\${spring.application.name:aap-fss-proxy}") val applicationName: String) {
@@ -57,6 +58,8 @@ class GlobalConfig(@Value("\${spring.application.name:aap-fss-proxy}") val appli
             )
     }
 
+    @Bean
+    fun propertyKeySanitizingFunction() = PropertyValueSanitzer()
     @Bean
     fun observedAspect(observationRegistry: ObservationRegistry) = ObservedAspect(observationRegistry)
 
