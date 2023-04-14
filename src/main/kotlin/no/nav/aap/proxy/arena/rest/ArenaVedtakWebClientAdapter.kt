@@ -22,6 +22,4 @@ class ArenaVedtakWebClientAdapter(@Qualifier(ARENA) webClient: WebClient, privat
             .retryWhen(cf.retrySpec(log))
             .contextCapture()
             .block() ?: throw IrrecoverableIntegrationException("Null respons fra arena vedtak")
-            .also { log.trace("Arena response $it") }
-
 }

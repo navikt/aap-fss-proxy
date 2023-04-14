@@ -24,5 +24,4 @@ class InntektWebClientAdapter(@Qualifier(INNTEKTSKOMPONENT) webClient: WebClient
             .doOnSuccess { log.trace("Inntektsoppslag OK") }
             .contextCapture()
             .block() ?: throw IrrecoverableIntegrationException("Null reponse fra inntekt")
-            .also { log.trace("Inntekt response $it") }
 }
