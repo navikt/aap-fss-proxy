@@ -1,5 +1,6 @@
 package no.nav.aap.proxy.arena
 
+import io.micrometer.observation.annotation.Observed
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity.*
 import org.springframework.stereotype.Component
@@ -11,6 +12,7 @@ import no.nav.aap.proxy.arena.soap.ArenaOpprettOppgaveParams
 import no.nav.aap.proxy.arena.soap.ArenaSakSoapAdapter
 
 @Component
+@Observed
 class ArenaClient(private val vedtak : ArenaVedtakWebClientAdapter, val sak : ArenaSakSoapAdapter, val oppgave : ArenaOppgaveSoapAdapter) {
 
     fun sisteVedtak(fnr : Fødselsnummer) = vedtak.sisteVedtak(fnr.fnr)
