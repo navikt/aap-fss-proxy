@@ -1,21 +1,20 @@
 package no.nav.aap.proxy.sts
 
-import no.nav.aap.rest.AbstractWebClientAdapter
-import no.nav.aap.util.Constants.STS
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import no.nav.aap.api.felles.error.IrrecoverableIntegrationException
+import no.nav.aap.rest.AbstractWebClientAdapter
+import no.nav.aap.util.Constants.STS
 import no.nav.aap.util.WebClientExtensions.response
 
 @Component
-class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: StsConfig) :
+class StsWebClientAdapter(@Qualifier(STS) webClient : WebClient, private val cf : StsConfig) :
     AbstractWebClientAdapter(webClient, cf) {
 
-    var token: OidcToken = getTheToken()
+    var token : OidcToken = getTheToken()
 
-
-    fun oidcToken(): String {
+    fun oidcToken() : String {
         if (token.hasExpired()) {
             log.trace("Fornyer token")
             token = getTheToken()
@@ -24,21 +23,21 @@ class StsWebClientAdapter(@Qualifier(STS) webClient: WebClient, private val cf: 
     }
 
     private fun getTheToken() =
-         webClient.get()
+        webClient.get()
             .uri { b ->
                 b.path(cf.tokenPath)
                     .queryParam("grant_type", "client_credentials")
                     .queryParam("scope", "openid")
                     .build()
             }
-            .exchangeToMono { it.response<OidcToken>(log)}
-            .doOnError { t: Throwable -> log.warn("STS oppslag feilet", t) }
+            .exchangeToMono { it.response<OidcToken>(log) }
+            .doOnError { t : Throwable -> log.warn("STS oppslag feilet", t) }
             .doOnSuccess { log.info("STS oppslag OK, utgår om ${it.expiresIn}s") }
             .contextCapture()
             .block() ?: throw IrrecoverableIntegrationException("Ingen respons fra STS")
 
-    override fun ping(): Map<String, String> {
+    override fun ping() : Map<String, String> {
         getTheToken()
-       return  mapOf("status" to "OK")
+        return mapOf("status" to "OK")
     }
- }
+}

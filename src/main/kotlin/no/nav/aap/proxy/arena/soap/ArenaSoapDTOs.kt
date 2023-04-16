@@ -3,7 +3,8 @@ package no.nav.aap.proxy.arena.soap
 import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.util.*
+import java.util.Date
+import java.util.GregorianCalendar
 import javax.xml.datatype.DatatypeFactory
 import javax.xml.datatype.XMLGregorianCalendar
 import no.nav.aap.api.felles.Fødselsnummer
@@ -23,14 +24,15 @@ object ArenaDTOs {
 
     private const val PERSON = "PERSON"
     private val AAP_TEMA = WSTema().apply { value = AAP.uppercase() }
-    private val HØY_PRIORITET =  WSPrioritet().apply { value = "HOY" }
-    private val START_VEDTAKTYPE =  WSOppgavetype().apply { value = STARTVEDTAK.name }
-    fun oppgaveReq(params: ArenaOpprettOppgaveParams) =
-                WSBestillOppgaveRequest().apply {
-                    oppgavetype = START_VEDTAKTYPE
-                    oppgave = oppgave(params)
-                }
-     fun sakerReq(fnr: String)  =
+    private val HØY_PRIORITET = WSPrioritet().apply { value = "HOY" }
+    private val START_VEDTAKTYPE = WSOppgavetype().apply { value = STARTVEDTAK.name }
+    fun oppgaveReq(params : ArenaOpprettOppgaveParams) =
+        WSBestillOppgaveRequest().apply {
+            oppgavetype = START_VEDTAKTYPE
+            oppgave = oppgave(params)
+        }
+
+    fun sakerReq(fnr : String) =
         ObjectFactory().createHentSaksInfoListeV2(HentSaksInfoListeRequestV2().apply {
             bruker = bruker(fnr)
             tema = AAP.uppercase()
@@ -39,15 +41,15 @@ object ArenaDTOs {
 
     fun XMLGregorianCalendar.toLocalDateTime() = toGregorianCalendar().toZonedDateTime().toLocalDateTime()
 
-    private fun idag() = SimpleDateFormat("dd.MM.yyyy").format( Date());
+    private fun idag() = SimpleDateFormat("dd.MM.yyyy").format(Date())
 
-    private fun bruker(fnr: String) = Bruker().apply {
+    private fun bruker(fnr : String) = Bruker().apply {
         brukerId = fnr
         brukertypeKode = PERSON
     }
 
-    private fun person(fnr: Fødselsnummer) =  WSPerson().apply { ident = fnr.fnr }
-    private fun oppgave(params: ArenaOpprettOppgaveParams) = WSOppgave().apply {
+    private fun person(fnr : Fødselsnummer) = WSPerson().apply { ident = fnr.fnr }
+    private fun oppgave(params : ArenaOpprettOppgaveParams) = WSOppgave().apply {
         tema = AAP_TEMA
         bruker = person(params.fnr)
         tilleggsinformasjon = oppgaveBeskrivelse(params.tittel, params.titler)
@@ -56,13 +58,15 @@ object ArenaDTOs {
         beskrivelse = STARTVEDTAK.tekst
         frist = DatatypeFactory.newInstance()
             .newXMLGregorianCalendar(GregorianCalendar.from(ZonedDateTime.now().toInstant().atZone(
-                    ZoneId.of("Europe/Oslo"))))
+                ZoneId.of("Europe/Oslo"))))
 
     }
-    private enum class ArenaOppgaveType(val tekst: String) {
+
+    private enum class ArenaOppgaveType(val tekst : String) {
         STARTVEDTAK("Start Vedtaksbehandling - automatisk journalfør"),
     }
-    private fun oppgaveBeskrivelse(tittel: String, dokumentTitler: List<String>) =
+
+    private fun oppgaveBeskrivelse(tittel : String, dokumentTitler : List<String>) =
         """
             Hoveddokument: $tittel
             
@@ -74,16 +78,17 @@ object ArenaDTOs {
             Dokumentet er automatisk journalført. Gjennomfør rutinen "Etterkontroll av automatisk journalførte dokumenter"
         """
 
-    private fun vedleggBeskrivelse(vedleggTitler: List<String>): String? {
+    private fun vedleggBeskrivelse(vedleggTitler : List<String>) : String {
         val sb = StringBuilder()
-        for ( dokLink in vedleggTitler) {
+        for (dokLink in vedleggTitler) {
             vedleggTittelAppend(sb, dokLink
                 .replace("\\", "\\\\")
                 .replace("\"", "\\\""))
         }
         return sb.toString()
     }
-    private fun vedleggTittelAppend(sb: StringBuilder, tittel: String?) =
+
+    private fun vedleggTittelAppend(sb : StringBuilder, tittel : String?) =
         tittel?.let {
             if (sb.length > "Vedlegg: ".length) {
                 sb.append(", ")
@@ -91,12 +96,12 @@ object ArenaDTOs {
             sb.append(tittel.trim { it <= ' ' })
             sb.append("\\n")
         }
-
 }
 
-data class ArenaOpprettOppgaveParams(val fnr: Fødselsnummer, val enhet: String, val tittel: String, val titler: List<String> = emptyList())
-data class OpprettetOppgave(val oppgaveId: String, val arenaSakId: String) {
+data class ArenaOpprettOppgaveParams(val fnr : Fødselsnummer, val enhet : String, val tittel : String, val titler : List<String> = emptyList())
+data class OpprettetOppgave(val oppgaveId : String, val arenaSakId : String) {
     companion object {
-        val EMPTY = OpprettetOppgave("0","0")
+
+        val EMPTY = OpprettetOppgave("0", "0")
     }
 }
