@@ -56,8 +56,8 @@ spec:
             cpu: 250m
             memory: 1536Mi
     ingresses:
-  {{ #each ingresses as |url|}}
-        - {{url }}
+  {{#each ingresses as |url|}}
+        - {{url}}
   {{/each}}
     envFrom:
         -   secret: srvaap-proxy
