@@ -28,17 +28,24 @@ spring:
 management:
     endpoints:
         web:
-            base-path: /management
+            exposure:
+                include: '*'
     endpoint:
         health:
             show-details: always
-    info:
+        configprops:
+            show-values: always
         env:
-            enabled: true
+            additional-keys-to-sanitize: "client-jwk,jwk,jwks"
+            show-values: always
+    info:
         os:
             enabled: true
         java:
             enabled: true
+        env:
+            enabled: true
+    health:
         ping:
             enabled: false
         diskspace:
