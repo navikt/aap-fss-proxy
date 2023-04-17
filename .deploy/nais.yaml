@@ -36,14 +36,14 @@ spec:
     cpuThresholdPercentage: 50
     image: {{image}}
     liveness:
-        path: /management/health/liveness
+        path: /actuator/health/liveness
         initialDelay: 60
     readiness:
-        path: /management/health/readiness
+        path: /actuator/health/readiness
         initialDelay: 60
     prometheus:
         enabled: true
-        path: /management/prometheus
+        path: /actuator/prometheus
     replicas:
         min: 2
         max: 2
@@ -56,9 +56,9 @@ spec:
             cpu: 250m
             memory: 1536Mi
     ingresses:
-  {{#each ingresses as |url|}}
-        - {{url}}
-  {{/each}}
+  { { #each ingresses as |url|}}
+        - {{url } }
+    {{/each}}
     envFrom:
         -   secret: srvaap-proxy
         -   secret: arenalogin
