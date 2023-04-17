@@ -1,65 +1,65 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "250M"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "90"
-    nais.io/read-only-file-system: "false"
-    nais.io/run-as-user: "1001"
-  name: fss-proxy
-  namespace: aap
-  labels:
-    team: aap
+    annotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: "250M"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "90"
+        nais.io/read-only-file-system: "false"
+        nais.io/run-as-user: "1001"
+    name: fss-proxy
+    namespace: aap
+    labels:
+        team: aap
 spec:
-  securelogs:
-    enabled: true
-  accessPolicy:
-    inbound:
-      rules:
-        - application: routing
-          cluster: {{env}}-gcp
-          namespace: aap
-        - application: personopplysninger
-          namespace: aap
-          cluster: {{env}}-gcp
-        - application: inntekt
-          namespace: aap
-          cluster: {{env}}-gcp
-        - application: saksinfo
-          namespace: aap
-          cluster: {{env}}-gcp
-  azure:
-    application:
-      enabled: true
-      tenant: {{tenant}}
-  port: 8080
-  cpuThresholdPercentage: 50
-  image: {{image}}
-  liveness:
-    path: /actuator/health/liveness
-    initialDelay: 60
-  readiness:
-    path: /actuator/health/readiness
-    initialDelay: 60
-  prometheus:
-    enabled: true
-    path: /actuator/prometheus
-  replicas:
-    min: 2
-    max: 2
+    securelogs:
+        enabled: true
+    accessPolicy:
+        inbound:
+            rules:
+                -   application: routing
+                    cluster: {{env}}-gcp
+                    namespace: aap
+                -   application: personopplysninger
+                    namespace: aap
+                    cluster: {{env}}-gcp
+                -   application: inntekt
+                    namespace: aap
+                    cluster: {{env}}-gcp
+                -   application: saksinfo
+                    namespace: aap
+                    cluster: {{env}}-gcp
+    azure:
+        application:
+            enabled: true
+            tenant: {{tenant}}
+    port: 8080
     cpuThresholdPercentage: 50
-  resources:
-    limits:
-      cpu: 1500m
-      memory: 3072Mi
-    requests:
-      cpu: 250m
-      memory: 1536Mi
-  ingresses:
-  {{#each ingresses as |url|}}
-     - {{url}}
-  {{/each}}
-  envFrom:
-    - secret: srvaap-proxy
-    - secret: arenalogin
-    - secret: arenasoap
+    image: {{image}}
+    liveness:
+        path: /management/health/liveness
+        initialDelay: 60
+    readiness:
+        path: /management/health/readiness
+        initialDelay: 60
+    prometheus:
+        enabled: true
+        path: /management/prometheus
+    replicas:
+        min: 2
+        max: 2
+        cpuThresholdPercentage: 50
+    resources:
+        limits:
+            cpu: 1500m
+            memory: 3072Mi
+        requests:
+            cpu: 250m
+            memory: 1536Mi
+    ingresses:
+  { { #each ingresses as |url|}}
+        - {{url } }
+    {{/each}}
+    envFrom:
+        -   secret: srvaap-proxy
+        -   secret: arenalogin
+        -   secret: arenasoap

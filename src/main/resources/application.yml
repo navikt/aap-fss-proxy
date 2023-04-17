@@ -1,70 +1,73 @@
 info:
-  nais:
-    cluster: ${nais.cluster.name}
-    image : ${nais.app.image}
-    app : ${nais.app.name}
-    namespace: ${nais.namespace}
+    nais:
+        cluster: ${nais.cluster.name}
+        image: ${nais.app.image}
+        app: ${nais.app.name}
+        namespace: ${nais.namespace}
 spring:
-  discovery:
-       client:
-         health-indicator:
-            enabled: false
-  application:
-    name: fss-proxy
-  main:
-    banner-mode: off
-  jackson:
-    default-property-inclusion: non_empty
-    mapper:
-      accept-case-insensitive-enums: true
-      accept-case-insensitive-properties: true
-    deserialization:
-      read-unknown-enum-values-using-default-value: true
-      accept-single-value-as-array: true
-      fail-on-unknown-properties: true
-    serialization:
-      write-empty-json-arrays: false
-      fail-on-empty-beans: false
+    discovery:
+        client:
+            health-indicator:
+                enabled: false
+    application:
+        name: fss-proxy
+    main:
+        banner-mode: off
+    jackson:
+        default-property-inclusion: non_empty
+        mapper:
+            accept-case-insensitive-enums: true
+            accept-case-insensitive-properties: true
+        deserialization:
+            read-unknown-enum-values-using-default-value: true
+            accept-single-value-as-array: true
+            fail-on-unknown-properties: true
+        serialization:
+            write-empty-json-arrays: false
+            fail-on-empty-beans: false
 management:
-  endpoint:
-    health:
-      show-details: always
-  info:
-    env:
-      enabled: true
-    os:
-      enabled: true
-    java:
-      enabled: true
-    ping:
-      enabled: false
-    diskspace:
-      enabled: false
+    endpoints:
+        web:
+            base-path: /management
+    endpoint:
+        health:
+            show-details: always
+    info:
+        env:
+            enabled: true
+        os:
+            enabled: true
+        java:
+            enabled: true
+        ping:
+            enabled: false
+        diskspace:
+            enabled: false
 no.nav:
-  security:
-    jwt:
-      issuer:
-        aad:
-          discovery_url: https://login.microsoftonline.com/${azure.app.tenant.id}/v2.0/.well-known/openid-configuration
-          accepted_audience: ${azure.app.client.id}
-          proxy-url: http://webproxy.nais:8088
+    security:
+        jwt:
+            issuer:
+                aad:
+                    discovery_url: https://login.microsoftonline.com/${azure.app.tenant.id}/v2.0/.well-known/openid-configuration
+                    accepted_audience: ${azure.app.client.id}
+                    proxy-url: http://webproxy.nais:8088
 
 springdoc:
-  packagesToScan: no.nav.aap
-  swagger-ui:
-    disable-swagger-default-url: true
-  show-actuator: true
-  enable-spring-security: false
+    packagesToScan: no.nav.aap
+    swagger-ui:
+        disable-swagger-default-url: true
+    show-actuator: true
+    enable-spring-security: false
 
 arena:
     credentials:
-       id:  ${arenaclient.id}
-       secret: ${arenaclient.secret}
+        id: ${arenaclient.id}
+        secret: ${arenaclient.secret}
 
 arenasoap:
     sts:
-      username: ${serviceuser.username}
-      password: ${serviceuser.password}
+        username: ${serviceuser.username}
+        password: ${serviceuser.password}
     credentials:
-      id: ${arenasoap.id}
-      secret: ${arenasoap.secret}
+        id: ${arenasoap.id}
+        secret: ${arenasoap.secret}
