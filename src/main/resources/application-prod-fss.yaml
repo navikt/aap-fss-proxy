@@ -1,22 +1,18 @@
-management :
-  endpoints:
-    web:
-      exposure:
-        include:  health,prometheus
-  endpoint:
-    configprops:
-      show-values: always
-    env:
-      additional-keys-to-sanitize: client-jwk,*jwk,*jwks,secret
-      show-values: always
+management:
+    endpoint:
+        configprops:
+            show-values: always
+        env:
+            additional-keys-to-sanitize: client-jwk,*jwk,*jwks,secret
+            show-values: always
 sts:
-  base-uri: https://security-token-service.nais.adeo.no
+    base-uri: https://security-token-service.nais.adeo.no
 inntektskomponent:
-  base-uri: https://app.adeo.no/inntektskomponenten-ws/rs
+    base-uri: https://app.adeo.no/inntektskomponenten-ws/rs
 arena:
-  base-uri: https://arena-ords.nais.adeo.no/arena/api
+    base-uri: https://arena-ords.nais.adeo.no/arena/api
 arenasoap:
-  base-uri: https://arena.adeo.no/arena_ws/services
-  oppgave-uri: https://arena.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
-  sts:
-    url: https://sts.adeo.no/SecurityTokenServiceProvider
+    base-uri: https://arena.adeo.no/arena_ws/services
+    oppgave-uri: https://arena.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
+    sts:
+        url: https://sts.adeo.no/SecurityTokenServiceProvider
