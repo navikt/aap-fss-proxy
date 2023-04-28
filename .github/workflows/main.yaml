@@ -10,17 +10,6 @@ env:
     APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
 
 jobs:
-
-    dependabot:
-        name: Monitor dependencies with Dependabot
-        runs-on: ubuntu-latest
-        permissions:
-            contents: write
-        steps:
-            -   uses: actions/checkout@v3
-            -   name: Submit Dependency Snapshot
-                uses: advanced-security/maven-dependency-submission-action@v3
-
     bygg:
         permissions:
             contents: "read"
@@ -52,13 +41,18 @@ jobs:
                     identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
                     team: aap
 
+            -   name: Submit Dependency Snapshot
+                uses: advanced-security/maven-dependency-submission-action@v3
+                with:
+                    settings-file: .github/.m2/settings.xml
+
             -   name: Kompiler og deploy image med jib
                 id: kompiler
                 run: |
                     echo "::set-output name=image::${{ env.IMAGE }}"                              
                     ./mvnw --settings .github/.m2/settings.xml -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} package jib:build
     
-
+    
     deploy:
         strategy:
             matrix:
