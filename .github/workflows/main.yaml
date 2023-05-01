@@ -43,8 +43,7 @@ jobs:
                 run: cosign verify --key distroless.pub gcr.io/distroless/java17
 
             -   name: Setter tag-navn
-                run: echo "TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
-
+                run: echo "TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_EN
 
             -   name: Login GAR
                 uses: nais/login@v0
