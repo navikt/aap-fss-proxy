@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.6</version>
+        <version>3.1.0</version>
         <relativePath/>
     </parent>
     <groupId>no.nav.aap</groupId>
@@ -19,9 +19,9 @@
         <arena.oppgave.package>no.nav.aap.proxy.arena.generated.oppgave</arena.oppgave.package>
         <sourcesDir>${project.basedir}/target/generated-sources/jaxws</sourcesDir>
         <classesDir>${project.basedir}/target/classes</classesDir>
-        <conditionals.version>5.0.7</conditionals.version>
+        <propagation.version>1.0.2</propagation.version>
         <cxf.version>4.0.1</cxf.version>
-        <domain.version>2.0.72</domain.version>
+        <domain.version>2.0.73</domain.version>
         <jib.version>3.3.2</jib.version>
         <java.version>17</java.version>
         <logstash.version>7.3</logstash.version>
@@ -30,13 +30,13 @@
         <revision>0.0.1-SNAPSHOT</revision>
         <springdoc.version>2.1.0</springdoc.version>
         <swagger.annotations.version>2.2.8</swagger.annotations.version>
-        <token.validation.version>3.0.9</token.validation.version>
+        <token.validation.version>3.1.0</token.validation.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>context-propagation</artifactId>
-            <version>1.0.2</version>
+            <version>${propagation.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -67,10 +67,6 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.ws</groupId>
@@ -109,11 +105,6 @@
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
             <version>${logstash.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.boot</groupId>
-            <artifactId>boot-conditionals</artifactId>
-            <version>${conditionals.version}</version>
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
