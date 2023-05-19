@@ -32,10 +32,10 @@ class ArenaOIDCWebClientAdapter(@Qualifier(ARENAOIDC) webClient : WebClient, pri
             .uri { b -> b.path(cf.tokenPath).build() }
             .contentType(APPLICATION_FORM_URLENCODED)
             .bodyValue("grant_type=client_credentials")
-            .exchangeToMono { it.response<ArenaOidcToken>(log) }
-            .retryWhen(cfg.retrySpec(log))
+            .exchangeToMono { it.response<ArenaOidcToken>() }
             .doOnError { t : Throwable -> log.warn("Arena OIDC oppslag feilet!", t) }
             .doOnSuccess { log.trace("Arena OIDC oppslag OK, utgår om ${it.expiresIn}s") }
+            .retryWhen(cfg.retrySpec(log))
             .contextCapture()
             .block() ?: throw IrrecoverableIntegrationException("Ingen respons fra Arena OIDC")
 

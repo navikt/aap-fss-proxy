@@ -12,8 +12,8 @@ class ArenaSoapConfig(val baseUri : String,
                       val oppgaveUri : String,
                       @NestedConfigurationProperty val sts : ArenaSTSConfig,
                       @NestedConfigurationProperty val credentials : ArenaCredentials,
-                      @DefaultValue(SAKER) val saker : String,
-                      @DefaultValue("true") val enabled : Boolean) {
+                      val saker : String = SAKER,
+                      val enabled : Boolean = true) {
 
     val sakerURI = "$baseUri$saker"
 

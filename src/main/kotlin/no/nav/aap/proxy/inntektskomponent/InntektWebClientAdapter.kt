@@ -18,10 +18,10 @@ class InntektWebClientAdapter(@Qualifier(INNTEKTSKOMPONENT) webClient : WebClien
             .uri { b -> b.path(cf.path).build() }
             .contentType(APPLICATION_JSON)
             .bodyValue(request)
-            .exchangeToMono { it.response<InntektResponse>(log) }
-            .retryWhen(cf.retrySpec(log))
+            .exchangeToMono { it.response<InntektResponse>() }
             .doOnError { t : Throwable -> log.warn("Inntektsoppslag feilet", t) }
             .doOnSuccess { log.trace("Inntektsoppslag OK") }
+            .retryWhen(cf.retrySpec(log))
             .contextCapture()
             .block() ?: throw IrrecoverableIntegrationException("Null reponse fra inntekt")
 }
