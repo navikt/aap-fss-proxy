@@ -30,7 +30,7 @@ class StsWebClientAdapter(@Qualifier(STS) webClient : WebClient, private val cf 
                     .queryParam("scope", "openid")
                     .build()
             }
-            .exchangeToMono { it.response<OidcToken>(log) }
+            .exchangeToMono { it.response<OidcToken>() }
             .doOnError { t : Throwable -> log.warn("STS oppslag feilet", t) }
             .doOnSuccess { log.info("STS oppslag OK, utgår om ${it.expiresIn}s") }
             .contextCapture()

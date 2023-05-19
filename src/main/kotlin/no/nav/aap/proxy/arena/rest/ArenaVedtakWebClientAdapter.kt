@@ -16,7 +16,7 @@ class ArenaVedtakWebClientAdapter(@Qualifier(ARENA) webClient : WebClient, priva
             .get()
             .uri { b -> b.path(cf.path).build() }
             .header("fnr", fnr)
-            .exchangeToMono { it.response<ByteArray>(log) }
+            .exchangeToMono { it.response<ByteArray>() }
             .doOnError { t : Throwable -> log.warn("Arenaoppslag feilet", t) }
             .doOnSuccess { log.trace("Arena oppslag OK") }
             .retryWhen(cf.retrySpec(log))
