@@ -21,7 +21,7 @@
         <classesDir>${project.basedir}/target/classes</classesDir>
         <propagation.version>1.0.3</propagation.version>
         <cxf.version>4.0.1</cxf.version>
-        <domain.version>2.0.78</domain.version>
+        <domain.version>2.0.79</domain.version>
         <jib.version>3.3.2</jib.version>
         <java.version>17</java.version>
         <logstash.version>7.3</logstash.version>
