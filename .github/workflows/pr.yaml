@@ -16,7 +16,7 @@ jobs:
     steps:
 
       - name: Sjekk ut kode
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Hent Maven cache
         uses: actions/cache@v3
@@ -58,5 +58,5 @@ jobs:
       VARS: .deploy/dev-fss.yaml
       IMAGE: ${{needs.bygg.outputs.image}}
     steps:
-      -   uses: actions/checkout@v3
+      -   uses: actions/checkout@v4
       -   uses: nais/deploy/actions/deploy@master
