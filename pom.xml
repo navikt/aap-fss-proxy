@@ -22,7 +22,7 @@
         <propagation.version>1.0.4</propagation.version>
         <cxf.version>4.0.2</cxf.version>
         <domain.version>2.0.79</domain.version>
-        <jib.version>3.3.2</jib.version>
+        <jib.version>3.4.0</jib.version>
         <java.version>17</java.version>
         <logstash.version>7.4</logstash.version>
         <kotlin.version>1.9.0</kotlin.version>
