@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.0</version>
+        <version>3.1.4</version>
         <relativePath/>
     </parent>
     <groupId>no.nav.aap</groupId>
@@ -19,16 +19,16 @@
         <arena.oppgave.package>no.nav.aap.proxy.arena.generated.oppgave</arena.oppgave.package>
         <sourcesDir>${project.basedir}/target/generated-sources/jaxws</sourcesDir>
         <classesDir>${project.basedir}/target/classes</classesDir>
-        <propagation.version>1.0.4</propagation.version>
-        <cxf.version>4.0.2</cxf.version>
+        <propagation.version>1.0.6</propagation.version>
+        <cxf.version>4.0.3</cxf.version>
         <domain.version>2.0.79</domain.version>
         <jib.version>3.3.2</jib.version>
         <java.version>17</java.version>
         <logstash.version>7.4</logstash.version>
-        <kotlin.version>1.9.0</kotlin.version>
+        <kotlin.version>1.9.10</kotlin.version>
         <problem.version>0.27.0</problem.version>
         <revision>0.0.1-SNAPSHOT</revision>
-        <springdoc.version>2.1.0</springdoc.version>
+        <springdoc.version>2.2.0</springdoc.version>
         <swagger.annotations.version>2.2.8</swagger.annotations.version>
         <token.validation.version>3.1.0</token.validation.version>
     </properties>
