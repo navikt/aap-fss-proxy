@@ -11,13 +11,22 @@ import no.nav.aap.api.felles.Fødselsnummer
 import no.nav.aap.proxy.arena.soap.ArenaOpprettOppgaveParams
 import no.nav.aap.util.Constants.AAD
 import no.nav.security.token.support.spring.ProtectedRestController
+import org.springframework.web.bind.annotation.RequestHeader
 
 @ProtectedRestController(value = ["/arena"], issuer = AAD, claimMap = [""])
 class ArenaController(private val arena : ArenaClient) {
 
+    @GetMapping("/vedtak")
+    fun sisteVedtakNy(@RequestHeader("personident") personident: String) = arena.sisteVedtak(Fødselsnummer(personident))
+
+    @GetMapping("/nyesteaktivesak")
+    fun nyesteAktiveSakNy(@RequestHeader("personident") personident: String) = arena.nyesteSak(Fødselsnummer(personident))?.let { ok(it) } ?: noContent().build()
+
+    @Deprecated("Fjern når disse ikke brukes i soknad-api pga fnr i path")
     @GetMapping("/vedtak/{fnr}")
     fun sisteVedtak(@PathVariable fnr : Fødselsnummer) = arena.sisteVedtak(fnr)
 
+    @Deprecated("Fjern når disse ikke brukes i soknad-api pga fnr i path")
     @GetMapping("/nyesteaktivesak/{fnr}")
     fun nyesteAktiveSak(@PathVariable fnr : Fødselsnummer) = arena.nyesteSak(fnr)?.let { ok(it) } ?: noContent().build()
 
