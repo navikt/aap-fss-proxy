@@ -5,9 +5,9 @@ on:
         branches:
             - main
 env:
-    IMAGE_BASE: europe-north1-docker.pkg.dev/${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}/aap/${{ github.event.repository.name }}
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+  IMAGE_BASE: europe-north1-docker.pkg.dev/${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}/aap/${{ github.event.repository.name }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
 
 jobs:
     bygg:
@@ -19,10 +19,10 @@ jobs:
             image: ${{ steps.kompiler.outputs.image }}
         steps:
             -   name: Sjekk ut kode
-                uses: actions/checkout@v3
+                uses: actions/checkout@v4
 
-            -   name: Sett opp Java 17
-                uses: actions/setup-java@v3
+            -   name: Sett opp Java
+                uses: actions/setup-java@v4.3.0
                 with:
                     java-version: 17
                     distribution: temurin
@@ -33,14 +33,6 @@ jobs:
 
             -   name: Setter IMAGE
                 run: echo "IMAGE=$(echo $IMAGE_BASE):$(echo $TAG)" >> $GITHUB_ENV
-
-            -   name: Installerer cosign
-                uses: sigstore/cosign-installer@main
-                with:
-                    cosign-release: 'v1.3.1'
-
-            -   name: Verifiserer distroless base-image
-                run: cosign verify --key distroless.pub gcr.io/distroless/java17
 
             -   name: Setter tag-navn
                 run: echo "TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
@@ -57,6 +49,11 @@ jobs:
                 run: |
                     echo "::set-output name=image::${{ env.IMAGE }}"                              
                     ./mvnw --settings .github/.m2/settings.xml -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} package jib:build
+                    echo "DIGEST=$(cat apps/${{ env.MODULE }}/jib-image.digest)" >> $GITHUB_ENV
+            - name: Attest and sign image
+              uses: nais/attest-sign@v1.5.7
+              with:
+                image_ref: ${{ env.IMAGE }}@${{ env.DIGEST }}
     
     
     deploy:
@@ -74,5 +71,5 @@ jobs:
             VARS: .deploy/${{ matrix.cluster }}.yaml
             IMAGE: ${{needs.bygg.outputs.image}}
         steps:
-            -   uses: actions/checkout@v3
+            -   uses: actions/checkout@v4
             -   uses: nais/deploy/actions/deploy@master
