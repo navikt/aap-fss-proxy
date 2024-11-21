@@ -16,18 +16,9 @@ spec:
     accessPolicy:
         inbound:
             rules:
-                -   application: routing
+                -   application: postmottak-backend
                     cluster: {{env}}-gcp
                     namespace: aap
-                -   application: personopplysninger
-                    namespace: aap
-                    cluster: {{env}}-gcp
-                -   application: inntekt
-                    namespace: aap
-                    cluster: {{env}}-gcp
-                -   application: saksinfo
-                    namespace: aap
-                    cluster: {{env}}-gcp
     azure:
         application:
             enabled: true
