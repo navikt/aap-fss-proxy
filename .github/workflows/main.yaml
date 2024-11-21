@@ -65,6 +65,9 @@ jobs:
         name: Deploy til ${{ matrix.cluster }}
         needs: bygg
         runs-on: ubuntu-latest
+        permissions:
+            contents: "read"
+            id-token: "write"
         env:
             PRINT_PAYLOAD: true
             RESOURCE: .deploy/nais.yaml
