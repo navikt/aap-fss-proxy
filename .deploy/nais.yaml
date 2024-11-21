@@ -11,7 +11,7 @@ metadata:
     labels:
         team: aap
 spec:
-    securelogs:
+    secureLogs:
         enabled: true
     accessPolicy:
         inbound:
@@ -24,7 +24,6 @@ spec:
             enabled: true
             tenant: {{tenant}}
     port: 8080
-    cpuThresholdPercentage: 50
     image: {{image}}
     liveness:
         path: /actuator/health/liveness
