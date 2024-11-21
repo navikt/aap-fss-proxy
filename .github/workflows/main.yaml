@@ -7,7 +7,6 @@ on:
 env:
   IMAGE_BASE: europe-north1-docker.pkg.dev/${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}/aap/${{ github.event.repository.name }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
 
 jobs:
     bygg:
@@ -73,7 +72,7 @@ jobs:
             RESOURCE: .deploy/nais.yaml
             CLUSTER: ${{ matrix.cluster }}
             VARS: .deploy/${{ matrix.cluster }}.yaml
-            IMAGE: ${{needs.bygg.outputs.image}}
+            VAR: image=${{needs.bygg.outputs.image}}
         steps:
             -   uses: actions/checkout@v4
             -   uses: nais/login@v0
