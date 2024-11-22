@@ -41,6 +41,8 @@ jobs:
 
       - name: Kompiler
         id: kompiler
+        env:
+          GITHUB_PASSWORD: ${{ secrets.READER_TOKEN }}
         run: |
               echo "image=${{ env.IMAGE }}" >> $GITHUB_OUTPUT
               ./mvnw  --batch-mode --settings .github/.m2/settings.xml package jib:build

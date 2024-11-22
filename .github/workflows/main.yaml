@@ -45,6 +45,8 @@ jobs:
 
             -   name: Kompiler og deploy image med jib
                 id: kompiler
+                env:
+                  GITHUB_PASSWORD: ${{ secrets.READER_TOKEN }}
                 run: |
                     echo "::set-output name=image::${{ env.IMAGE }}"                              
                     ./mvnw --settings .github/.m2/settings.xml -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} package jib:build
