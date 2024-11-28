@@ -16,9 +16,9 @@ sts:
 inntektskomponent:
   base-uri: https://app-q2.adeo.no/inntektskomponenten-ws/rs/
 arena:
-  base-uri: https://arena-ords-q1.nais.preprod.local/arena/api
+  base-uri: https://arena-ords-q2.nais.preprod.local/arena/api
 arenasoap:
-  base-uri: https://arena-q1.adeo.no/arena_ws/services/
-  oppgave-uri: https://arena-q1.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
+  base-uri: https://arena-q2.adeo.no/arena_ws/services/
+  oppgave-uri: https://arena-q2.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
   sts:
-      url: https://sts-q1.preprod.local/SecurityTokenServiceProvider/
+      url: https://sts-q2.preprod.local/SecurityTokenServiceProvider/
