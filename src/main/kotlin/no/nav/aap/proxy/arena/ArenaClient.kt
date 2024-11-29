@@ -20,4 +20,5 @@ class ArenaClient(private val vedtak : ArenaVedtakWebClientAdapter, val sak : Ar
 
     @ResponseStatus(CREATED)
     fun opprettOppgave(params : ArenaOpprettOppgaveParams) = oppgave.opprettOppgave(params)
+
 }

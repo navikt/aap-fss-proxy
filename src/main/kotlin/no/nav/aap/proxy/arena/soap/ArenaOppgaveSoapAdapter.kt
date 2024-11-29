@@ -13,6 +13,7 @@ class ArenaOppgaveSoapAdapter(val arenaOppgave : BehandleArbeidOgAktivitetOppgav
 
     fun opprettOppgave(params : ArenaOpprettOppgaveParams) =
         if (cfg.enabled) {
+            log.info(params.toString()) // TODO SLETT MEG VED FERDIG DEBUGIG
             runCatching {
                 arenaOppgave.bestillOppgave(oppgaveReq(params)).let {
                     OpprettetOppgave(it.oppgaveId, it.arenaSakId)
