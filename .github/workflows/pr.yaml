@@ -14,8 +14,6 @@ jobs:
       contents: "read"
       id-token: "write"
     runs-on: ubuntu-latest
-    outputs:
-      image: ${{ steps.kompiler.outputs.image }}
     steps:
       -   name: Sjekk ut kode
           uses: actions/checkout@v4
@@ -36,20 +34,9 @@ jobs:
       -   name: Setter tag-navn
           run: echo "TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
 
-      -   name: Login GAR
-          uses: nais/login@v0
-          with:
-            project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-            identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-            team: aap
-
       -   name: Kompiler
           id: kompiler
           env:
             GITHUB_PASSWORD: ${{ secrets.READER_TOKEN }}
           run: |
             ./mvnw --settings .github/.m2/settings.xml -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} package jib:build
-      - name: Attest and sign image
-        uses: nais/attest-sign@v1.5.7
-        with:
-          image_ref: ${{ env.IMAGE }}@${{ env.DIGEST }}
