@@ -1,0 +1,49 @@
+
+spring:
+    discovery:
+        client:
+            health-indicator:
+                enabled: false
+    application:
+        name: fss-proxy
+    main:
+        banner-mode: off
+    jackson:
+        default-property-inclusion: non_empty
+        mapper:
+            accept-case-insensitive-enums: true
+            accept-case-insensitive-properties: true
+        deserialization:
+            read-unknown-enum-values-using-default-value: true
+            accept-single-value-as-array: true
+            fail-on-unknown-properties: true
+        serialization:
+            write-empty-json-arrays: false
+            fail-on-empty-beans: false
+
+arena:
+    baseUri: "http://localhost/"
+    credentials:
+        id: "test"
+        secret: "test"
+
+arenasoap:
+    baseUri: "http://localhost/"
+    oppgaveUri: "http://localhost/"
+    sts:
+        url: "http://localhost/"
+        username: "test"
+        password: "test"
+    credentials:
+        id: "test"
+        secret: "test"
+
+inntektskomponent:
+    baseUri: "http://localhost/"
+
+serviceuser:
+    username: "test"
+    password: "test"
+
+sts:
+    baseUri: "http://localhost/"
