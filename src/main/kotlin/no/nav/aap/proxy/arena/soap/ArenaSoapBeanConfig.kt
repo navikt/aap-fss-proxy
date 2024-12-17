@@ -30,6 +30,7 @@ import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor
 import org.springframework.ws.transport.http.HttpComponentsMessageSender
 import no.nav.aap.api.felles.error.IrrecoverableIntegrationException
 import no.nav.aap.health.AbstractPingableHealthIndicator
+import no.nav.aap.proxy.arena.generated.behandleSakOgAktivitet.BehandleSakOgAktivitetV1
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
 
@@ -48,6 +49,13 @@ class ArenaSoapBeanConfig(private val cfg : ArenaSoapConfig) {
             address = cfg.oppgaveUri
             serviceClass = BehandleArbeidOgAktivitetOppgaveV1::class.java
         }.create() as BehandleArbeidOgAktivitetOppgaveV1)
+
+    @Bean
+    fun arenaBehandleSalOgAktivitetClient(ws : WsClient<BehandleSakOgAktivitetV1>) =
+        ws.configureClientForSystemUserSAML(JaxWsProxyFactoryBean().apply {
+            address = cfg.behandleSakOgAktivitetUri
+            serviceClass = BehandleSakOgAktivitetV1::class.java
+        }.create() as BehandleSakOgAktivitetV1)
 
     @Bean
     fun arenaStsClient(bus : Bus, env : Environment) =

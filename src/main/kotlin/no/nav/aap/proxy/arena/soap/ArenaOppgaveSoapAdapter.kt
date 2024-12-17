@@ -1,13 +1,13 @@
 package no.nav.aap.proxy.arena.soap
 
-import org.springframework.stereotype.Component
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
+import org.springframework.stereotype.Component
 import no.nav.aap.proxy.arena.soap.ArenaDTOs.oppgaveReq
 import no.nav.aap.proxy.arena.soap.OpprettetOppgave.Companion.EMPTY
 import no.nav.aap.util.LoggerUtil.getLogger
 
 @Component
-class ArenaOppgaveSoapAdapter(val arenaOppgave : BehandleArbeidOgAktivitetOppgaveV1, cfg : ArenaSoapConfig) : ArenaAbstractPingableSoapAdapter(cfg) {
+class ArenaOppgaveSoapAdapter(private val arenaOppgave : BehandleArbeidOgAktivitetOppgaveV1, cfg : ArenaSoapConfig) : ArenaAbstractPingableSoapAdapter(cfg) {
 
     private val log = getLogger(javaClass)
 

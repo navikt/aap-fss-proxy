@@ -30,6 +30,7 @@ arena:
 arenasoap:
     baseUri: "http://localhost/"
     oppgaveUri: "http://localhost/"
+    behandle-sak-og-aktivitet-uri: "http://localhost/"
     sts:
         url: "http://localhost/"
         username: "test"

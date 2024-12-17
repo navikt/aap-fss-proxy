@@ -20,5 +20,6 @@ arena:
 arenasoap:
   base-uri: https://arena-q2.adeo.no/arena_ws/services/
   oppgave-uri: https://arena-q2.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
+  behandle-sak-og-aktivitet-uri: https://arena-q2.adeo.no/ail_ws/BehandleSakOgAktivitet_v1
   sts:
       url: https://sts-q2.preprod.local/SecurityTokenServiceProvider/

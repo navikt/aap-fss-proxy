@@ -1,15 +1,15 @@
 package no.nav.aap.proxy.arena.soap
 
-import java.net.URI
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.NestedConfigurationProperty
-import org.springframework.boot.context.properties.bind.DefaultValue
 import no.nav.aap.proxy.arena.ArenaCredentials
 import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.ARENASOAP
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.NestedConfigurationProperty
+import java.net.URI
 
 @ConfigurationProperties(ARENASOAP)
 class ArenaSoapConfig(val baseUri : String,
                       val oppgaveUri : String,
+                      val behandleSakOgAktivitetUri : String,
                       @NestedConfigurationProperty val sts : ArenaSTSConfig,
                       @NestedConfigurationProperty val credentials : ArenaCredentials,
                       val saker : String = SAKER,

@@ -105,3 +105,10 @@ data class OpprettetOppgave(val oppgaveId : String, val arenaSakId : String) {
         val EMPTY = OpprettetOppgave("0", "0")
     }
 }
+
+data class BehandleKjoerelisteOgOpprettOppgaveRequest(
+    val journalpostId: String
+)
+data class ArenaSakId(val arenaSakId: String) {
+    companion object { val EMPTY = ArenaSakId("0") }
+}
