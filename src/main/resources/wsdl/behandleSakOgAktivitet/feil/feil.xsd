@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1/feil" xmlns:feil="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1/feil">
+  <xsd:complexType name="PersonIkkeFunnet">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p&gt;Personen finnes ikke i komponenten, ingen oppgave bestilles&lt;/p&gt;</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="feil:ForretningsmessigUnntak"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="JournalpostIkkeFunnet">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p&gt;Feilen kastes når journalpostId'en som sendes ikke finnes i Joark.&lt;/p&gt;</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="feil:ForretningsmessigUnntak"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SakIkkeFunnet">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p&gt;Feilen kastes når Arena ikke klarer å finne en sak om kjørelister tilknyttet til journalpostId'en.&lt;/p&gt;</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="feil:ForretningsmessigUnntak"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SakIkkeOpprettet">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p&gt;Komponenten (f.eks. Arena) klarer ikke å bestemme om det skal opprettes ny sak eller knyttes til en eksisterende sak, ingen oppgave bestilles&lt;/p&gt;</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="feil:ForretningsmessigUnntak"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="ForretningsmessigUnntak">
+    <xsd:sequence>
+      <xsd:element name="feilkilde" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>"Kildesystemet". Granularitetsnivå hovedtilbyder og ikke "underliggende systemer". ("rootSource")
+
+The source of the error in the form: 
+"MODULE: " modulename 
+" / COMPONENT: " componentname 
+" / IF(OP)" interfacename "("operationaname")" 
+" / REF: reference called "IF(OP)" interfacename "("operationaname")" </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="feilaarsak" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>"rootCause"</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="feilmelding" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The error message as returned from the source ("rootMessage")
+
+Er det her "Person ikke funnet " kommer?</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="tidspunkt" type="xsd:dateTime"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Sikkerhetsbegrensning">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p&gt;Feilen kastes når tilgangsreglene ikke oppfylles.&lt;/p&gt;</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="feil:ForretningsmessigUnntak"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="UgyldigInput">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p&gt;Komponenten (f.eks. Arena) klarer ikke å tolke input'en som er angitt, ingen oppgave bestilles&lt;/p&gt;</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="feil:ForretningsmessigUnntak"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

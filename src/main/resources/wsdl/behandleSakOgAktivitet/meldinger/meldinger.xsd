@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1/meldinger" xmlns:informasjon="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1/informasjon" xmlns:meldinger="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1/meldinger">
+  <xsd:import namespace="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1/informasjon" schemaLocation="../informasjon/informasjon.xsd"/>
+  <xsd:complexType name="BestillOppgaveMedSaksopplysningResponse">
+    <xsd:sequence>
+      <xsd:element name="oppgaveId" type="informasjon:Identifikator">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p&gt;Id til opprettet oppgave&lt;/p&gt;</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="saksnummer" type="informasjon:Identifikator">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p&gt;Tilhørende saksnummer&lt;/p&gt;</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BehandleKjoerelisteOgOpprettOppgaveResponse">
+    <xsd:sequence>
+      <xsd:element name="saksnummer" type="informasjon:Identifikator">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p&gt;Saksnummeret på saken saken hvor det foreligger vedtak om påløpte utgifter og  dokumentasjon på utbetalingsbilag&lt;/p&gt;</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BehandleKjoerelisteOgOpprettOppgaveRequest">
+    <xsd:sequence>
+      <xsd:element name="journalpostId" type="informasjon:Identifikator">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p&gt;JournalpostId for journalposten hvor det er tilknyttet sak om påløpte utgifter&lt;/p&gt;</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BestillOppgaveMedSaksopplysningRequest">
+    <xsd:sequence>
+      <xsd:element name="oppgave" type="informasjon:OppgaveMedSaksopplysning">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p&gt;Oppgaven som skal bestilles&lt;/p&gt;</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

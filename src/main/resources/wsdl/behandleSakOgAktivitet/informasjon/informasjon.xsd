@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1/informasjon" xmlns:informasjon="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1/informasjon">
+  <xsd:complexType name="OppgaveMedSaksopplysning">
+    <xsd:sequence>
+      <xsd:element name="brukerId" type="informasjon:Identifikator">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p&gt;Unik id til brukeren, kan være fnr eller d-nummer.&lt;/p&gt;</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="journalpostId" type="informasjon:Identifikator">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p&gt;JournalpostId tilknyttet oppgaven&lt;/p&gt;</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ansvarligEnhetId" type="informasjon:Identifikator">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p&gt;Ident på ansvarlig NAV-enhet, 4 siffer. Må være gyldig ident i baksystemet.&lt;/p&gt;</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="fagomraadeKode" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p&gt;Hvilket fagområde oppgaven er knyttet til. ESB er ikke master for fagområdekoder, se FGSAK for en oppdatert oversikt.&lt;/p&gt;</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="oppfoelging" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p&gt;Fritekst for oppfølging/kommentar til oppgaven&lt;/p&gt;</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="Identifikator">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p&gt;Unik identifikasjon&lt;/p&gt;</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+</xsd:schema>

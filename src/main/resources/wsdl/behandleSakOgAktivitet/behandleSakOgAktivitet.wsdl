@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="behandleSakOgAktivitet" targetNamespace="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1" xmlns:feil="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1/feil" xmlns:meldinger="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1/meldinger">
+      <xsd:import namespace="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1/feil" schemaLocation="feil/feil.xsd"/>
+      <xsd:import namespace="http://nav.no/tjeneste/virksomhet/behandleSakOgAktivitet/v1/meldinger" schemaLocation="meldinger/meldinger.xsd"/>
+      <xsd:element name="bestillOppgaveMedSaksopplysning">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="request" type="meldinger:BestillOppgaveMedSaksopplysningRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="bestillOppgaveMedSaksopplysningResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="meldinger:BestillOppgaveMedSaksopplysningResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="bestillOppgaveMedSaksopplysningugyldigInput" type="feil:UgyldigInput"/>
+      <xsd:element name="bestillOppgaveMedSaksopplysningsakIkkeOpprettet" type="feil:SakIkkeOpprettet"/>
+      <xsd:element name="bestillOppgaveMedSaksopplysningpersonIkkeFunnet" type="feil:PersonIkkeFunnet"/>
+      <xsd:element name="bestillOppgaveMedSaksopplysningsikkerhetsbegrensning" type="feil:Sikkerhetsbegrensning"/>
+      <xsd:element name="ping">
+        <xsd:complexType>
+          <xsd:sequence>
+            
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="pingResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="behandleKjoerelisteOgOpprettOppgave">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="request" type="meldinger:BehandleKjoerelisteOgOpprettOppgaveRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="behandleKjoerelisteOgOpprettOppgaveResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="meldinger:BehandleKjoerelisteOgOpprettOppgaveResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="behandleKjoerelisteOgOpprettOppgavesakIkkeFunnet" type="feil:SakIkkeFunnet"/>
+      <xsd:element name="behandleKjoerelisteOgOpprettOppgavejournalpostIkkeFunnet" type="feil:JournalpostIkkeFunnet"/>
+      <xsd:element name="behandleKjoerelisteOgOpprettOppgaveugyldigInput" type="feil:UgyldigInput"/>
+      <xsd:element name="behandleKjoerelisteOgOpprettOppgavesikkerhetsbegrensning" type="feil:Sikkerhetsbegrensning"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="bestillOppgaveMedSaksopplysningRequest">
+    <wsdl:part name="parameters" element="tns:bestillOppgaveMedSaksopplysning">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="bestillOppgaveMedSaksopplysningResponse">
+    <wsdl:part name="parameters" element="tns:bestillOppgaveMedSaksopplysningResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="behandleKjoerelisteOgOpprettOppgave_sakIkkeFunnet">
+    <wsdl:part name="sakIkkeFunnet" element="tns:behandleKjoerelisteOgOpprettOppgavesakIkkeFunnet">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="bestillOppgaveMedSaksopplysning_ugyldigInput">
+    <wsdl:part name="ugyldigInput" element="tns:bestillOppgaveMedSaksopplysningugyldigInput">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="bestillOppgaveMedSaksopplysning_sakIkkeOpprettet">
+    <wsdl:part name="sakIkkeOpprettet" element="tns:bestillOppgaveMedSaksopplysningsakIkkeOpprettet">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="behandleKjoerelisteOgOpprettOppgave_sikkerhetsbegrensning">
+    <wsdl:part name="sikkerhetsbegrensning" element="tns:behandleKjoerelisteOgOpprettOppgavesikkerhetsbegrensning">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="behandleKjoerelisteOgOpprettOppgave_ugyldigInput">
+    <wsdl:part name="ugyldigInput" element="tns:behandleKjoerelisteOgOpprettOppgaveugyldigInput">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="behandleKjoerelisteOgOpprettOppgaveResponse">
+    <wsdl:part name="parameters" element="tns:behandleKjoerelisteOgOpprettOppgaveResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="behandleKjoerelisteOgOpprettOppgave_journalpostIkkeFunnet">
+    <wsdl:part name="journalpostIkkeFunnet" element="tns:behandleKjoerelisteOgOpprettOppgavejournalpostIkkeFunnet">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="pingRequest">
+    <wsdl:part name="parameters" element="tns:ping">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="behandleKjoerelisteOgOpprettOppgaveRequest">
+    <wsdl:part name="parameters" element="tns:behandleKjoerelisteOgOpprettOppgave">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="bestillOppgaveMedSaksopplysning_personIkkeFunnet">
+    <wsdl:part name="personIkkeFunnet" element="tns:bestillOppgaveMedSaksopplysningpersonIkkeFunnet">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="pingResponse">
+    <wsdl:part name="parameters" element="tns:pingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="bestillOppgaveMedSaksopplysning_sikkerhetsbegrensning">
+    <wsdl:part name="sikkerhetsbegrensning" element="tns:bestillOppgaveMedSaksopplysningsikkerhetsbegrensning">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="BehandleSakOgAktivitet_v1">
+    <wsdl:operation name="bestillOppgaveMedSaksopplysning">
+<wsdl:documentation>&lt;p&gt;Operasjonen tilbyr å søke opp saker og behandlingskjeder for en aktør. Det er mulig å filtrere søket på ulike parametere som bl.a. tema, behandlingskjedetyper og om behandlingskjeden fortsatt er åpent. Operasjonen er inngangsporten for å hente ut en aktørs saker og behandlingskjeder. De øvrige operasjonene i tjenesten tilbyr å hente detaljer om behandlinger, men er avhengig av at man først har kalt denne operasjonen for å skaffe nødvendig data for å gjøre kall til de andre operasjonene.&lt;/p&gt; &lt;p&gt;BestillOppgaveMedSaksopplysning, innebærer å bestille en oppgave i Arena, tilknyttet en gitt journalpost, og returnerer både oppgaveId'en i Arena, samt tilhørende saksnummer.&lt;/p&gt; </wsdl:documentation>
+      <wsdl:input message="tns:bestillOppgaveMedSaksopplysningRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:bestillOppgaveMedSaksopplysningResponse">
+    </wsdl:output>
+      <wsdl:fault name="sakIkkeOpprettet" message="tns:bestillOppgaveMedSaksopplysning_sakIkkeOpprettet">
+    </wsdl:fault>
+      <wsdl:fault name="personIkkeFunnet" message="tns:bestillOppgaveMedSaksopplysning_personIkkeFunnet">
+    </wsdl:fault>
+      <wsdl:fault name="sikkerhetsbegrensning" message="tns:bestillOppgaveMedSaksopplysning_sikkerhetsbegrensning">
+    </wsdl:fault>
+      <wsdl:fault name="ugyldigInput" message="tns:bestillOppgaveMedSaksopplysning_ugyldigInput">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ping">
+<wsdl:documentation>&lt;p&gt;Ping-tjeneste for å sjekke at tjenesten i Arena svarer.&lt;/p&gt; </wsdl:documentation>
+      <wsdl:input message="tns:pingRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:pingResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="behandleKjoerelisteOgOpprettOppgave">
+      <wsdl:input message="tns:behandleKjoerelisteOgOpprettOppgaveRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:behandleKjoerelisteOgOpprettOppgaveResponse">
+    </wsdl:output>
+      <wsdl:fault name="sakIkkeFunnet" message="tns:behandleKjoerelisteOgOpprettOppgave_sakIkkeFunnet">
+    </wsdl:fault>
+      <wsdl:fault name="sikkerhetsbegrensning" message="tns:behandleKjoerelisteOgOpprettOppgave_sikkerhetsbegrensning">
+    </wsdl:fault>
+      <wsdl:fault name="journalpostIkkeFunnet" message="tns:behandleKjoerelisteOgOpprettOppgave_journalpostIkkeFunnet">
+    </wsdl:fault>
+      <wsdl:fault name="ugyldigInput" message="tns:behandleKjoerelisteOgOpprettOppgave_ugyldigInput">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>
