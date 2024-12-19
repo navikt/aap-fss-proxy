@@ -17,7 +17,6 @@ import no.nav.aap.proxy.arena.generated.oppgave.WSTema
 import no.nav.aap.proxy.arena.generated.sak.Bruker
 import no.nav.aap.proxy.arena.generated.sak.HentSaksInfoListeRequestV2
 import no.nav.aap.proxy.arena.generated.sak.ObjectFactory
-import no.nav.aap.proxy.arena.soap.ArenaDTOs.ArenaOppgaveType.STARTVEDTAK
 import no.nav.aap.util.Constants.AAP
 
 object ArenaDTOs {
@@ -25,10 +24,9 @@ object ArenaDTOs {
     private const val PERSON = "PERSON"
     private val AAP_TEMA = WSTema().apply { value = AAP.uppercase() }
     private val HØY_PRIORITET = WSPrioritet().apply { value = "HOY" }
-    private val START_VEDTAKTYPE = WSOppgavetype().apply { value = STARTVEDTAK.name }
     fun oppgaveReq(params : ArenaOpprettOppgaveParams) =
         WSBestillOppgaveRequest().apply {
-            oppgavetype = START_VEDTAKTYPE
+            oppgavetype = WSOppgavetype().apply { value = params.oppgaveType.name }
             oppgave = oppgave(params)
         }
 
@@ -55,15 +53,11 @@ object ArenaDTOs {
         tilleggsinformasjon = oppgaveBeskrivelse(params.tittel, params.titler)
         behandlendeEnhetId = params.enhet
         prioritet = HØY_PRIORITET
-        beskrivelse = STARTVEDTAK.tekst
+        beskrivelse = params.oppgaveType.tekst
         frist = DatatypeFactory.newInstance()
             .newXMLGregorianCalendar(GregorianCalendar.from(ZonedDateTime.now().toInstant().atZone(
                 ZoneId.of("Europe/Oslo"))))
 
-    }
-
-    private enum class ArenaOppgaveType(val tekst : String) {
-        STARTVEDTAK("Start Vedtaksbehandling - automatisk journalfør"),
     }
 
     private fun oppgaveBeskrivelse(tittel : String, dokumentTitler : List<String>) =
@@ -98,12 +92,27 @@ object ArenaDTOs {
         }
 }
 
-data class ArenaOpprettOppgaveParams(val fnr : Fødselsnummer, val enhet : String, val tittel : String, val titler : List<String> = emptyList())
-data class OpprettetOppgave(val oppgaveId : String, val arenaSakId : String) {
+data class ArenaOpprettOppgaveParams(
+    val fnr : Fødselsnummer,
+    val enhet : String,
+    val tittel : String,
+    val titler : List<String> = emptyList(),
+    val oppgaveType: ArenaOppgaveType
+)
+
+data class OpprettetOppgave(
+    val oppgaveId : String,
+    val arenaSakId : String
+) {
     companion object {
 
         val EMPTY = OpprettetOppgave("0", "0")
     }
+}
+
+enum class ArenaOppgaveType(val tekst : String) {
+    STARTVEDTAK("Start Vedtaksbehandling - automatisk journalfør"),
+    BEHENVPERSON("Behandle henvendelse - Person")
 }
 
 data class BehandleKjoerelisteOgOpprettOppgaveRequest(
