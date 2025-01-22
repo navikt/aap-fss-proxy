@@ -38,4 +38,5 @@ class ArenaController(private val arena : ArenaClient) {
     @PostMapping("/behandleKjoerelisteOgOpprettOppgave")
     fun behandleKjoerelisteOgOpprettOppgave(@RequestBody request: BehandleKjoerelisteOgOpprettOppgaveRequest) =
         arena.behandleKjoerelisteOgOpprettOppgave(request.journalpostId)
+
 }

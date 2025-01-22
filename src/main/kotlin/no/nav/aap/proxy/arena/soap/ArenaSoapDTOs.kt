@@ -24,6 +24,7 @@ object ArenaDTOs {
     private const val PERSON = "PERSON"
     private val AAP_TEMA = WSTema().apply { value = AAP.uppercase() }
     private val HØY_PRIORITET = WSPrioritet().apply { value = "HOY" }
+
     fun oppgaveReq(params : ArenaOpprettOppgaveParams) =
         WSBestillOppgaveRequest().apply {
             oppgavetype = WSOppgavetype().apply { value = params.oppgaveType.name }
@@ -61,16 +62,16 @@ object ArenaDTOs {
     }
 
     private fun oppgaveBeskrivelse(tittel : String, dokumentTitler : List<String>) =
-        """
-            Hoveddokument: $tittel
-            
-            
-            ${vedleggBeskrivelse(dokumentTitler)}
-            
-            Registrert dato: ${idag()}
-            
-            Dokumentet er automatisk journalført. Gjennomfør rutinen "Etterkontroll av automatisk journalførte dokumenter"
-        """
+        StringBuilder()
+            .append ( "Hoveddokument: $tittel" )
+            .append ( "\\n\\n" )
+            .append ( vedleggBeskrivelse(dokumentTitler) )
+            .append ( "\\n" )
+            .append ( "Registrert dato: ${idag()}" )
+            .append ( "\\n" )
+            .append ( "Dokumentet er automatisk journalført. Gjennomfør rutinen \\\"Etterkontroll av automatisk journalførte dokumenter\\\"." )
+            .toString()
+
 
     private fun vedleggBeskrivelse(vedleggTitler : List<String>) : String {
         val sb = StringBuilder()
@@ -84,11 +85,10 @@ object ArenaDTOs {
 
     private fun vedleggTittelAppend(sb : StringBuilder, tittel : String?) =
         tittel?.let {
-            if (sb.length > "Vedlegg: ".length) {
-                sb.append(", ")
+            if (sb.length > 0) {
+                sb.append(",\\n")
             }
             sb.append(tittel.trim { it <= ' ' })
-            sb.append("\\n")
         }
 }
 
@@ -111,8 +111,8 @@ data class OpprettetOppgave(
 }
 
 enum class ArenaOppgaveType(val tekst : String) {
-    STARTVEDTAK("Start Vedtaksbehandling - automatisk journalfør"),
-    BEHENVPERSON("Behandle henvendelse - Person")
+    STARTVEDTAK("Start Vedtaksbehandling - automatisk journalført"),
+    BEHENVPERSON("Behandle henvendelse - automatisk journalført")
 }
 
 data class BehandleKjoerelisteOgOpprettOppgaveRequest(
