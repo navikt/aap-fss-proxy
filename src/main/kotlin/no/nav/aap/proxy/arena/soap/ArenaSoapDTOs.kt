@@ -64,12 +64,12 @@ object ArenaDTOs {
     private fun oppgaveBeskrivelse(tittel : String, dokumentTitler : List<String>) =
         StringBuilder()
             .append ( "Hoveddokument: $tittel" )
-            .append ( "\\n\\n" )
+            .append ( "\n\n" )
             .append ( vedleggBeskrivelse(dokumentTitler) )
-            .append ( "\\n" )
+            .append ( "\n" )
             .append ( "Registrert dato: ${idag()}" )
-            .append ( "\\n" )
-            .append ( "Dokumentet er automatisk journalført. Gjennomfør rutinen \\\"Etterkontroll av automatisk journalførte dokumenter\\\"." )
+            .append ( "\n" )
+            .append ( "Dokumentet er automatisk journalført. Gjennomfør rutinen \"Etterkontroll av automatisk journalførte dokumenter\"." )
             .toString()
 
 
@@ -86,7 +86,7 @@ object ArenaDTOs {
     private fun vedleggTittelAppend(sb : StringBuilder, tittel : String?) =
         tittel?.let {
             if (sb.length > 0) {
-                sb.append(",\\n")
+                sb.append(",\n")
             }
             sb.append(tittel.trim { it <= ' ' })
         }

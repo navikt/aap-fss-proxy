@@ -19,6 +19,14 @@ class ArenaDTOsTest {
         val request = ArenaDTOs.oppgaveReq(params)
 
         Assertions.assertThat(request.oppgave.tilleggsinformasjon)
-            .isEqualTo("Hoveddokument: Søknad om arbeidsavklaringspenger\\n\\nVedlegg 1,\\nVedlegg 2\\nRegistrert dato: 22.01.2025\\nDokumentet er automatisk journalført. Gjennomfør rutinen \\\"Etterkontroll av automatisk journalførte dokumenter\\\".")
+            .isEqualTo("""
+                Hoveddokument: Søknad om arbeidsavklaringspenger
+  
+                Vedlegg 1,
+                Vedlegg 2
+                Registrert dato: 23.01.2025
+                Dokumentet er automatisk journalført. Gjennomfør rutinen "Etterkontroll av automatisk journalførte dokumenter".
+            """.trimIndent()
+            )
     }
 }
