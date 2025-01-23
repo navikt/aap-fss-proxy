@@ -80,6 +80,7 @@ object ArenaDTOs {
                 .replace("\\", "\\\\")
                 .replace("\"", "\\\""))
         }
+        if (vedleggTitler.size > 0) { sb.append("\n") }
         return sb.toString()
     }
 

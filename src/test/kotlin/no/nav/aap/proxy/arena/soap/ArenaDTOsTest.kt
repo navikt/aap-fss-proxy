@@ -24,6 +24,7 @@ class ArenaDTOsTest {
   
                 Vedlegg 1,
                 Vedlegg 2
+                
                 Registrert dato: 23.01.2025
                 Dokumentet er automatisk journalført. Gjennomfør rutinen "Etterkontroll av automatisk journalførte dokumenter".
             """.trimIndent()
