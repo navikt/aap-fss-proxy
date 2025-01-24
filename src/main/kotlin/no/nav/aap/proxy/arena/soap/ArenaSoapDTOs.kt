@@ -103,7 +103,7 @@ data class ArenaOpprettOppgaveParams(
 
 data class OpprettetOppgave(
     val oppgaveId : String,
-    val arenaSakId : String
+    val arenaSakId : String?
 ) {
     companion object {
 
