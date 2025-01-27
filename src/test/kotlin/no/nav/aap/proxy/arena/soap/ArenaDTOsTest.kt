@@ -3,6 +3,8 @@ package no.nav.aap.proxy.arena.soap
 import no.nav.aap.api.felles.Fødselsnummer
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ArenaDTOsTest {
 
@@ -25,7 +27,7 @@ class ArenaDTOsTest {
                 Vedlegg 1,
                 Vedlegg 2
                 
-                Registrert dato: 23.01.2025
+                Registrert dato: ${LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))}
                 Dokumentet er automatisk journalført. Gjennomfør rutinen "Etterkontroll av automatisk journalførte dokumenter".
             """.trimIndent()
             )
