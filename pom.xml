@@ -24,7 +24,7 @@
         <jib.version>3.4.4</jib.version>
         <java.version>17</java.version>
         <logstash.version>8.0</logstash.version>
-        <kotlin.version>2.1.0</kotlin.version>
+        <kotlin.version>2.1.10</kotlin.version>
         <problem.version>0.27.0</problem.version>
         <revision>0.0.1-SNAPSHOT</revision>
         <springdoc.version>2.7.0</springdoc.version>
