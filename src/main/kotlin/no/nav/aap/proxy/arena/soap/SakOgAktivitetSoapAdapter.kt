@@ -30,6 +30,7 @@ class SakOgAktivitetSoapAdapter(private val behandleSakOgAktivitet: BehandleSakO
 
     override fun ping() : Map<String, String> {
         behandleSakOgAktivitet.ping()
+        log.info("ping til behandleSakOgAktivtet vellykket")
         return mapOf("ping" to "OK")
     }
 }
