@@ -26,7 +26,7 @@ class SakOgAktivitetSoapAdapter(private val behandleSakOgAktivitet: BehandleSakO
             EMPTY
         }
 
-    override fun pingEndpoint() = cfg.oppgaveUri
+    override fun pingEndpoint() = cfg.behandleSakOgAktivitetUri
 
     override fun ping() : Map<String, String> {
         behandleSakOgAktivitet.ping()
