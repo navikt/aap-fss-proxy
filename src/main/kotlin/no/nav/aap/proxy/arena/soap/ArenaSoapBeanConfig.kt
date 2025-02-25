@@ -44,6 +44,9 @@ class ArenaSoapBeanConfig(private val cfg : ArenaSoapConfig) {
     fun arenaSakHealthIndicator(a : ArenaSakSoapAdapter) = object : AbstractPingableHealthIndicator(a) {}
 
     @Bean
+    fun sakOgAktivitetHealthIndicator(a : SakOgAktivitetSoapAdapter) = object : AbstractPingableHealthIndicator(a) {}
+
+    @Bean
     fun arenaOppgaveClient(ws : WsClient<BehandleArbeidOgAktivitetOppgaveV1>) =
         ws.configureClientForSystemUserSAML(JaxWsProxyFactoryBean().apply {
             address = cfg.oppgaveUri
