@@ -24,7 +24,7 @@ data class BesillOppgaveResponseWrapper(private val response: WSBestillOppgaveRe
 class ArenaOppgaveSoapAdapter(private val arenaOppgave : BehandleArbeidOgAktivitetOppgaveV1, cfg : ArenaSoapConfig) : ArenaAbstractPingableSoapAdapter(cfg) {
 
     private val log = getLogger(javaClass)
-
+ 
     fun opprettOppgave(params : ArenaOpprettOppgaveParams) =
         if (cfg.enabled) {
             runCatching {
@@ -44,6 +44,7 @@ class ArenaOppgaveSoapAdapter(private val arenaOppgave : BehandleArbeidOgAktivit
     override fun pingEndpoint() = cfg.oppgaveUri
 
     override fun ping() : Map<String, String> {
+        log.info("Pinger arenaOppgave")
         arenaOppgave.ping()
         return mapOf("ping" to "OK")
     }

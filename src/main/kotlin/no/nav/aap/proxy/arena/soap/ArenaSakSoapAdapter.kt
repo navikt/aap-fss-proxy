@@ -29,6 +29,7 @@ class ArenaSakSoapAdapter(@Qualifier(SAK) private val sak : WebServiceOperations
             }.firstOrNull()?.saksId
 
     override fun ping() : Map<String, String> {
+        log.info("Pinger arenaSak")
         nyesteAktiveSak("11111111111")
         return mapOf("status" to "OK")
     }
