@@ -16,4 +16,4 @@ arenasoap:
     oppgave-uri: https://arena.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
     behandle-sak-og-aktivitet-uri: https://arena.adeo.no/ail_ws/BehandleSakOgAktivitet_v1
     sts:
-        url: https://sts.adeo.no/SecurityTokenServiceProvider
+        url: https://sts.adeo.no/SecurityTokenServiceProvider/
