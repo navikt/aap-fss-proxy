@@ -2,7 +2,14 @@
 <configuration>
     <appender name="stdout"
         class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <jsonGeneratorDecorator class="net.logstash.logback.mask.MaskingJsonGeneratorDecorator">
+                <valueMask>
+                    <value>\b(\d{6})\d{5}\b</value>
+                    <mask>$1*****</mask>
+                </valueMask>
+            </jsonGeneratorDecorator>
+        </encoder>
     </appender>
     <springProfile name="dev">
         <logger name="org.springframework.ws" level="info" />
