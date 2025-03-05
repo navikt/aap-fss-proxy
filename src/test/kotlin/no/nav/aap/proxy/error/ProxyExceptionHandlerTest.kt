@@ -5,6 +5,8 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkObject
 import io.mockk.verify
+import no.nav.aap.proxy.arena.generated.behandleSakOgAktivitet.BehandleKjoerelisteOgOpprettOppgaveUgyldigInput
+import no.nav.aap.proxy.arena.generated.behandleSakOgAktivitet.UgyldigInput
 import no.nav.aap.proxy.arena.generated.oppgave.BestillOppgavePersonErInaktiv
 import no.nav.aap.proxy.arena.generated.oppgave.BestillOppgavePersonIkkeFunnet
 import no.nav.aap.proxy.arena.generated.oppgave.WSPersonErInaktiv
@@ -43,6 +45,14 @@ class ProxyExceptionHandlerTest {
     @Test
     fun `skal logge feil fra BestillOppgavePersonErInaktiv som info`() {
         val personInaktiv = BestillOppgavePersonErInaktiv("Person inaktiv feilmelding", WSPersonErInaktiv())
+        kastFeil(personInaktiv)
+
+        verifiserInfoLogging()
+    }
+
+    @Test
+    fun `skal logge feil fra BehandleKjoerelisteOgOpprettOppgaveUgyldigInput som info`() {
+        val personInaktiv = BehandleKjoerelisteOgOpprettOppgaveUgyldigInput("Mangler kjøreliste", UgyldigInput())
         kastFeil(personInaktiv)
 
         verifiserInfoLogging()
