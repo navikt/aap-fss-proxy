@@ -1,6 +1,8 @@
 package no.nav.aap.proxy.error
 
 import jakarta.xml.ws.soap.SOAPFaultException
+import no.nav.aap.proxy.arena.generated.behandleSakOgAktivitet.BehandleKjoerelisteOgOpprettOppgaveUgyldigInput
+import no.nav.aap.proxy.arena.generated.oppgave.BestillOppgavePersonErInaktiv
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.*
@@ -61,6 +63,10 @@ class ProxyExceptionHandler : ResponseEntityExceptionHandler() {
                 setProperty(NAV_CALL_ID, callId())
             }.also { log(e, it, req, status) })
 
-    private fun log(t : Throwable, problem : ProblemDetail, req : NativeWebRequest, status : HttpStatus) =
-        log.error("$req $problem ${status.reasonPhrase}: ${t.message}", t)
+    private fun log(t : Throwable, problem : ProblemDetail, req : NativeWebRequest, status : HttpStatus) {
+        when (t::class) {
+            BestillOppgavePersonIkkeFunnet::class, BestillOppgavePersonErInaktiv::class, BehandleKjoerelisteOgOpprettOppgaveUgyldigInput::class -> log.info("$req $problem ${status.reasonPhrase}: ${t.message}", t)
+            else -> log.error("$req $problem ${status.reasonPhrase}: ${t.message}", t)
+        }
+    }
 }
