@@ -63,7 +63,7 @@ class ProxyExceptionHandler : ResponseEntityExceptionHandler() {
             }.also { log(e, it, req, status) })
 
     private fun log(t : Throwable, problem : ProblemDetail, req : NativeWebRequest, status : HttpStatus) {
-        when (t.cause) {
+        when (t::class) {
             BestillOppgavePersonIkkeFunnet::class, BestillOppgavePersonErInaktiv::class -> log.info("$req $problem ${status.reasonPhrase}: ${t.message}", t)
             else -> log.error("$req $problem ${status.reasonPhrase}: ${t.message}", t)
         }
