@@ -5,7 +5,8 @@ on:
         branches:
             - main
 env:
-  IMAGE_BASE: europe-north1-docker.pkg.dev/${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}/aap/${{ github.event.repository.name }}
+  # https://nav-it.slack.com/archives/C01DE3M9YBV/p1745825116642379?thread_ts=1737982464.376109&cid=C01DE3M9YBV
+  IMAGE_BASE: europe-north1-docker.pkg.dev/nais-management-233d/aap/${{ github.event.repository.name }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
@@ -40,8 +41,6 @@ jobs:
             -   name: Login GAR
                 uses: nais/login@v0
                 with:
-                    project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-                    identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
                     team: aap
 
             -   name: Kompiler og deploy image med jib
@@ -82,6 +81,4 @@ jobs:
                 id: login
                 with:
                     team: aap
-                    identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-                    project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
             -   uses: nais/deploy/actions/deploy@v2
