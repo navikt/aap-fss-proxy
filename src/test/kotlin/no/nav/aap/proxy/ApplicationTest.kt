@@ -1,6 +1,5 @@
 package no.nav.aap.proxy
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import java.time.YearMonth
 import java.util.UUID
 import no.nav.aap.proxy.ArenaOidcMock.Companion.arenaSak
@@ -36,9 +35,6 @@ import org.springframework.web.client.exchange
 @EnableMockOAuth2Server
 @Import(ArenaOidcMock::class)
 class ApplicationTest {
-
-    @Autowired
-    private lateinit var objectMapper: ObjectMapper
 
     @LocalServerPort
     private var port: Int? = 0
