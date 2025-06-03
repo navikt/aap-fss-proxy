@@ -1,70 +1,198 @@
 package no.nav.aap.proxy
 
-import io.mockk.every
-import io.mockk.mockk
-import no.nav.aap.proxy.arena.rest.ArenaOIDCWebClientAdapter
-import no.nav.aap.proxy.arena.rest.ArenaVedtakRestConfig
-import no.nav.aap.proxy.sts.OidcToken
-import no.nav.aap.util.Constants
+import com.fasterxml.jackson.databind.ObjectMapper
+import java.time.YearMonth
+import java.util.UUID
+import no.nav.aap.proxy.ArenaOidcMock.Companion.arenaSak
+import no.nav.aap.proxy.ArenaOidcMock.Companion.arenaVedtak
+import no.nav.aap.proxy.ArenaOidcMock.Companion.fødselsnummer
+import no.nav.aap.proxy.ArenaOidcMock.Companion.inntektIdent
+import no.nav.aap.proxy.ArenaOidcMock.Companion.inntektResponse
+import no.nav.aap.proxy.inntektskomponent.InntektRequest
+import no.nav.security.mock.oauth2.MockOAuth2Server
+import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
+import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
+import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.context.TestConfiguration
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Primary
-import org.springframework.web.reactive.function.client.ClientResponse
-import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.util.UriBuilder
-import reactor.core.publisher.Mono
-import java.net.URI
-import java.util.function.Function
+import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.context.annotation.Import
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EnableAutoConfiguration
+@EnableJwtTokenValidation(ignore = ["org.springdoc", "org.springframework"])
+@EnableMockOAuth2Server
+@Import(ArenaOidcMock::class)
 class ApplicationTest {
 
-    @TestConfiguration
-    class ArenaOidcMock {
+    @Autowired
+    private lateinit var objectMapper: ObjectMapper
 
-        @Bean
-        @Primary
-        @Qualifier(ArenaVedtakRestConfig.ARENAOIDC)
-        fun arenaOidcMock(): WebClient = mockk(relaxed = true) {
-            val mono = Mono.just(ArenaOIDCWebClientAdapter.ArenaOidcToken(
-                    "test", "test", 1000
-                ))
-            val spec = mockk<WebClient.RequestBodyUriSpec>(relaxed = true) {
-                every { uri(any() as Function<UriBuilder, URI>) } returns this
-                every { contentType(any()) } returns this
-                every { bodyValue(any()) } returns this
-                every {
-                    exchangeToMono(any() as Function<ClientResponse, Mono<ArenaOIDCWebClientAdapter.ArenaOidcToken>>)
-                } returns mono
-            }
-            every { post() } returns spec
-        }
+    @LocalServerPort
+    private var port: Int? = 0
 
-        @Bean
-        @Primary
-        @Qualifier(Constants.STS)
-        fun stsMock(): WebClient = mockk(relaxed = true) {
-            val mono = Mono.just(OidcToken(
-                    mockk(relaxed = true), "test", 1000
-                ))
-            val spec = mockk<WebClient.RequestBodyUriSpec>(relaxed = true) {
-                every { uri(any() as Function<UriBuilder, URI>) } returns this
-                every {
-                    exchangeToMono(any() as Function<ClientResponse, Mono<OidcToken>>)
-                } returns mono
-            }
-            every { get() } returns spec
-        }
+    @Autowired
+    private lateinit var mockOAuth2Server: MockOAuth2Server
 
-    }
-    
+
     @Test
-    fun initializeContext() {}
+    fun `skal hente ut nyeste aktive sak fra arena gitt fnr i url`() {
+        val headers = HttpHeaders()
+        headers.setBearerAuth(genererBearerToken())
+        val entity = HttpEntity(null, headers)
+
+        val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
+            "http://localhost:$port/arena/nyesteaktivesak/$fødselsnummer",
+            HttpMethod.GET,
+            entity,
+            String::class.java
+        )
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response.body).isEqualTo(arenaSak)
+    }
+
+    @Test
+    fun `skal hente ut nyeste aktive sak fra arena gitt fnr i header`() {
+        val headers = HttpHeaders()
+        headers.setBearerAuth(genererBearerToken())
+        headers.add("personident", fødselsnummer)
+        val entity = HttpEntity(null, headers)
+        val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
+            "http://localhost:$port/arena/nyesteaktivesak",
+            HttpMethod.GET,
+            entity,
+            String::class.java
+        )
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response.body).isEqualTo(arenaSak)
+    }
+
+    @Test
+    fun `skal hente ut nyeste vedtak fra arena gitt fnr i header`() {
+        val headers = HttpHeaders()
+        headers.setBearerAuth(genererBearerToken())
+        headers.add("personident", fødselsnummer)
+        val entity = HttpEntity(null, headers)
+        val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
+            "http://localhost:$port/arena/vedtak",
+            HttpMethod.GET,
+            entity,
+            String::class.java
+        )
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response.body).isEqualTo(arenaVedtak)
+    }
+
+    @Test
+    fun `skal hente ut nyeste vedtak fra arena gitt fnr i url`() {
+        val headers = HttpHeaders()
+        headers.setBearerAuth(genererBearerToken())
+        val entity = HttpEntity(null, headers)
+        val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
+            "http://localhost:$port/arena/vedtak/$fødselsnummer",
+            HttpMethod.GET,
+            entity,
+            String::class.java
+        )
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response.body).isEqualTo(arenaVedtak)
+    }
+
+    @Test
+    fun `skal hente ut inntekt`() {
+        val headers = HttpHeaders()
+        headers.setBearerAuth(genererBearerToken())
+        val entity = HttpEntity(
+            InntektRequest(
+                ident = inntektIdent,
+                ainntektsfilter = "",
+                formaal = "",
+                maanedFom = YearMonth.now(),
+                maanedTom = YearMonth.now(),
+            ), headers
+        )
+        val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
+            "http://localhost:$port/inntektskomponent/",
+            HttpMethod.POST,
+            entity,
+            String::class.java
+        )
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response.body).isEqualTo(objectMapper.writeValueAsString(inntektResponse))
+    }
+
+    @Test
+    fun `skal feile dersom token er ugyldig ut inntekt`() {
+        val headers = HttpHeaders()
+        headers.setBearerAuth(genererUgyldigBearerToken())
+        val entity = HttpEntity(
+            InntektRequest(
+                ident = inntektIdent,
+                ainntektsfilter = "",
+                formaal = "",
+                maanedFom = YearMonth.now(),
+                maanedTom = YearMonth.now(),
+            ), headers
+        )
+        val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
+            "http://localhost:$port/inntektskomponent/",
+            HttpMethod.POST,
+            entity,
+            String::class.java
+        )
+        assertThat(response.statusCode).isEqualTo(HttpStatus.UNAUTHORIZED)
+    }
+
+    private fun genererBearerToken(): String {
+        val clientId = "lokal:aap:aap-fss-proxy"
+        return mockOAuth2Server
+            .issueToken(
+                issuerId = "aad",
+                clientId,
+                DefaultOAuth2TokenCallback(
+                    issuerId = "aad",
+                    audience = listOf("aud-localhost"),
+                    claims = mapOf(
+                        "oid" to UUID.randomUUID().toString(),
+                        "azp" to clientId,
+                        "name" to "saksbehandler",
+                        "NAVIdent" to "saksbehandler"
+                    ),
+                    expiry = 3600,
+                ),
+            ).serialize()
+    }
+
+
+    private fun genererUgyldigBearerToken(): String {
+        val clientId = "lokal:aap:aap-fss-proxy"
+        return mockOAuth2Server
+            .issueToken(
+                issuerId = "aad",
+                clientId,
+                DefaultOAuth2TokenCallback(
+                    issuerId = "aad",
+                    audience = listOf("ugyldig-aud"),
+                    claims = mapOf(
+                        "oid" to UUID.randomUUID().toString(),
+                        "azp" to clientId,
+                        "name" to "saksbehandler",
+                        "NAVIdent" to "saksbehandler"
+                    ),
+                    expiry = 3600,
+                ),
+            ).serialize()
+    }
+
 
 }
