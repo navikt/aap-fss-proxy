@@ -9,6 +9,7 @@ import no.nav.aap.proxy.ArenaOidcMock.Companion.fødselsnummer
 import no.nav.aap.proxy.ArenaOidcMock.Companion.inntektIdent
 import no.nav.aap.proxy.ArenaOidcMock.Companion.inntektResponse
 import no.nav.aap.proxy.inntektskomponent.InntektRequest
+import no.nav.aap.proxy.inntektskomponent.InntektResponse
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
@@ -26,6 +27,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.client.exchange
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -49,12 +51,11 @@ class ApplicationTest {
     fun `skal hente ut nyeste aktive sak fra arena gitt fnr i url`() {
         val headers = HttpHeaders()
         headers.setBearerAuth(genererBearerToken())
-        val entity = HttpEntity(null, headers)
 
         val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
             "http://localhost:$port/arena/nyesteaktivesak/$fødselsnummer",
             HttpMethod.GET,
-            entity,
+            HttpEntity(null, headers),
             String::class.java
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
@@ -66,11 +67,10 @@ class ApplicationTest {
         val headers = HttpHeaders()
         headers.setBearerAuth(genererBearerToken())
         headers.add("personident", fødselsnummer)
-        val entity = HttpEntity(null, headers)
         val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
             "http://localhost:$port/arena/nyesteaktivesak",
             HttpMethod.GET,
-            entity,
+            HttpEntity(null, headers),
             String::class.java
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
@@ -82,11 +82,10 @@ class ApplicationTest {
         val headers = HttpHeaders()
         headers.setBearerAuth(genererBearerToken())
         headers.add("personident", fødselsnummer)
-        val entity = HttpEntity(null, headers)
         val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
             "http://localhost:$port/arena/vedtak",
             HttpMethod.GET,
-            entity,
+            HttpEntity(null, headers),
             String::class.java
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
@@ -97,11 +96,10 @@ class ApplicationTest {
     fun `skal hente ut nyeste vedtak fra arena gitt fnr i url`() {
         val headers = HttpHeaders()
         headers.setBearerAuth(genererBearerToken())
-        val entity = HttpEntity(null, headers)
         val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
             "http://localhost:$port/arena/vedtak/$fødselsnummer",
             HttpMethod.GET,
-            entity,
+            HttpEntity(null, headers),
             String::class.java
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
@@ -121,14 +119,13 @@ class ApplicationTest {
                 maanedTom = YearMonth.now(),
             ), headers
         )
-        val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
+        val response: ResponseEntity<InntektResponse> = TestRestTemplate().restTemplate.exchange<InntektResponse>(
             "http://localhost:$port/inntektskomponent/",
             HttpMethod.POST,
             entity,
-            String::class.java
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(response.body).isEqualTo(objectMapper.writeValueAsString(inntektResponse))
+        assertThat(response.body).isEqualTo(inntektResponse)
     }
 
     @Test
@@ -144,11 +141,10 @@ class ApplicationTest {
                 maanedTom = YearMonth.now(),
             ), headers
         )
-        val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
+        val response: ResponseEntity<Any> = TestRestTemplate().restTemplate.exchange(
             "http://localhost:$port/inntektskomponent/",
             HttpMethod.POST,
             entity,
-            String::class.java
         )
         assertThat(response.statusCode).isEqualTo(HttpStatus.UNAUTHORIZED)
     }
