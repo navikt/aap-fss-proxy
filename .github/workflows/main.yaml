@@ -53,7 +53,7 @@ jobs:
                     ls .
                     echo "DIGEST=$(cat target/jib-image.digest)" >> $GITHUB_ENV
             - name: Attest and sign image
-              uses: nais/attest-sign@v1.5.15
+              uses: nais/attest-sign@v1.5.16
               with:
                 image_ref: ${{ env.IMAGE }}@${{ env.DIGEST }}
     
