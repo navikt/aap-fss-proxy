@@ -20,7 +20,7 @@ jobs:
             image: ${{ steps.kompiler.outputs.image }}
         steps:
             -   name: Sjekk ut kode
-                uses: actions/checkout@v4
+                uses: actions/checkout@v5
 
             -   name: Sett opp Java
                 uses: actions/setup-java@v4.7.1
@@ -76,7 +76,7 @@ jobs:
             VARS: .deploy/${{ matrix.cluster }}.yaml
             VAR: image=${{needs.bygg.outputs.image}}
         steps:
-            -   uses: actions/checkout@v4
+            -   uses: actions/checkout@v5
             -   uses: nais/login@v0
                 id: login
                 with:
