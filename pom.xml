@@ -23,7 +23,7 @@
         <domain.version>2.0.79</domain.version>
         <jib.version>3.4.6</jib.version>
         <java.version>17</java.version>
-        <logstash.version>8.1</logstash.version>
+        <logstash.version>9.0</logstash.version>
         <kotlin.version>2.2.21</kotlin.version>
         <problem.version>0.27.0</problem.version>
         <revision>0.0.1-SNAPSHOT</revision>
