@@ -1,7 +1,7 @@
 package no.nav.aap.proxy.sts
 
 import io.micrometer.observation.annotation.Observed
-import javax.inject.Inject
+import jakarta.inject.Inject
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 
