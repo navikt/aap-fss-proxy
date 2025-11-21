@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -   name: Sjekk ut kode
-          uses: actions/checkout@v5
+          uses: actions/checkout@v6
 
       -   name: Sett opp Java
           uses: actions/setup-java@v5.0.0
