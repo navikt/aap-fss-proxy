@@ -39,7 +39,7 @@ import no.nav.security.token.support.client.spring.oauth2.ClientConfigurationPro
 import no.nav.security.token.support.core.context.TokenValidationContextHolder
 
 @Configuration(proxyBeanMethods = false)
-class GlobalConfig(@Value("\${spring.application.name:aap-fss-proxy}") val applicationName : String) {
+class GlobalConfig(@param:Value("\${spring.application.name:aap-fss-proxy}") val applicationName : String) {
 
     @Bean
     fun jacksonCustomizer() =
