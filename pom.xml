@@ -24,7 +24,7 @@
       <cxf.version>4.1.4</cxf.version>
         <domain.version>2.0.79</domain.version>
         <jib.version>3.5.1</jib.version>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <logstash.version>9.0</logstash.version>
       <kotlin.coroutines.version>1.8.0</kotlin.coroutines.version>
       <kotlin.version>2.2.21</kotlin.version>
