@@ -18,15 +18,10 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.context.annotation.Import
-import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.web.client.exchange
+import org.springframework.test.web.reactive.server.WebTestClient
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -45,104 +40,114 @@ class ApplicationTest {
 
     @Test
     fun `skal hente ut nyeste aktive sak fra arena gitt fnr i url`() {
-        val headers = HttpHeaders()
-        headers.setBearerAuth(genererBearerToken())
-
-        val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
-            "http://localhost:$port/arena/nyesteaktivesak/$fødselsnummer",
-            HttpMethod.GET,
-            HttpEntity(null, headers),
-            String::class.java
-        )
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(response.body).isEqualTo(arenaSak)
+        val response = WebTestClient.bindToServer()
+            .baseUrl("http://localhost:$port")
+            .build()
+            .get()
+            .uri("/arena/nyesteaktivesak/$fødselsnummer")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer ${genererBearerToken()}")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(String::class.java)
+            .returnResult()
+        
+        assertThat(response.responseBody).isEqualTo(arenaSak)
     }
 
     @Test
     fun `skal hente ut nyeste aktive sak fra arena gitt fnr i header`() {
-        val headers = HttpHeaders()
-        headers.setBearerAuth(genererBearerToken())
-        headers.add("personident", fødselsnummer)
-        val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
-            "http://localhost:$port/arena/nyesteaktivesak",
-            HttpMethod.GET,
-            HttpEntity(null, headers),
-            String::class.java
-        )
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(response.body).isEqualTo(arenaSak)
+        val response = WebTestClient.bindToServer()
+            .baseUrl("http://localhost:$port")
+            .build()
+            .get()
+            .uri("/arena/nyesteaktivesak")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer ${genererBearerToken()}")
+            .header("personident", fødselsnummer)
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(String::class.java)
+            .returnResult()
+        
+        assertThat(response.responseBody).isEqualTo(arenaSak)
     }
 
     @Test
     fun `skal hente ut nyeste vedtak fra arena gitt fnr i header`() {
-        val headers = HttpHeaders()
-        headers.setBearerAuth(genererBearerToken())
-        headers.add("personident", fødselsnummer)
-        val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
-            "http://localhost:$port/arena/vedtak",
-            HttpMethod.GET,
-            HttpEntity(null, headers),
-            String::class.java
-        )
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(response.body).isEqualTo(arenaVedtak)
+        val response = WebTestClient.bindToServer()
+            .baseUrl("http://localhost:$port")
+            .build()
+            .get()
+            .uri("/arena/vedtak")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer ${genererBearerToken()}")
+            .header("personident", fødselsnummer)
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(String::class.java)
+            .returnResult()
+        
+        assertThat(response.responseBody).isEqualTo(arenaVedtak)
     }
 
     @Test
     fun `skal hente ut nyeste vedtak fra arena gitt fnr i url`() {
-        val headers = HttpHeaders()
-        headers.setBearerAuth(genererBearerToken())
-        val response: ResponseEntity<String> = TestRestTemplate().restTemplate.exchange(
-            "http://localhost:$port/arena/vedtak/$fødselsnummer",
-            HttpMethod.GET,
-            HttpEntity(null, headers),
-            String::class.java
-        )
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(response.body).isEqualTo(arenaVedtak)
+        val response = WebTestClient.bindToServer()
+            .baseUrl("http://localhost:$port")
+            .build()
+            .get()
+            .uri("/arena/vedtak/$fødselsnummer")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer ${genererBearerToken()}")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(String::class.java)
+            .returnResult()
+        
+        assertThat(response.responseBody).isEqualTo(arenaVedtak)
     }
 
     @Test
     fun `skal hente ut inntekt`() {
-        val headers = HttpHeaders()
-        headers.setBearerAuth(genererBearerToken())
-        val entity = HttpEntity(
-            InntektRequest(
-                ident = inntektIdent,
-                ainntektsfilter = "",
-                formaal = "",
-                maanedFom = YearMonth.now(),
-                maanedTom = YearMonth.now(),
-            ), headers
+        val request = InntektRequest(
+            ident = inntektIdent,
+            ainntektsfilter = "",
+            formaal = "",
+            maanedFom = YearMonth.now(),
+            maanedTom = YearMonth.now(),
         )
-        val response: ResponseEntity<InntektResponse> = TestRestTemplate().restTemplate.exchange<InntektResponse>(
-            "http://localhost:$port/inntektskomponent/",
-            HttpMethod.POST,
-            entity,
-        )
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(response.body).isEqualTo(inntektResponse)
+        
+        val response = WebTestClient.bindToServer()
+            .baseUrl("http://localhost:$port")
+            .build()
+            .post()
+            .uri("/inntektskomponent/")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer ${genererBearerToken()}")
+            .bodyValue(request)
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(InntektResponse::class.java)
+            .returnResult()
+        
+        assertThat(response.responseBody).isEqualTo(inntektResponse)
     }
 
     @Test
     fun `skal feile dersom token er ugyldig ut inntekt`() {
-        val headers = HttpHeaders()
-        headers.setBearerAuth(genererUgyldigBearerToken())
-        val entity = HttpEntity(
-            InntektRequest(
-                ident = inntektIdent,
-                ainntektsfilter = "",
-                formaal = "",
-                maanedFom = YearMonth.now(),
-                maanedTom = YearMonth.now(),
-            ), headers
+        val request = InntektRequest(
+            ident = inntektIdent,
+            ainntektsfilter = "",
+            formaal = "",
+            maanedFom = YearMonth.now(),
+            maanedTom = YearMonth.now(),
         )
-        val response: ResponseEntity<Any> = TestRestTemplate().restTemplate.exchange(
-            "http://localhost:$port/inntektskomponent/",
-            HttpMethod.POST,
-            entity,
-        )
-        assertThat(response.statusCode).isEqualTo(HttpStatus.UNAUTHORIZED)
+        
+        WebTestClient.bindToServer()
+            .baseUrl("http://localhost:$port")
+            .build()
+            .post()
+            .uri("/inntektskomponent/")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer ${genererUgyldigBearerToken()}")
+            .bodyValue(request)
+            .exchange()
+            .expectStatus().isUnauthorized
     }
 
     private fun genererBearerToken(): String {
