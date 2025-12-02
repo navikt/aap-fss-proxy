@@ -1,5 +1,6 @@
 package no.nav.aap.api.felles.graphql
 
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.graphql.client.FieldAccessException
 import org.springframework.graphql.client.GraphQlClient
 import org.springframework.graphql.client.GraphQlTransportException
@@ -16,7 +17,7 @@ abstract class AbstractGraphQLAdapter(client : WebClient, cfg : AbstractRestConf
                                       val handler : GraphQLErrorHandler) :
     AbstractWebClientAdapter(client, cfg) {
 
-    protected inline fun <reified T> query(graphQL : GraphQlClient, query : Pair<String, String>, vars : Map<String, List<String>>) =
+    protected inline fun <reified T : Any> query(graphQL : GraphQlClient, query : Pair<String, String>, vars : Map<String, List<String>>): List<T> =
         runCatching {
             (graphQL
                 .documentName(query.first)
@@ -40,7 +41,7 @@ abstract class AbstractGraphQLAdapter(client : WebClient, cfg : AbstractRestConf
         }
 
 
-    protected inline fun <reified T> query(graphQL : GraphQlClient, query : Pair<String, String>, vars : Map<String, String>) =
+    protected inline fun <reified T : Any> query(graphQL : GraphQlClient, query : Pair<String, String>, vars : Map<String, String>): T? =
         runCatching {
             graphQL
                 .documentName(query.first)

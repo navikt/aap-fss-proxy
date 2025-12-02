@@ -10,10 +10,12 @@ import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.info.License
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer
 import org.springframework.boot.info.BuildProperties
-import org.springframework.boot.web.reactive.function.client.WebClientCustomizer
+import org.springframework.boot.webclient.WebClientCustomizer
 import org.springframework.boot.web.servlet.FilterRegistrationBean
+import org.springframework.cache.CacheManager
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -21,7 +23,6 @@ import org.springframework.core.Ordered.HIGHEST_PRECEDENCE
 import org.springframework.core.env.Environment
 import org.springframework.http.HttpHeaders.*
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import reactor.netty.http.client.HttpClient
@@ -43,9 +44,12 @@ class GlobalConfig(@param:Value("\${spring.application.name:aap-fss-proxy}") val
 
     @Bean
     fun jacksonCustomizer() =
-        Jackson2ObjectMapperBuilderCustomizer { b : Jackson2ObjectMapperBuilder ->
-            b.modules(JavaTimeModule(), KotlinModule.Builder().build())
+        JsonMapperBuilderCustomizer { builder ->
+            builder.findAndAddModules()
         }
+
+    @Bean
+    fun cacheManager(): CacheManager = ConcurrentMapCacheManager()
 
     @Bean
     fun swagger(p : BuildProperties) : OpenAPI {
@@ -95,7 +99,7 @@ class GlobalConfig(@param:Value("\${spring.application.name:aap-fss-proxy}") val
     fun webClientCustomizer(env : Environment) =
         WebClientCustomizer { b ->
             b.clientConnector(ReactorClientHttpConnector(client(env)))
-                .filter(correlatingFilterFunction(applicationName))
+            b.filter(correlatingFilterFunction(applicationName))
         }
 
     private fun client(env : Environment) =
