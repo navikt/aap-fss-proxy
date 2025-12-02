@@ -90,14 +90,14 @@ class GlobalConfig(@param:Value("\${spring.application.name:aap-fss-proxy}") val
         FilterRegistrationBean(HeadersToMDCFilter(applicationName))
             .apply {
                 urlPatterns = listOf("/*")
-                setOrder(HIGHEST_PRECEDENCE)
+                order = HIGHEST_PRECEDENCE
             }
 
     @Bean
     fun webClientCustomizer(env : Environment) =
         WebClientCustomizer { b ->
             b.clientConnector(ReactorClientHttpConnector(client(env)))
-            b.filter(correlatingFilterFunction(applicationName))
+                .filter(correlatingFilterFunction(applicationName))
         }
 
     private fun client(env : Environment) =
