@@ -14,17 +14,20 @@ import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.WebClientExtensions.response
 
 @Component
-class ArenaOIDCWebClientAdapter(@Qualifier(ARENAOIDC) webClient : WebClient, private val cf : ArenaVedtakRestConfig) :
+class ArenaOIDCWebClientAdapter(
+    @Qualifier(ARENAOIDC) webClient: WebClient,
+    private val cf: ArenaVedtakRestConfig
+) :
     AbstractWebClientAdapter(webClient, cf) {
 
-    var token = getTheToken()
+    private var token = lazy { getTheToken() }
 
-    fun oidcToken() : String {
-        if (token.hasExpired()) {
+    fun oidcToken(): String {
+        if (token.value.hasExpired()) {
             log.info("Fornyer token")
-            token = getTheToken()
+            token = lazy { getTheToken() }
         }
-        return token.accessToken
+        return token.value.accessToken
     }
 
     private fun getTheToken() =
@@ -33,7 +36,7 @@ class ArenaOIDCWebClientAdapter(@Qualifier(ARENAOIDC) webClient : WebClient, pri
             .contentType(APPLICATION_FORM_URLENCODED)
             .bodyValue("grant_type=client_credentials")
             .exchangeToMono { it.response<ArenaOidcToken>() }
-            .doOnError { t : Throwable -> log.warn("Arena OIDC oppslag feilet!", t) }
+            .doOnError { t: Throwable -> log.warn("Arena OIDC oppslag feilet!", t) }
             .doOnSuccess { log.trace("Arena OIDC oppslag OK, utgår om ${it.expiresIn}s") }
             .retryWhen(cfg.retrySpec(log))
             .contextCapture()
@@ -42,9 +45,11 @@ class ArenaOIDCWebClientAdapter(@Qualifier(ARENAOIDC) webClient : WebClient, pri
     override fun ping() = mapOf("status" to "OK")  // TODO hvordan pinge denne
 
     @JsonNaming(SnakeCaseStrategy::class)
-    data class ArenaOidcToken(val accessToken : String,
-                              val tokenType : String,
-                              val expiresIn : Int) {
+    data class ArenaOidcToken(
+        val accessToken: String,
+        val tokenType: String,
+        val expiresIn: Int
+    ) {
 
         private val log = getLogger(javaClass)
         private val createdTime = now()
@@ -52,7 +57,12 @@ class ArenaOIDCWebClientAdapter(@Qualifier(ARENAOIDC) webClient : WebClient, pri
         fun hasExpired() =
             with(createdTime.plusSeconds(expiresIn.toLong())) {
                 now().minusSeconds(30).isAfter(this).also {
-                    log.trace("{} Token utløper {} -> utløpt = {}", now().minusSeconds(30), this, it)
+                    log.trace(
+                        "{} Token utløper {} -> utløpt = {}",
+                        now().minusSeconds(30),
+                        this,
+                        it
+                    )
                 }
             }
     }
