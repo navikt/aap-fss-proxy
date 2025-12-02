@@ -1,20 +1,20 @@
 package no.nav.aap.rest
 
-import java.io.IOException
-import java.net.URI
-import java.time.Duration
-import java.util.*
-import java.util.concurrent.TimeoutException
-import java.util.function.Predicate
-import org.apache.commons.lang3.exception.ExceptionUtils.hasCause
-import org.slf4j.Logger
-import org.springframework.boot.context.properties.bind.DefaultValue
-import org.springframework.boot.convert.DurationStyle.*
-import reactor.util.retry.Retry.*
 import no.nav.aap.api.felles.error.RecoverableIntegrationException
 import no.nav.aap.rest.AbstractRestConfig.RetryConfig.Companion.DEFAULT
 import no.nav.aap.util.Metrikker.inc
 import no.nav.aap.util.URIUtil.uri
+import org.apache.commons.lang3.exception.ExceptionUtils.hasCause
+import org.slf4j.Logger
+import org.springframework.boot.context.properties.bind.DefaultValue
+import org.springframework.boot.convert.DurationStyle.detectAndParse
+import reactor.util.retry.Retry.RetrySignal
+import reactor.util.retry.Retry.fixedDelay
+import java.io.IOException
+import java.net.URI
+import java.time.Duration
+import java.util.concurrent.TimeoutException
+import java.util.function.Predicate
 
 abstract class AbstractRestConfig(val baseUri : URI, val pingPath : String, name : String = baseUri.host, isEnabled : Boolean,
                                   val retry : RetryConfig = DEFAULT) : AbstractConfig(name, isEnabled) {
