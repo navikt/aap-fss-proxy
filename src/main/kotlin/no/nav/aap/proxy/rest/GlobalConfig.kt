@@ -1,32 +1,11 @@
 package no.nav.aap.proxy.rest
 
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import io.micrometer.observation.ObservationRegistry
 import io.micrometer.observation.aop.ObservedAspect
 import io.netty.handler.logging.LogLevel.TRACE
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.info.License
-import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer
-import org.springframework.boot.info.BuildProperties
-import org.springframework.boot.webclient.WebClientCustomizer
-import org.springframework.boot.web.servlet.FilterRegistrationBean
-import org.springframework.cache.CacheManager
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager
-import org.springframework.context.ApplicationContext
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.core.Ordered.HIGHEST_PRECEDENCE
-import org.springframework.core.env.Environment
-import org.springframework.http.HttpHeaders.*
-import org.springframework.http.client.reactive.ReactorClientHttpConnector
-import org.springframework.web.reactive.function.client.ClientRequest
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction
-import reactor.netty.http.client.HttpClient
-import reactor.netty.transport.logging.AdvancedByteBufFormat.TEXTUAL
 import no.nav.aap.proxy.sts.StsClient
 import no.nav.aap.rest.AbstractWebClientAdapter.Companion.correlatingFilterFunction
 import no.nav.aap.rest.HeadersToMDCFilter
@@ -38,6 +17,25 @@ import no.nav.aap.util.StringExtensions.asBearer
 import no.nav.boot.conditionals.EnvUtil.isDevOrLocal
 import no.nav.security.token.support.client.spring.oauth2.ClientConfigurationPropertiesMatcher
 import no.nav.security.token.support.core.context.TokenValidationContextHolder
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.info.BuildProperties
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer
+import org.springframework.boot.web.servlet.FilterRegistrationBean
+import org.springframework.boot.webclient.WebClientCustomizer
+import org.springframework.cache.CacheManager
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager
+import org.springframework.context.ApplicationContext
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.core.Ordered.HIGHEST_PRECEDENCE
+import org.springframework.core.env.Environment
+import org.springframework.http.HttpHeaders.AUTHORIZATION
+import org.springframework.http.client.reactive.ReactorClientHttpConnector
+import org.springframework.web.reactive.function.client.ClientRequest
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction
+import reactor.netty.http.client.HttpClient
+import reactor.netty.transport.logging.AdvancedByteBufFormat.TEXTUAL
 
 @Configuration(proxyBeanMethods = false)
 class GlobalConfig(@param:Value("\${spring.application.name:aap-fss-proxy}") val applicationName : String) {
