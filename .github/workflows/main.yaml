@@ -59,12 +59,9 @@ jobs:
                 image_ref: ${{ env.IMAGE }}@${{ env.DIGEST }}
     
     
-    deploy:
-        strategy:
-            matrix:
-                cluster: [ dev-fss,prod-fss ]
-        environment: ${{ matrix.cluster }}:aap
-        name: Deploy til ${{ matrix.cluster }}
+    deploy-dev:
+        environment: dev-gcp:aap
+        name: Deploy til dev-gcp
         needs: bygg
         runs-on: ubuntu-latest
         permissions:
@@ -73,8 +70,30 @@ jobs:
         env:
             PRINT_PAYLOAD: true
             RESOURCE: .deploy/nais.yaml
-            CLUSTER: ${{ matrix.cluster }}
-            VARS: .deploy/${{ matrix.cluster }}.yaml
+            CLUSTER: dev-gcp
+            VARS: .deploy/dev-gcp.yaml
+            VAR: image=${{needs.bygg.outputs.image}}
+        steps:
+            -   uses: actions/checkout@v6
+            -   uses: nais/login@v0
+                id: login
+                with:
+                    team: aap
+            -   uses: nais/deploy/actions/deploy@v2
+
+    deploy-prod:
+        environment: prod-gcp:aap
+        name: Deploy til prod-gcp
+        needs: deploy-dev
+        runs-on: ubuntu-latest
+        permissions:
+            contents: "read"
+            id-token: "write"
+        env:
+            PRINT_PAYLOAD: true
+            RESOURCE: .deploy/nais.yaml
+            CLUSTER: prod-gcp
+            VARS: .deploy/prod-gcp.yaml
             VAR: image=${{needs.bygg.outputs.image}}
         steps:
             -   uses: actions/checkout@v6
