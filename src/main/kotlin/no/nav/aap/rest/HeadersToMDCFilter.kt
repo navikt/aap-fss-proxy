@@ -1,12 +1,16 @@
 package no.nav.aap.rest
 
-import jakarta.servlet.*
+import jakarta.servlet.Filter
+import jakarta.servlet.FilterChain
+import jakarta.servlet.ServletException
+import jakarta.servlet.ServletRequest
+import jakarta.servlet.ServletResponse
 import jakarta.servlet.http.HttpServletRequest
+import java.io.IOException
 import no.nav.aap.util.CallIdGenerator
 import no.nav.aap.util.MDCUtil.NAV_CALL_ID
 import no.nav.aap.util.MDCUtil.NAV_CONSUMER_ID
 import no.nav.aap.util.MDCUtil.toMDC
-import java.io.IOException
 
 class HeadersToMDCFilter(val applicationName : String) : Filter {
 
