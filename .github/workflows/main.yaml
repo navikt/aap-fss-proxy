@@ -84,7 +84,7 @@ jobs:
     deploy-prod:
         environment: prod-fss:aap
         name: Deploy til prod-fss
-        needs: deploy-dev
+        needs: [deploy-dev, bygg]
         runs-on: ubuntu-latest
         permissions:
             contents: "read"
