@@ -1,0 +1,44 @@
+server:
+  port: 0
+
+arena:
+  baseUri: "http://localhost:8888/"
+  path: "/v1/aap/sisteVedtak"
+  tokenPath: "/oauth/token"
+  credentials:
+    id: "test"
+    secret: "test"
+  enabled: true
+
+arenasoap:
+  baseUri: "http://localhost:8888/"
+  oppgaveUri: "http://localhost:8888/"
+  behandleSakOgAktivitetUri: "http://localhost:8888/"
+  sts:
+    url: "http://localhost:8888/"
+    username: "test"
+    password: "test"
+  credentials:
+    id: "test"
+    secret: "test"
+  enabled: false
+
+inntektskomponent:
+  baseUri: "http://localhost:8888/"
+  path: "api/v1/hentinntektliste"
+  enabled: true
+
+sts:
+  baseUri: "http://localhost:8888/"
+  tokenPath: "rest/v1/sts/token"
+  enabled: true
+
+serviceuser:
+  username: "test"
+  password: "test"
+
+azure:
+  app:
+    clientId: ""
+    tenantId: ""
+    wellKnownUrl: ""
