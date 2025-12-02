@@ -85,9 +85,9 @@ class ArenaSoapBeanConfig(private val cfg : ArenaSoapConfig) {
             .setUnmarshaller(marshaller)
             .interceptors(arenaSakSecurityInterceptor())
             .build()
-        template.setFaultMessageResolver(FaultMessageResolver {
+        template.setFaultMessageResolver {
             throw IrrecoverableIntegrationException((it as SaajSoapMessage).faultReason)
-        })
+        }
         return template
     }
 
