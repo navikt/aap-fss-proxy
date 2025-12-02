@@ -7,16 +7,16 @@ import no.nav.aap.api.felles.error.RecoverableIntegrationException
 
 object WebClientExtensions {
 
-    inline fun <reified T : Any> ClientResponse.response() =
-        with(statusCode().value()) {
-            if (this in 200..299) {
+    inline fun <reified T> ClientResponse.response() =
+        with(statusCode()) {
+            if (is2xxSuccessful) {
                 bodyToMono(T::class.java)
             }
-            else if (this in 400..499) {
-                Mono.error(IrrecoverableIntegrationException("HTTP $this"))
+            else if (is4xxClientError) {
+                Mono.error(IrrecoverableIntegrationException("$this"))
             }
             else {
-                Mono.error(RecoverableIntegrationException("HTTP $this"))
+                Mono.error(RecoverableIntegrationException("$this"))
             }
         }
 }
