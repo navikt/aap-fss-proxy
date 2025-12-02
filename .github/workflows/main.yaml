@@ -60,8 +60,8 @@ jobs:
     
     
     deploy-dev:
-        environment: dev-gcp:aap
-        name: Deploy til dev-gcp
+        environment: dev-fss:aap
+        name: Deploy til dev-fss
         needs: bygg
         runs-on: ubuntu-latest
         permissions:
@@ -70,8 +70,8 @@ jobs:
         env:
             PRINT_PAYLOAD: true
             RESOURCE: .deploy/nais.yaml
-            CLUSTER: dev-gcp
-            VARS: .deploy/dev-gcp.yaml
+            CLUSTER: dev-fss
+            VARS: .deploy/dev-fss.yaml
             VAR: image=${{needs.bygg.outputs.image}}
         steps:
             -   uses: actions/checkout@v6
@@ -82,8 +82,8 @@ jobs:
             -   uses: nais/deploy/actions/deploy@v2
 
     deploy-prod:
-        environment: prod-gcp:aap
-        name: Deploy til prod-gcp
+        environment: prod-fss:aap
+        name: Deploy til prod-fss
         needs: deploy-dev
         runs-on: ubuntu-latest
         permissions:
@@ -92,8 +92,8 @@ jobs:
         env:
             PRINT_PAYLOAD: true
             RESOURCE: .deploy/nais.yaml
-            CLUSTER: prod-gcp
-            VARS: .deploy/prod-gcp.yaml
+            CLUSTER: prod-fss
+            VARS: .deploy/prod-fss.yaml
             VAR: image=${{needs.bygg.outputs.image}}
         steps:
             -   uses: actions/checkout@v6
