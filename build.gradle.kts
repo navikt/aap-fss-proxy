@@ -12,6 +12,7 @@ val kotlinVersion = "2.0.21"
 val logbackVersion = "1.5.12"
 val logstashVersion = "8.0"
 val micrometerVersion = "1.14.1"
+val javaVersion = JavaVersion.VERSION_17
 
 group = "no.nav.aap"
 version = System.getenv("VERSION") ?: "local"
@@ -25,8 +26,8 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
 }
 
 kotlin {

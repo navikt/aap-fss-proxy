@@ -28,11 +28,22 @@ fun Application.configureAuthentication(config: AppConfig) {
         }
         return
     }
+    
+    val effectiveWellKnownUrl = azureConfig.effectiveWellKnownUrl
+    if (effectiveWellKnownUrl.isEmpty()) {
+        authLog.warn("Azure well-known URL not configured - authentication disabled")
+        install(Authentication) {
+            jwt(AAD) {
+                skipWhen { true }
+            }
+        }
+        return
+    }
 
     val jwksUri = try {
-        fetchJwksUri(azureConfig.wellKnownUrl)
+        fetchJwksUri(effectiveWellKnownUrl)
     } catch (e: Exception) {
-        authLog.error("Failed to fetch JWKS URI from ${azureConfig.wellKnownUrl}", e)
+        authLog.error("Failed to fetch JWKS URI from $effectiveWellKnownUrl", e)
         throw e
     }
 

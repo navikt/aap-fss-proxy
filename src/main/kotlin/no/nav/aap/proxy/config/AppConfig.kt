@@ -100,6 +100,14 @@ data class AzureConfig(
 data class AzureAppConfig(
     val clientId: String = System.getenv("AZURE_APP_CLIENT_ID") ?: "",
     val tenantId: String = System.getenv("AZURE_APP_TENANT_ID") ?: "",
-    val wellKnownUrl: String = System.getenv("AZURE_APP_WELL_KNOWN_URL") 
-        ?: "https://login.microsoftonline.com/${System.getenv("AZURE_APP_TENANT_ID") ?: ""}/v2.0/.well-known/openid-configuration"
-)
+    val wellKnownUrl: String = System.getenv("AZURE_APP_WELL_KNOWN_URL") ?: ""
+) {
+    // Only construct a default URL if tenantId is present, otherwise leave empty
+    val effectiveWellKnownUrl: String get() = wellKnownUrl.ifEmpty {
+        if (tenantId.isNotEmpty()) {
+            "https://login.microsoftonline.com/$tenantId/v2.0/.well-known/openid-configuration"
+        } else {
+            ""
+        }
+    }
+}
