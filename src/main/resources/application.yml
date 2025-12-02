@@ -14,18 +14,15 @@ spring:
     main:
         banner-mode: off
     jackson:
-        default-property-inclusion: non_empty
-        json:
-            mapper:
-                accept-case-insensitive-enums: true
-                accept-case-insensitive-properties: true
-            read:
-                unknown-enum-values-using-default-value: true
-                accept-single-value-as-array: true
-                fail-on-unknown-properties: true
-            write:
-                empty-json-arrays: false
-                fail-on-empty-beans: false
+      default-property-inclusion: non_empty
+      json:
+        mapper:
+          accept-case-insensitive-enums: true
+          accept-case-insensitive-properties: true
+        datatype:
+          enum:
+            unknown-enum-values-using-default-value: true
+
 management:
     endpoints:
         web:

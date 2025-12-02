@@ -8,6 +8,15 @@ spring:
         name: fss-proxy
     main:
         banner-mode: off
+    jackson:
+      default-property-inclusion: non_empty
+      json:
+        mapper:
+          accept-case-insensitive-enums: true
+          accept-case-insensitive-properties: true
+        datatype:
+          enum:
+            unknown-enum-values-using-default-value: true
 
 arena:
     baseUri: "http://localhost/"
