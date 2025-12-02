@@ -1,0 +1,15 @@
+sts:
+  baseUri: https://security-token-service.dev.adeo.no
+
+inntektskomponent:
+  baseUri: https://app-q2.adeo.no/inntektskomponenten-ws/rs/
+
+arena:
+  baseUri: https://arena-ords-q2.nais.preprod.local/arena/api
+
+arenasoap:
+  baseUri: https://arena-q2.adeo.no/arena_ws/services/
+  oppgaveUri: https://arena-q2.adeo.no/ail_ws/BehandleArbeidOgAktivitetOppgave_v1
+  behandleSakOgAktivitetUri: https://arena-q2.adeo.no/ail_ws/BehandleSakOgAktivitet_v1
+  sts:
+    url: https://sts-q2.preprod.local/SecurityTokenServiceProvider/

@@ -1,0 +1,46 @@
+server:
+  port: 8080
+
+arena:
+  baseUri: "http://localhost/"
+  path: "/v1/aap/sisteVedtak"
+  tokenPath: "/oauth/token"
+  pingPath: "v1/test/ping"
+  credentials:
+    id: ${ARENA_CLIENT_ID:test}
+    secret: ${ARENA_CLIENT_SECRET:test}
+  enabled: true
+
+arenasoap:
+  baseUri: "http://localhost/"
+  oppgaveUri: "http://localhost/"
+  behandleSakOgAktivitetUri: "http://localhost/"
+  sts:
+    url: "http://localhost/"
+    username: ${ARENA_STS_USERNAME:test}
+    password: ${ARENA_STS_PASSWORD:test}
+  credentials:
+    id: ${ARENA_SOAP_ID:test}
+    secret: ${ARENA_SOAP_SECRET:test}
+  enabled: true
+
+inntektskomponent:
+  baseUri: "http://localhost/"
+  path: "api/v1/hentinntektliste"
+  pingPath: "api/ping"
+  enabled: true
+
+sts:
+  baseUri: "http://localhost/"
+  tokenPath: "rest/v1/sts/token"
+  enabled: true
+
+serviceuser:
+  username: ${SERVICEUSER_USERNAME:test}
+  password: ${SERVICEUSER_PASSWORD:test}
+
+azure:
+  app:
+    clientId: ${AZURE_APP_CLIENT_ID:}
+    tenantId: ${AZURE_APP_TENANT_ID:}
+    wellKnownUrl: ${AZURE_APP_WELL_KNOWN_URL:}

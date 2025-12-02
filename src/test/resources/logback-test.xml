@@ -6,11 +6,8 @@
             <Pattern>%d{yyyy-MM-dd HH:mm:ss} %X{Nav-CallId} [%thread] %-5level %logger{70} - %msg%n</Pattern>
         </layout>
     </appender>
-    <logger name="secure" level="debug" additivity="false">
-        <appender-ref ref="stdout"/>
-    </logger>
-    <logger name="org.springframewerl.kafka" level="trace" />
-    <logger name="no.nav.aap" level="trace" />
+    <logger name="io.ktor" level="info" />
+    <logger name="no.nav.aap" level="debug" />
     <root level="info">
         <appender-ref ref="stdout" />
     </root>
