@@ -78,16 +78,18 @@ class ArenaSoapBeanConfig(private val cfg : ArenaSoapConfig) {
 
     @Bean
     @Qualifier(SAK)
-    fun arenaSakClient(builder : WebServiceTemplateBuilder, marshaller : Jaxb2Marshaller) =
-        builder.messageSenders(HttpComponentsMessageSender())
+    fun arenaSakClient(builder : WebServiceTemplateBuilder, marshaller : Jaxb2Marshaller): org.springframework.ws.client.core.WebServiceTemplate {
+        val template = builder.messageSenders(HttpComponentsMessageSender())
             .setDefaultUri(cfg.baseUri)
             .setMarshaller(marshaller)
-            .setUnmarshaller(marshaller).build().apply {
-                interceptors = arrayOf(arenaSakSecurityInterceptor())
-                faultMessageResolver = FaultMessageResolver {
-                    throw IrrecoverableIntegrationException((it as SaajSoapMessage).faultReason)
-                }
-            }
+            .setUnmarshaller(marshaller)
+            .interceptors(arenaSakSecurityInterceptor())
+            .build()
+        template.setFaultMessageResolver(FaultMessageResolver {
+            throw IrrecoverableIntegrationException((it as SaajSoapMessage).faultReason)
+        })
+        return template
+    }
 
     fun arenaSakSecurityInterceptor() = Wss4jSecurityInterceptor().apply {
         setSecurementActions(USERNAME_TOKEN)
