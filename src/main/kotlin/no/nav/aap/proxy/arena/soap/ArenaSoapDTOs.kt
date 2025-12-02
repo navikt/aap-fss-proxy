@@ -119,6 +119,11 @@ enum class ArenaOppgaveType(val tekst : String) {
 data class BehandleKjoerelisteOgOpprettOppgaveRequest(
     val journalpostId: String
 )
+
 data class ArenaSakId(val arenaSakId: String) {
     companion object { val EMPTY = ArenaSakId("0") }
 }
+
+data class HentNyesteAktivSakRequest(val personident: String)
+
+data class HentSisteVedtakRequest(val personident: String)
