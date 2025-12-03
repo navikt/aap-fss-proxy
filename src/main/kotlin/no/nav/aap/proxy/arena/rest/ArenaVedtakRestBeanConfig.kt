@@ -1,16 +1,15 @@
 package no.nav.aap.proxy.arena.rest
 
-import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpHeaders.*
-import org.springframework.web.reactive.function.client.ClientRequest
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction
-import org.springframework.web.reactive.function.client.WebClient.Builder
-import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.arena.rest.ArenaVedtakRestConfig.Companion.ARENA
 import no.nav.aap.proxy.arena.rest.ArenaVedtakRestConfig.Companion.ARENAOIDC
 import no.nav.aap.util.StringExtensions.asBearer
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpHeaders.AUTHORIZATION
+import org.springframework.web.reactive.function.client.ClientRequest
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction
+import org.springframework.web.reactive.function.client.WebClient.Builder
 
 @Configuration(proxyBeanMethods = false)
 class ArenaVedtakRestBeanConfig {
@@ -48,6 +47,4 @@ class ArenaVedtakRestBeanConfig {
                 .build())
         }
 
-    @Bean
-    fun arenaVedtakHealthIndicator(a : ArenaVedtakWebClientAdapter) = object : AbstractPingableHealthIndicator(a) {}
 }

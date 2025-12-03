@@ -8,7 +8,6 @@ import java.util.function.Function
 import no.nav.aap.api.felles.Fødselsnummer
 import no.nav.aap.proxy.arena.rest.ArenaOIDCWebClientAdapter
 import no.nav.aap.proxy.arena.rest.ArenaVedtakRestConfig
-import no.nav.aap.proxy.arena.rest.ArenaVedtakWebClientAdapter
 import no.nav.aap.proxy.arena.soap.ArenaSakSoapAdapter
 import no.nav.aap.proxy.inntektskomponent.InntektIdent
 import no.nav.aap.proxy.inntektskomponent.InntektResponse
@@ -71,14 +70,6 @@ class ArenaOidcMock {
         val arenaSakSoapAdapter = mockk<ArenaSakSoapAdapter>()
         every { arenaSakSoapAdapter.nyesteAktiveSak(any()) } returns arenaSak
         return arenaSakSoapAdapter
-    }
-
-    @Bean
-    @Primary
-    fun arenaVedtakWebClientAdapter(): ArenaVedtakWebClientAdapter {
-        val arenaVedtakAdapter = mockk<ArenaVedtakWebClientAdapter>()
-        every { arenaVedtakAdapter.sisteVedtak(any()) } returns arenaVedtak.toByteArray()
-        return arenaVedtakAdapter
     }
 
     @Bean
