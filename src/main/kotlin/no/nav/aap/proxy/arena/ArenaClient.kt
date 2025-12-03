@@ -2,7 +2,6 @@ package no.nav.aap.proxy.arena
 
 import io.micrometer.observation.annotation.Observed
 import no.nav.aap.api.felles.Fødselsnummer
-import no.nav.aap.proxy.arena.rest.ArenaVedtakWebClientAdapter
 import no.nav.aap.proxy.arena.soap.ArenaOppgaveSoapAdapter
 import no.nav.aap.proxy.arena.soap.ArenaOpprettOppgaveParams
 import no.nav.aap.proxy.arena.soap.ArenaSakSoapAdapter
@@ -14,13 +13,11 @@ import org.springframework.web.bind.annotation.ResponseStatus
 @Component
 @Observed
 class ArenaClient(
-    private val vedtak : ArenaVedtakWebClientAdapter,
     private val sak : ArenaSakSoapAdapter,
     private val oppgave : ArenaOppgaveSoapAdapter,
     private val sakOgAktivitet: SakOgAktivitetSoapAdapter
 ) {
 
-    fun sisteVedtak(fnr : Fødselsnummer) = vedtak.sisteVedtak(fnr.fnr)
     fun nyesteSak(fnr : Fødselsnummer) = sak.nyesteAktiveSak(fnr.fnr)
 
     @ResponseStatus(CREATED)
