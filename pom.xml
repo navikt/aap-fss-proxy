@@ -19,7 +19,7 @@
         <sourcesDir>${project.basedir}/target/generated-sources/jaxws</sourcesDir>
         <classesDir>${project.basedir}/target/classes</classesDir>
         <propagation.version>1.2.0</propagation.version>
-      <conditionals.version>5.1.11</conditionals.version>
+      <conditionals.version>6.0.0</conditionals.version>
 
       <cxf.version>4.1.4</cxf.version>
         <domain.version>2.0.79</domain.version>
