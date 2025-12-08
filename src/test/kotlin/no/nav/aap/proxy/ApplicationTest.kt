@@ -7,6 +7,7 @@ import no.nav.aap.proxy.ArenaOidcMock.Companion.arenaVedtak
 import no.nav.aap.proxy.ArenaOidcMock.Companion.fødselsnummer
 import no.nav.aap.proxy.ArenaOidcMock.Companion.inntektIdent
 import no.nav.aap.proxy.ArenaOidcMock.Companion.inntektResponse
+import no.nav.aap.proxy.arena.soap.HentNyesteAktiveSakRequest
 import no.nav.aap.proxy.inntektskomponent.InntektRequest
 import no.nav.aap.proxy.inntektskomponent.InntektResponse
 import no.nav.security.mock.oauth2.MockOAuth2Server
@@ -37,71 +38,21 @@ class ApplicationTest {
     @Autowired
     private lateinit var mockOAuth2Server: MockOAuth2Server
 
-
     @Test
-    fun `skal hente ut nyeste aktive sak fra arena gitt fnr i url`() {
+    fun `skal hente ut nyeste aktive sak fra arena gitt fnr i body`() {
         val response = WebTestClient.bindToServer()
             .baseUrl("http://localhost:$port")
             .build()
-            .get()
-            .uri("/arena/nyesteaktivesak/$fødselsnummer")
-            .header(HttpHeaders.AUTHORIZATION, "Bearer ${genererBearerToken()}")
-            .exchange()
-            .expectStatus().isOk
-            .expectBody(String::class.java)
-            .returnResult()
-        
-        assertThat(response.responseBody).isEqualTo(arenaSak)
-    }
-
-    @Test
-    fun `skal hente ut nyeste aktive sak fra arena gitt fnr i header`() {
-        val response = WebTestClient.bindToServer()
-            .baseUrl("http://localhost:$port")
-            .build()
-            .get()
+            .post()
             .uri("/arena/nyesteaktivesak")
             .header(HttpHeaders.AUTHORIZATION, "Bearer ${genererBearerToken()}")
-            .header("personident", fødselsnummer)
+            .bodyValue(HentNyesteAktiveSakRequest(personident = fødselsnummer))
             .exchange()
             .expectStatus().isOk
             .expectBody(String::class.java)
             .returnResult()
-        
+
         assertThat(response.responseBody).isEqualTo(arenaSak)
-    }
-
-    @Test
-    fun `skal hente ut nyeste vedtak fra arena gitt fnr i header`() {
-        val response = WebTestClient.bindToServer()
-            .baseUrl("http://localhost:$port")
-            .build()
-            .get()
-            .uri("/arena/vedtak")
-            .header(HttpHeaders.AUTHORIZATION, "Bearer ${genererBearerToken()}")
-            .header("personident", fødselsnummer)
-            .exchange()
-            .expectStatus().isOk
-            .expectBody(String::class.java)
-            .returnResult()
-        
-        assertThat(response.responseBody).isEqualTo(arenaVedtak)
-    }
-
-    @Test
-    fun `skal hente ut nyeste vedtak fra arena gitt fnr i url`() {
-        val response = WebTestClient.bindToServer()
-            .baseUrl("http://localhost:$port")
-            .build()
-            .get()
-            .uri("/arena/vedtak/$fødselsnummer")
-            .header(HttpHeaders.AUTHORIZATION, "Bearer ${genererBearerToken()}")
-            .exchange()
-            .expectStatus().isOk
-            .expectBody(String::class.java)
-            .returnResult()
-        
-        assertThat(response.responseBody).isEqualTo(arenaVedtak)
     }
 
     @Test

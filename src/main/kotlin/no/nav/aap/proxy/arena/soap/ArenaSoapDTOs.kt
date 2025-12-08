@@ -124,6 +124,6 @@ data class ArenaSakId(val arenaSakId: String) {
     companion object { val EMPTY = ArenaSakId("0") }
 }
 
-data class HentNyesteAktivSakRequest(val personident: String)
+data class HentNyesteAktiveSakRequest(val personident: String)
 
 data class HentSisteVedtakRequest(val personident: String)
