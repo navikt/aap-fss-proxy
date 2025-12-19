@@ -15,20 +15,27 @@ import no.nav.aap.util.LoggerUtil.getLogger
 import no.nav.aap.util.StringExtensions.partialMask
 
 @Component
-class ArenaSakSoapAdapter(@Qualifier(SAK) private val sak : WebServiceOperations, cfg : ArenaSoapConfig) : ArenaAbstractPingableSoapAdapter(cfg) {
+class ArenaSakSoapAdapter(
+    @param:Qualifier(SAK) private val sak: WebServiceOperations,
+    cfg: ArenaSoapConfig
+) : ArenaAbstractPingableSoapAdapter(cfg) {
 
     private val log = getLogger(javaClass)
 
-    fun nyesteAktiveSak(fnr : String) =
-        (sak.marshalSendAndReceive(cfg.sakerURI, sakerReq(fnr)) as JAXBElement<HentSaksInfoListeV2Response>).value
-            .saksInfoListe.saksInfo
+    fun nyesteAktiveSak(fnr: String) =
+        (sak.marshalSendAndReceive(
+            cfg.sakerURI,
+            sakerReq(fnr)
+        ) as? JAXBElement<HentSaksInfoListeV2Response>)
+            ?.value
+            ?.saksInfoListe?.saksInfo.orEmpty()
             .filter { it.sakstatus.equals(AKTIV, ignoreCase = true) }
             .filterNot { it.sakstypekode.equals(KLAGEANKE, ignoreCase = true) }
             .sortedByDescending { it.sakOpprettet.toLocalDateTime() }.also {
                 log.info("Saker for ${fnr.partialMask()} er ${it.map { s -> s.saksId }}")
             }.firstOrNull()?.saksId
 
-    override fun ping() : Map<String, String> {
+    override fun ping(): Map<String, String> {
         log.info("Pinger arenaSak")
         nyesteAktiveSak("11111111111")
         return mapOf("status" to "OK")

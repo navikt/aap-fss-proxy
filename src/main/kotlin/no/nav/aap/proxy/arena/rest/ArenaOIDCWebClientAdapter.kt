@@ -37,7 +37,7 @@ class ArenaOIDCWebClientAdapter(
             .bodyValue("grant_type=client_credentials")
             .exchangeToMono { it.response<ArenaOidcToken>() }
             .doOnError { t: Throwable -> log.warn("Arena OIDC oppslag feilet!", t) }
-            .doOnSuccess { log.trace("Arena OIDC oppslag OK, utgår om ${it.expiresIn}s") }
+            .doOnSuccess { log.trace("Arena OIDC oppslag OK, utgår om ${it?.expiresIn}s") }
             .retryWhen(cfg.retrySpec(log))
             .contextCapture()
             .block() ?: throw IrrecoverableIntegrationException("Ingen respons fra Arena OIDC")
