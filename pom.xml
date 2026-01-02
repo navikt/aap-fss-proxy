@@ -30,7 +30,7 @@
       <kotlin.version>2.3.0</kotlin.version>
         <problem.version>0.27.0</problem.version>
         <revision>0.0.1-SNAPSHOT</revision>
-        <springdoc.version>3.0.0</springdoc.version>
+        <springdoc.version>3.0.1</springdoc.version>
         <swagger.annotations.version>2.2.8</swagger.annotations.version>
         <token.validation.version>6.0.0</token.validation.version>
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
