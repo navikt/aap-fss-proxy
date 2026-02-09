@@ -18,7 +18,7 @@
         <arena.generated.base.package>no.nav.aap.proxy.arena.generated</arena.generated.base.package>
         <sourcesDir>${project.basedir}/target/generated-sources/jaxws</sourcesDir>
         <classesDir>${project.basedir}/target/classes</classesDir>
-        <propagation.version>1.2.0</propagation.version>
+        <propagation.version>1.2.1</propagation.version>
       <conditionals.version>6.0.2</conditionals.version>
 
       <cxf.version>4.1.4</cxf.version>
