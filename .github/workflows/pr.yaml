@@ -23,7 +23,7 @@ jobs:
           with:
             java-version: 21
             distribution: temurin
-            cache: maven
+            cache: gradle
 
       -   name: Setter TAG
           run: echo "TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
@@ -39,4 +39,4 @@ jobs:
           env:
             GITHUB_PASSWORD: ${{ secrets.READER_TOKEN }}
           run: |
-            ./mvnw --settings .github/.m2/settings.xml -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} package
+            ./gradlew -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} clean build --continue
