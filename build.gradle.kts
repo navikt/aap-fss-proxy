@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "4.0.2"
+    id("org.springframework.boot") version "4.0.3"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("jvm") version "2.3.10"
     kotlin("plugin.spring") version "2.3.10"
@@ -104,20 +104,20 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:1.10.2")
 
-    // NAV Boot
-    implementation("no.nav.boot:boot-conditionals:6.0.2")
-
-    // NAV Security
-    implementation("no.nav.security:token-validation-spring:6.0.2")
-    implementation("no.nav.security:token-client-spring:6.0.2")
-
     // Logging
     implementation("net.logstash.logback:logstash-logback-encoder:9.0")
 
+    // NAV Boot
+    implementation("no.nav.boot:boot-conditionals:6.0.3")
+
+    // NAV Security
+    implementation("no.nav.security:token-validation-spring:6.0.3")
+    implementation("no.nav.security:token-client-spring:6.0.3")
+
     // Test Dependencies
+    testImplementation("no.nav.security:token-validation-spring-test:6.0.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.3.10")
-    testImplementation("no.nav.security:token-validation-spring-test:6.0.2")
     testImplementation("com.ninja-squad:springmockk:5.0.1")
 }
 
