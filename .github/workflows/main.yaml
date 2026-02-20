@@ -85,6 +85,7 @@ jobs:
         environment: prod-fss:aap
         name: Deploy til prod-fss
         needs: [deploy-dev, bygg]
+        if: github.ref == 'refs/heads/main' # bare deploy til prod fra main
         runs-on: ubuntu-latest
         permissions:
             contents: "read"
