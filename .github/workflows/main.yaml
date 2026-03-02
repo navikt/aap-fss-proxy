@@ -52,7 +52,7 @@ jobs:
                     echo "::set-output name=image::${{ env.IMAGE }}"                              
                     ./gradlew -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} clean build jib --continue
                     ls .
-                    echo "DIGEST=$(cat target/jib-image.digest)" >> $GITHUB_ENV
+                    echo "DIGEST=$(cat build/jib-image.digest)" >> $GITHUB_ENV
             - name: Attest and sign image
               uses: nais/attest-sign@v2.0.4
               with:
