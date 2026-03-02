@@ -28,7 +28,7 @@ jobs:
                 with:
                     java-version: 21
                     distribution: temurin
-                    cache: maven
+                    cache: gradle
 
             -   name: Setter TAG
                 run: echo "TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
