@@ -132,6 +132,9 @@ val wsdl2javaBehandleSakOgAktivitet = tasks.register<JavaExec>("wsdl2javaBehandl
     classpath = configurations.getByName("cxfCodegen")
     mainClass.set("org.apache.cxf.tools.wsdlto.WSDLToJava")
 
+    val wsdlFile = layout.projectDirectory.file("src/main/resources/wsdl/behandleSakOgAktivitet/Binding.wsdl")
+    val outputDir = generatedSourcesDir
+
     args = listOf(
         "-autoNameResolution",
         "-exsh",
@@ -139,15 +142,16 @@ val wsdl2javaBehandleSakOgAktivitet = tasks.register<JavaExec>("wsdl2javaBehandl
         "-p",
         "no.nav.aap.proxy.arena.generated.behandleSakOgAktivitet",
         "-d",
-        generatedSourcesDir.absolutePath,
-        "$projectDir/src/main/resources/wsdl/behandleSakOgAktivitet/Binding.wsdl"
+        outputDir.absolutePath,
+        wsdlFile.asFile.absolutePath
     )
 
-    inputs.files("$projectDir/src/main/resources/wsdl/behandleSakOgAktivitet/Binding.wsdl")
-    outputs.dir(generatedSourcesDir)
+    inputs.files(wsdlFile)
+    outputs.dir(outputDir)
 
     doFirst {
-        generatedSourcesDir.mkdirs()
+        val dir = outputs.files.singleFile
+        dir.mkdirs()
     }
 }
 
@@ -159,26 +163,33 @@ val wsdl2javaOppgave = tasks.register<JavaExec>("wsdl2javaOppgave") {
     classpath = configurations.getByName("cxfCodegen")
     mainClass.set("org.apache.cxf.tools.wsdlto.WSDLToJava")
 
+    val bindingsFile = layout.projectDirectory.file(
+        "src/main/resources/wsdl/oppgave/behandleArbeidOgAktivitetOppgave/bindings.xml"
+    )
+    val wsdlFile = layout.projectDirectory.file(
+        "src/main/resources/wsdl/oppgave/no/nav/tjeneste/virksomhet/" +
+        "behandleArbeidOgAktivitetOppgave/v1/Binding.wsdl"
+    )
+    val outputDir = generatedSourcesDir
+
     args = listOf(
         "-exsh",
         "true",
         "-p",
         "no.nav.aap.proxy.arena.generated.oppgave",
         "-b",
-        "$projectDir/src/main/resources/wsdl/oppgave/behandleArbeidOgAktivitetOppgave/bindings.xml",
+        bindingsFile.asFile.absolutePath,
         "-d",
-        generatedSourcesDir.absolutePath,
-        "$projectDir/src/main/resources/wsdl/oppgave/no/nav/tjeneste/virksomhet/behandleArbeidOgAktivitetOppgave/v1/Binding.wsdl"
+        outputDir.absolutePath,
+        wsdlFile.asFile.absolutePath
     )
 
-    inputs.files(
-        "$projectDir/src/main/resources/wsdl/oppgave/behandleArbeidOgAktivitetOppgave/bindings.xml",
-        "$projectDir/src/main/resources/wsdl/oppgave/no/nav/tjeneste/virksomhet/behandleArbeidOgAktivitetOppgave/v1/Binding.wsdl"
-    )
-    outputs.dir(generatedSourcesDir)
+    inputs.files(bindingsFile, wsdlFile)
+    outputs.dir(outputDir)
 
     doFirst {
-        generatedSourcesDir.mkdirs()
+        val dir = outputs.files.singleFile
+        dir.mkdirs()
     }
 }
 
@@ -190,21 +201,25 @@ val wsdl2javaSak = tasks.register<JavaExec>("wsdl2javaSak") {
     classpath = configurations.getByName("cxfCodegen")
     mainClass.set("org.apache.cxf.tools.wsdlto.WSDLToJava")
 
+    val wsdlFile = layout.projectDirectory.file("src/main/resources/wsdl/ytelse/arenasakvedtakservice.wsdl")
+    val outputDir = generatedSourcesDir
+
     args = listOf(
         "-exsh",
         "true",
         "-p",
         "no.nav.aap.proxy.arena.generated.sak",
         "-d",
-        generatedSourcesDir.absolutePath,
-        "$projectDir/src/main/resources/wsdl/ytelse/arenasakvedtakservice.wsdl"
+        outputDir.absolutePath,
+        wsdlFile.asFile.absolutePath
     )
 
-    inputs.files("$projectDir/src/main/resources/wsdl/ytelse/arenasakvedtakservice.wsdl")
-    outputs.dir(generatedSourcesDir)
+    inputs.files(wsdlFile)
+    outputs.dir(outputDir)
 
     doFirst {
-        generatedSourcesDir.mkdirs()
+        val dir = outputs.files.singleFile
+        dir.mkdirs()
     }
 }
 
@@ -263,10 +278,10 @@ jib {
         image = "gcr.io/distroless/java21"
     }
     to {
-        image = System.getenv("IMAGE") ?: "aap-fss-proxy:latest"
+        image = providers.environmentVariable("IMAGE").getOrElse("aap-fss-proxy:latest")
         auth {
             username = "x-access-token"
-            password = System.getenv("GAR_TOKEN")
+            password = providers.environmentVariable("GAR_TOKEN").orNull
         }
     }
     container {
