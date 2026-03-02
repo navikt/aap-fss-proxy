@@ -50,7 +50,7 @@ jobs:
                   GITHUB_PASSWORD: ${{ secrets.READER_TOKEN }}
                 run: |
                     echo "::set-output name=image::${{ env.IMAGE }}"                              
-                    ./mvnw --settings .github/.m2/settings.xml -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} package jib:build
+                    ./gradlew -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} clean build jib --continue
                     ls .
                     echo "DIGEST=$(cat target/jib-image.digest)" >> $GITHUB_ENV
             - name: Attest and sign image
