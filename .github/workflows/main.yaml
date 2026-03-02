@@ -49,7 +49,7 @@ jobs:
                 env:
                   GITHUB_PASSWORD: ${{ secrets.READER_TOKEN }}
                 run: |
-                    echo "::set-output name=image::${{ env.IMAGE }}"                              
+                    echo "image=${{ env.IMAGE }}" >> $GITHUB_OUTPUT                    
                     ./gradlew -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} clean build jib --continue
                     ls .
                     echo "DIGEST=$(cat build/jib-image.digest)" >> $GITHUB_ENV
