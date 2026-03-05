@@ -28,7 +28,7 @@ jobs:
                 with:
                     java-version: 21
                     distribution: temurin
-                    cache: maven
+                    cache: gradle
 
             -   name: Setter TAG
                 run: echo "TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
@@ -49,10 +49,10 @@ jobs:
                 env:
                   GITHUB_PASSWORD: ${{ secrets.READER_TOKEN }}
                 run: |
-                    echo "::set-output name=image::${{ env.IMAGE }}"                              
-                    ./mvnw --settings .github/.m2/settings.xml -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} package jib:build
+                    echo "image=${{ env.IMAGE }}" >> $GITHUB_OUTPUT                    
+                    ./gradlew -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} clean build jib --continue
                     ls .
-                    echo "DIGEST=$(cat target/jib-image.digest)" >> $GITHUB_ENV
+                    echo "DIGEST=$(cat build/jib-image.digest)" >> $GITHUB_ENV
             - name: Attest and sign image
               uses: nais/attest-sign@v2.0.4
               with:
@@ -85,6 +85,7 @@ jobs:
         environment: prod-fss:aap
         name: Deploy til prod-fss
         needs: [deploy-dev, bygg]
+        if: github.ref == 'refs/heads/main' # bare deploy til prod fra main
         runs-on: ubuntu-latest
         permissions:
             contents: "read"
