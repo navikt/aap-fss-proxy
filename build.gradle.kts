@@ -70,8 +70,8 @@ dependencies {
     implementation("org.apache.cxf:cxf-rt-ws-security:4.2.0")
 
     // SpringDoc OpenAPI
-    implementation("org.springdoc:springdoc-openapi-starter-common:3.0.1")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1")
+    implementation("org.springdoc:springdoc-openapi-starter-common:3.0.2")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2")
 
     // Spring Web Services
     implementation("org.springframework.ws:spring-ws-security")
