@@ -20,7 +20,7 @@ dependencyResolutionManagement {
                     if (this.isBlank()) {
                         // Log as error instead of failing the build.
                         // This works around the GHA Automatic Dependency Submission (Gradle) validate-project step not passing on ENV values
-                        logger.error("WARN: either GITHUB_TOKEN or GITHUB_PASSWORD must be set in env to download NAV packages")
+                        logger.error("Either GITHUB_TOKEN or GITHUB_PASSWORD must be set in env to download NAV packages")
                     }
                 }
             }
