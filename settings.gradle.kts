@@ -18,7 +18,7 @@ dependencyResolutionManagement {
                 password = (githubPassword
                     ?: System.getenv("GITHUB_PASSWORD")
                     ?: System.getenv("GITHUB_TOKEN")
-                    ?: error("requires either GITHUB_TOKEN or GITHUB_PASSWORD to be set in env"))
+                    ?: "")
             }
         }
         mavenLocal()
