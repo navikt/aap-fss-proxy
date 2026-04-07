@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   dependency-submission:
     runs-on: ubuntu-latest
@@ -19,5 +22,3 @@ jobs:
           distribution: temurin
 
       - uses: gradle/actions/dependency-submission@v4
-        env:
-          GITHUB_PASSWORD: ${{ secrets.READER_TOKEN }}

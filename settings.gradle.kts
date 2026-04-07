@@ -10,7 +10,6 @@ dependencyResolutionManagement {
     repositories {
         maven("https://github-package-registry-mirror.gc.nav.no/cached/maven-release")
         mavenCentral()
-        maven("https://packages.confluent.io/maven/")
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/navikt/behandlingsflyt")
