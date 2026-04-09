@@ -1,38 +1,22 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+// Kotlin konfigurasjonen er gitt av pluginen 'aap.conventions' i buildSrc
+// og settings.gradle.kts
+
 plugins {
+    id("aap.conventions")
+
     id("org.springframework.boot") version "4.0.3"
     id("io.spring.dependency-management") version "1.1.7"
-    kotlin("jvm") version "2.3.10"
-    kotlin("plugin.spring") version "2.3.10"
+    kotlin("jvm")
+    kotlin("plugin.spring") version "2.3.20"
     id("com.google.cloud.tools.jib") version "3.5.3"
 }
 
 group = "no.nav.aap"
 version = System.getProperty("revision") ?: "0.0.1-SNAPSHOT"
 description = "Proxy for å kalle tjenester i FSS"
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-}
-kotlin {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_21)
-    }
-}
-
-repositories {
-    maven {
-        url = uri("https://github-package-registry-mirror.gc.nav.no/cached/maven-release")
-    }
-    // Required for OpenSAML dependencies used by Apache CXF
-    maven {
-        url = uri("https://build.shibboleth.net/maven/releases/")
-    }
-    mavenCentral()
-}
 
 configurations {
     implementation {
@@ -259,7 +243,7 @@ sourceSets {
 tasks.withType<KotlinCompile> {
     compilerOptions {
         freeCompilerArgs.add("-Xjsr305=strict")
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        jvmTarget.set(JvmTarget.JVM_21)
     }
 }
 
@@ -285,6 +269,18 @@ jib {
         }
     }
     container {
-        environment = mapOf("TZ" to "CET")
+        environment = mapOf(
+            "TZ" to "Europe/Oslo",
+            "LANG" to "nb_NO.UTF-8",
+            "LC_ALL" to "nb_NO.UTF-8",
+            /*
+            Kommentar til bruk av XX:ActiveProcessorCount:
+            Dette påvirker kode som har logikk basert på JVM - metoden Runtime.getRuntime().availableProcessors()
+            Uten limit i Kubernetes returnerer den antall CPU i noden, som kan være mye høyere enn det som er tildelt pod'en.
+            Dette kan føre til at applikasjonen prøver å bruke flere tråder enn det som er optimalt for pod'en.
+            Nå returnerer metoden det tallet vi angir istedenfor.
+             */
+            "JDK_JAVA_OPTIONS" to "-XX:MaxRAMPercentage=75 -XX:ActiveProcessorCount=2"
+        )
     }
 }

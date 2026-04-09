@@ -10,10 +10,11 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
+
   bygg:
     permissions:
-      contents: "read"
-      id-token: "write"
+      contents: read
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Sjekk ut kode
@@ -40,6 +41,6 @@ jobs:
         env:
           GITHUB_PASSWORD: ${{ secrets.READER_TOKEN }}
         run: |
-          echo "::set-output name=image::${{ env.IMAGE }}"                              
+          echo "image=${{ env.IMAGE }}" >> $GITHUB_OUTPUT
           ./gradlew -DGAR_TOKEN=${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} -Drevision=${TAG} clean build jibDockerBuild --continue
           ls .

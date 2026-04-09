@@ -13,8 +13,8 @@ env:
 jobs:
     bygg:
         permissions:
-            contents: "read"
-            id-token: "write"
+            contents: read
+            id-token: write
             packages: write
         runs-on: ubuntu-latest
         outputs:
@@ -57,16 +57,15 @@ jobs:
               uses: nais/attest-sign@v2.0.6
               with:
                 image_ref: ${{ env.IMAGE }}@${{ env.DIGEST }}
-    
-    
+
     deploy-dev:
         environment: dev-fss:aap
         name: Deploy til dev-fss
         needs: bygg
         runs-on: ubuntu-latest
         permissions:
-            contents: "read"
-            id-token: "write"
+            contents: read
+            id-token: write
         env:
             PRINT_PAYLOAD: true
             RESOURCE: .deploy/nais.yaml
@@ -82,14 +81,15 @@ jobs:
             -   uses: nais/deploy/actions/deploy@v2
 
     deploy-prod:
+        if: github.ref == 'refs/heads/main' # bare deploy til prod fra main
+
         environment: prod-fss:aap
         name: Deploy til prod-fss
         needs: [deploy-dev, bygg]
-        if: github.ref == 'refs/heads/main' # bare deploy til prod fra main
         runs-on: ubuntu-latest
         permissions:
-            contents: "read"
-            id-token: "write"
+            contents: read
+            id-token: write
         env:
             PRINT_PAYLOAD: true
             RESOURCE: .deploy/nais.yaml
