@@ -261,6 +261,7 @@ jib {
             password = providers.environmentVariable("GAR_TOKEN").orNull
         }
     }
+    containerizingMode = "packaged"
     container {
         environment = mapOf(
             "TZ" to "Europe/Oslo",
