@@ -265,14 +265,15 @@ jib {
     container {
         environment = mapOf(
             "TZ" to "Europe/Oslo",
-            "LANG" to "nb_NO.UTF-8",
-            "LC_ALL" to "nb_NO.UTF-8",
             /*
             Kommentar til bruk av XX:ActiveProcessorCount:
-            Dette påvirker kode som har logikk basert på JVM - metoden Runtime.getRuntime().availableProcessors()
+            Dette påvirker kode som har logikk basert på JVM-metoden Runtime.getRuntime().availableProcessors()
             Uten limit i Kubernetes returnerer den antall CPU i noden, som kan være mye høyere enn det som er tildelt pod'en.
             Dette kan føre til at applikasjonen prøver å bruke flere tråder enn det som er optimalt for pod'en.
             Nå returnerer metoden det tallet vi angir istedenfor.
+
+            Merk: Distroless images inkluderer ikke locale data, så vi kan ikke bruke LANG=nb_NO.UTF-8 og
+            LC_ALL=det samme. Istedenfor bruker vi UTF-8, som er default.
              */
             "JDK_JAVA_OPTIONS" to "-XX:MaxRAMPercentage=75 -XX:ActiveProcessorCount=2"
         )
