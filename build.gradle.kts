@@ -240,13 +240,6 @@ sourceSets {
     }
 }
 
-tasks.withType<KotlinCompile> {
-    compilerOptions {
-        freeCompilerArgs.add("-Xjsr305=strict")
-        jvmTarget.set(JvmTarget.JVM_21)
-    }
-}
-
 tasks.withType<Test> {
     useJUnitPlatform()
 }
