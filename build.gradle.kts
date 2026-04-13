@@ -69,8 +69,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web-services")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-jackson")
-    implementation("org.springframework.boot:spring-boot-starter-graphql")
     implementation("org.springframework.boot:spring-boot-webclient")
+
+    // Spring GraphQL (client only)
+    implementation("org.springframework.graphql:spring-graphql:2.0.2")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
 
@@ -99,7 +101,7 @@ dependencies {
     // Test Dependencies
     testImplementation("no.nav.security:token-validation-spring-test:6.0.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:2.3.10")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:2.3.20")
     testImplementation("com.ninja-squad:springmockk:5.0.1")
 }
 
