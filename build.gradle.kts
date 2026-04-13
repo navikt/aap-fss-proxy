@@ -20,7 +20,7 @@ description = "Proxy for å kalle tjenester i FSS"
 
 configurations {
     implementation {
-        exclude(group = "org.springframework.boot", module = "spring-boot-starter-jetty")
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
     }
     // Configuration for CXF code generation
     create("cxfCodegen") {
@@ -65,7 +65,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-tomcat")
+    implementation("org.springframework.boot:spring-boot-starter-jetty")
     implementation("org.springframework.boot:spring-boot-starter-web-services")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-jackson")
