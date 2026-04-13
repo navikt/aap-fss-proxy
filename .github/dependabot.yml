@@ -1,20 +1,38 @@
 version: 2
+
 registries:
-  boot-cluster-conditionals :
-    type: maven-repository
-    url: https://maven.pkg.github.com/navikt/boot-cluster-conditionals
-    username: x-access-token
-    password: ${{ secrets.DEPENDABOT }}   
+    maven-github:
+        type: maven-repository
+        url: https://github-package-registry-mirror.gc.nav.no/cached/maven-release
+        username: POSTMAN
+        password: PAT
+
 updates:
-- package-ecosystem: github-actions
-  directory: "/"
-  schedule:
-     interval: daily
-  open-pull-requests-limit: 10
-- package-ecosystem: maven
-  directory: "/"
-  registries:
-     - boot-cluster-conditionals
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
+    - package-ecosystem: github-actions
+      directory: /
+      schedule:
+          interval: daily
+
+    - package-ecosystem: gradle
+      directory: /
+      schedule:
+          interval: daily
+      cooldown:
+        default-days: 3
+        exclude:
+          - "no.nav.aap*"
+      groups:
+        minor:
+          applies-to: version-updates
+          exclude-patterns:
+            - "no.nav.aap*"
+          update-types:
+            - "minor"
+            - "patch"
+        aap:
+          patterns:
+            - "no.nav.aap*"
+
+      registries:
+          - maven-github
+
