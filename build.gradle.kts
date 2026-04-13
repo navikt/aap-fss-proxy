@@ -252,7 +252,7 @@ springBoot {
 // Configure Jib for container image building
 jib {
     from {
-        image = "gcr.io/distroless/java21"
+        image = "europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/jdk:openjdk-25"
     }
     to {
         image = providers.environmentVariable("IMAGE").getOrElse("aap-fss-proxy:latest")
