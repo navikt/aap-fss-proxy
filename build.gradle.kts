@@ -73,8 +73,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-webclient")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-    // Hibernate Validator
-    implementation("org.hibernate.validator:hibernate-validator")
 
     // Jakarta
     implementation("jakarta.inject:jakarta.inject-api:2.0.0")
