@@ -7,7 +7,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("aap.conventions")
 
-    id("org.springframework.boot") version "4.0.3"
+    id("org.springframework.boot") version "4.0.5"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("jvm")
     kotlin("plugin.spring") version "2.3.20"
@@ -33,8 +33,8 @@ dependencies {
     add("cxfCodegen", "org.apache.cxf:cxf-codegen-plugin:4.2.0")
     add("cxfCodegen", "org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:4.2.0")
     add("cxfCodegen", "org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:4.2.0")
-    add("cxfCodegen", "jakarta.xml.ws:jakarta.xml.ws-api:4.0.0")
-    add("cxfCodegen", "jakarta.xml.bind:jakarta.xml.bind-api:4.0.0")
+    add("cxfCodegen", "jakarta.xml.ws:jakarta.xml.ws-api:4.0.3")
+    add("cxfCodegen", "jakarta.xml.bind:jakarta.xml.bind-api:4.0.5")
 
     // Apache HTTP Components
     implementation("org.apache.httpcomponents.client5:httpclient5")
@@ -77,7 +77,7 @@ dependencies {
 
 
     // Jakarta
-    implementation("jakarta.inject:jakarta.inject-api:2.0.0")
+    implementation("jakarta.inject:jakarta.inject-api:2.0.1")
 
     // Jackson Kotlin Module
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -92,14 +92,14 @@ dependencies {
     implementation("net.logstash.logback:logstash-logback-encoder:9.0")
 
     // NAV Boot
-    implementation("no.nav.boot:boot-conditionals:6.0.3")
+    implementation("no.nav.boot:boot-conditionals:6.0.4")
 
     // NAV Security
-    implementation("no.nav.security:token-validation-spring:6.0.3")
-    implementation("no.nav.security:token-client-spring:6.0.3")
+    implementation("no.nav.security:token-validation-spring:6.0.5")
+    implementation("no.nav.security:token-client-spring:6.0.5")
 
     // Test Dependencies
-    testImplementation("no.nav.security:token-validation-spring-test:6.0.3")
+    testImplementation("no.nav.security:token-validation-spring-test:6.0.5")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.3.20")
     testImplementation("com.ninja-squad:springmockk:5.0.1")
