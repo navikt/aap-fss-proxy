@@ -24,7 +24,6 @@ configurations {
     }
     // Configuration for CXF code generation
     create("cxfCodegen") {
-        extendsFrom(configurations.implementation.get())
     }
 }
 
