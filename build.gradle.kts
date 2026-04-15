@@ -38,7 +38,6 @@ dependencies {
 
     // Apache HTTP Components
     implementation("org.apache.httpcomponents.client5:httpclient5")
-    implementation("org.apache.httpcomponents:httpclient:4.5.14")
 
     // AspectJ
     implementation("org.aspectj:aspectjweaver")
@@ -51,6 +50,8 @@ dependencies {
     implementation("org.apache.cxf:cxf-spring-boot-autoconfigure:4.2.0")
     implementation("org.apache.cxf:cxf-spring-boot-starter-jaxws:4.2.0")
     implementation("org.apache.cxf:cxf-rt-features-logging:4.2.0")
+
+    // pulls in opensaml via wss4j-ws-security-common:
     implementation("org.apache.cxf:cxf-rt-ws-security:4.2.0")
 
     // SpringDoc OpenAPI
@@ -252,7 +253,7 @@ springBoot {
 // Configure Jib for container image building
 jib {
     from {
-        image = "gcr.io/distroless/java21"
+        image = "europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/jdk:openjdk-25"
     }
     to {
         image = providers.environmentVariable("IMAGE").getOrElse("aap-fss-proxy:latest")
