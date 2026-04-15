@@ -12,7 +12,8 @@ version = project.findProperty("version")?.toString() ?: "0.0.0"
 repositories {
     maven("https://github-package-registry-mirror.gc.nav.no/cached/maven-release")
     mavenCentral()
-    maven("https://build.shibboleth.net/maven/releases/") // Required for OpenSAML dependencies, in cxfCodegen
+    // Required for OpenSAML dependencies, in the cxfCodegen task
+    maven("https://build.shibboleth.net/maven/releases/")
     mavenLocal()
 }
 
