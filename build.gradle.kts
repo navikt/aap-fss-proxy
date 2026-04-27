@@ -7,10 +7,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("aap.conventions")
 
-    id("org.springframework.boot") version "4.0.5"
+    id("org.springframework.boot") version "4.0.6"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("jvm")
-    kotlin("plugin.spring") version "2.3.20"
+    kotlin("plugin.spring") version "2.3.21"
     id("com.google.cloud.tools.jib") version "3.5.3"
 }
 
@@ -71,7 +71,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-webclient")
 
     // Spring GraphQL (client only)
-    implementation("org.springframework.graphql:spring-graphql:2.0.2")
+    implementation("org.springframework.graphql:spring-graphql:2.0.3")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
 
@@ -100,7 +100,7 @@ dependencies {
     // Test Dependencies
     testImplementation("no.nav.security:token-validation-spring-test:6.0.5")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:2.3.20")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:2.3.21")
     testImplementation("com.ninja-squad:springmockk:5.0.1")
 }
 
