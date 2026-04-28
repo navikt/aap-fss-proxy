@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.3.21")
-    implementation("dev.detekt:detekt-gradle-plugin:2.0.0-alpha.2")
+    implementation("dev.detekt:detekt-gradle-plugin:2.0.0-alpha.3")
 }
 
 kotlin {
