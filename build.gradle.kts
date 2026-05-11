@@ -94,11 +94,11 @@ dependencies {
     implementation("no.nav.boot:boot-conditionals:6.0.5")
 
     // NAV Security
-    implementation("no.nav.security:token-validation-spring:6.0.6")
-    implementation("no.nav.security:token-client-spring:6.0.6")
+    implementation("no.nav.security:token-validation-spring:6.0.7")
+    implementation("no.nav.security:token-client-spring:6.0.7")
 
     // Test Dependencies
-    testImplementation("no.nav.security:token-validation-spring-test:6.0.6")
+    testImplementation("no.nav.security:token-validation-spring-test:6.0.7")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.3.21")
     testImplementation("com.ninja-squad:springmockk:5.0.1")
