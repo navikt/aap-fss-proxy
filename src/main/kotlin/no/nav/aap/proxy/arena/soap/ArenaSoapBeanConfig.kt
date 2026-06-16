@@ -1,5 +1,10 @@
 package no.nav.aap.proxy.arena.soap
 
+import no.nav.aap.api.felles.error.IrrecoverableIntegrationException
+import no.nav.aap.health.AbstractPingableHealthIndicator
+import no.nav.aap.proxy.arena.generated.behandleSakOgAktivitet.BehandleSakOgAktivitetV1
+import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
+import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
 import org.apache.cxf.Bus
 import org.apache.cxf.binding.soap.Soap12
 import org.apache.cxf.binding.soap.SoapMessage
@@ -9,14 +14,17 @@ import org.apache.cxf.ext.logging.LoggingOutInterceptor
 import org.apache.cxf.frontend.ClientProxy
 import org.apache.cxf.interceptor.InterceptorProvider
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean
-import org.apache.cxf.rt.security.SecurityConstants.*
+import org.apache.cxf.rt.security.SecurityConstants.CACHE_ISSUED_TOKEN_IN_ENDPOINT
+import org.apache.cxf.rt.security.SecurityConstants.PASSWORD
+import org.apache.cxf.rt.security.SecurityConstants.STS_CLIENT
+import org.apache.cxf.rt.security.SecurityConstants.USERNAME
 import org.apache.cxf.ws.policy.PolicyBuilder
 import org.apache.cxf.ws.policy.PolicyEngine
 import org.apache.cxf.ws.policy.attachment.reference.RemoteReferenceResolver
 import org.apache.cxf.ws.security.trust.STSClient
 import org.apache.neethi.Policy
-import org.apache.wss4j.common.ConfigurationConstants.*
-import org.apache.wss4j.common.WSS4JConstants.*
+import org.apache.wss4j.common.ConfigurationConstants.USERNAME_TOKEN
+import org.apache.wss4j.common.WSS4JConstants.PW_TEXT
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.webservices.client.WebServiceTemplateBuilder
 import org.springframework.context.annotation.Bean
@@ -24,15 +32,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
 import org.springframework.oxm.jaxb.Jaxb2Marshaller
 import org.springframework.stereotype.Component
-import org.springframework.ws.client.core.FaultMessageResolver
 import org.springframework.ws.soap.saaj.SaajSoapMessage
 import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor
 import org.springframework.ws.transport.http.HttpComponentsMessageSender
-import no.nav.aap.api.felles.error.IrrecoverableIntegrationException
-import no.nav.aap.health.AbstractPingableHealthIndicator
-import no.nav.aap.proxy.arena.generated.behandleSakOgAktivitet.BehandleSakOgAktivitetV1
-import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
-import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
 
 @Configuration(proxyBeanMethods = false)
 class ArenaSoapBeanConfig(private val cfg : ArenaSoapConfig) {

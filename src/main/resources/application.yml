@@ -27,21 +27,14 @@ management:
     endpoints:
         web:
             exposure:
-                include: '*'
+                include: health,info,prometheus
     endpoint:
         health:
-            show-details: always
-        configprops:
-            show-values: always
-        env:
-            additional-keys-to-sanitize: "client-jwk,jwk,jwks"
-            show-values: always
+            show-details: never
     info:
         os:
             enabled: true
         java:
-            enabled: true
-        env:
             enabled: true
     health:
         ping:
