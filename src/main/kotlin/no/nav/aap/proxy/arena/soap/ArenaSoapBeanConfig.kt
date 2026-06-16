@@ -5,6 +5,7 @@ import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.arena.generated.behandleSakOgAktivitet.BehandleSakOgAktivitetV1
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
+import no.nav.boot.conditionals.EnvUtil.isDev
 import org.apache.cxf.Bus
 import org.apache.cxf.binding.soap.Soap12
 import org.apache.cxf.binding.soap.SoapMessage
@@ -35,7 +36,6 @@ import org.springframework.stereotype.Component
 import org.springframework.ws.soap.saaj.SaajSoapMessage
 import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor
 import org.springframework.ws.transport.http.HttpComponentsMessageSender
-import no.nav.boot.conditionals.EnvUtil.isDevOrLocal
 
 @Configuration(proxyBeanMethods = false)
 class ArenaSoapBeanConfig(private val cfg : ArenaSoapConfig) {
@@ -140,7 +140,7 @@ class WsClient<T>(private val sts : STSClient) {
 }
 
 internal fun InterceptorProvider.addLoggingInterceptorsIfEnabled(env : Environment) {
-    if (!isDevOrLocal(env)) {
+    if (!isDev(env)) {
         return
     }
 
