@@ -33,9 +33,9 @@ management:
             show-details: never
     info:
         os:
-            enabled: true
+            enabled: false
         java:
-            enabled: true
+            enabled: false
     health:
         ping:
             enabled: false
