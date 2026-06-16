@@ -5,6 +5,7 @@ import no.nav.aap.health.AbstractPingableHealthIndicator
 import no.nav.aap.proxy.arena.generated.behandleSakOgAktivitet.BehandleSakOgAktivitetV1
 import no.nav.aap.proxy.arena.generated.oppgave.BehandleArbeidOgAktivitetOppgaveV1
 import no.nav.aap.proxy.arena.soap.ArenaSoapConfig.Companion.SAK
+import no.nav.boot.conditionals.EnvUtil.isDev
 import org.apache.cxf.Bus
 import org.apache.cxf.binding.soap.Soap12
 import org.apache.cxf.binding.soap.SoapMessage
@@ -49,18 +50,18 @@ class ArenaSoapBeanConfig(private val cfg : ArenaSoapConfig) {
     fun sakOgAktivitetHealthIndicator(a : SakOgAktivitetSoapAdapter) = object : AbstractPingableHealthIndicator(a) {}
 
     @Bean
-    fun arenaOppgaveClient(ws : WsClient<BehandleArbeidOgAktivitetOppgaveV1>) =
+    fun arenaOppgaveClient(ws : WsClient<BehandleArbeidOgAktivitetOppgaveV1>, env : Environment) =
         ws.configureClientForSystemUserSAML(JaxWsProxyFactoryBean().apply {
             address = cfg.oppgaveUri
             serviceClass = BehandleArbeidOgAktivitetOppgaveV1::class.java
-        }.create() as BehandleArbeidOgAktivitetOppgaveV1)
+        }.create() as BehandleArbeidOgAktivitetOppgaveV1, env)
 
     @Bean
-    fun arenaBehandleSalOgAktivitetClient(ws : WsClient<BehandleSakOgAktivitetV1>) =
+    fun arenaBehandleSalOgAktivitetClient(ws : WsClient<BehandleSakOgAktivitetV1>, env : Environment) =
         ws.configureClientForSystemUserSAML(JaxWsProxyFactoryBean().apply {
             address = cfg.behandleSakOgAktivitetUri
             serviceClass = BehandleSakOgAktivitetV1::class.java
-        }.create() as BehandleSakOgAktivitetV1)
+        }.create() as BehandleSakOgAktivitetV1, env)
 
     @Bean
     fun arenaStsClient(bus : Bus, env : Environment) =
@@ -70,7 +71,7 @@ class ArenaSoapBeanConfig(private val cfg : ArenaSoapConfig) {
             location = "${cfg.sts.url}"
             properties = mapOf(USERNAME to cfg.sts.username, PASSWORD to cfg.sts.password)
             setPolicy(STS_CLIENT_AUTHENTICATION_POLICY)
-            addLoggingInterceptors()
+            addLoggingInterceptorsIfEnabled(env)
         }
 
     @Bean
@@ -111,12 +112,12 @@ class ArenaSoapBeanConfig(private val cfg : ArenaSoapConfig) {
 @Component
 class WsClient<T>(private val sts : STSClient) {
 
-    fun configureClientForSystemUserSAML(port : T) : T {
+    fun configureClientForSystemUserSAML(port : T, env : Environment) : T {
         ClientProxy.getClient(port).apply {
             requestContext[STS_CLIENT] = sts
             requestContext[CACHE_ISSUED_TOKEN_IN_ENDPOINT] = true
             setClientEndpointPolicy(this, policy(this))
-            addLoggingInterceptors()
+            addLoggingInterceptorsIfEnabled(env)
         }
         return port
     }
@@ -138,7 +139,11 @@ class WsClient<T>(private val sts : STSClient) {
     }
 }
 
-private fun InterceptorProvider.addLoggingInterceptors() {
+internal fun InterceptorProvider.addLoggingInterceptorsIfEnabled(env : Environment) {
+    if (!isDev(env)) {
+        return
+    }
+
     outInterceptors.add(ArenaSoapCallIdHeaderInterceptor())
     val inI = LoggingInInterceptor().apply { setPrettyLogging(true) }
     val outI = LoggingOutInterceptor().apply { setPrettyLogging(true) }
