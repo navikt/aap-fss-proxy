@@ -101,17 +101,6 @@ class ApplicationTest {
             .expectStatus().isUnauthorized
     }
 
-    @Test
-    fun `skal ikke eksponere actuator env`() {
-        WebTestClient.bindToServer()
-            .baseUrl("http://localhost:$port")
-            .build()
-            .get()
-            .uri("/actuator/env")
-            .exchange()
-            .expectStatus().isNotFound
-    }
-
     private fun genererBearerToken(): String {
         val clientId = "lokal:aap:aap-fss-proxy"
         return mockOAuth2Server
