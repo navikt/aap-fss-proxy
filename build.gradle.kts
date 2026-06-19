@@ -91,7 +91,7 @@ dependencies {
     implementation("net.logstash.logback:logstash-logback-encoder:9.0")
 
     // NAV Boot
-    implementation("no.nav.boot:boot-conditionals:6.0.5")
+    implementation("no.nav.boot:boot-conditionals:6.0.7")
 
     // NAV Security
     implementation("no.nav.security:token-validation-spring:6.0.10")
