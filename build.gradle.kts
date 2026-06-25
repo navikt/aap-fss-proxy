@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 // Kotlin konfigurasjonen er gitt av pluginen 'aap.conventions' i buildSrc
 // og settings.gradle.kts
 
@@ -151,7 +148,7 @@ val wsdl2javaOppgave = tasks.register<JavaExec>("wsdl2javaOppgave") {
     )
     val wsdlFile = layout.projectDirectory.file(
         "src/main/resources/wsdl/oppgave/no/nav/tjeneste/virksomhet/" +
-        "behandleArbeidOgAktivitetOppgave/v1/Binding.wsdl"
+                "behandleArbeidOgAktivitetOppgave/v1/Binding.wsdl"
     )
     val outputDir = generatedSourcesDir
 
@@ -251,7 +248,8 @@ springBoot {
 // Configure Jib for container image building
 jib {
     from {
-        image = "gcr.io/distroless/java21"
+        //TODO fails because of : https://github.com/GoogleContainerTools/jib/issues/4506
+        image = "europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/jdk:openjdk-25"
     }
     to {
         image = providers.environmentVariable("IMAGE").getOrElse("aap-fss-proxy:latest")
