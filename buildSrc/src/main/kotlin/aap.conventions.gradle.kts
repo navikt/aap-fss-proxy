@@ -1,5 +1,3 @@
-import org.gradle.kotlin.dsl.`kotlin-dsl`
-
 // Felles kode for alle build.gradle.kts filer som laster inn denne conventions pluginen
 
 plugins {
@@ -20,7 +18,7 @@ repositories {
 // https://docs.gradle.org/9.2.1/userguide/jvm_test_suite_plugin.html
 testing {
     suites {
-        @Suppress("UnstableApiUsage") val test by getting(JvmTestSuite::class) {
+        @Suppress("UnstableApiUsage", "unused") val test = getByName<JvmTestSuite>("test") {
             useJUnitJupiter()
         }
     }

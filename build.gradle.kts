@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 // Kotlin konfigurasjonen er gitt av pluginen 'aap.conventions' i buildSrc
 // og settings.gradle.kts
 
