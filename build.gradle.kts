@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 // Kotlin konfigurasjonen er gitt av pluginen 'aap.conventions' i buildSrc
 // og settings.gradle.kts
 
@@ -94,11 +91,11 @@ dependencies {
     implementation("no.nav.boot:boot-conditionals:6.0.7")
 
     // NAV Security
-    implementation("no.nav.security:token-validation-spring:6.0.10")
-    implementation("no.nav.security:token-client-spring:6.0.10")
+    implementation("no.nav.security:token-validation-spring:6.0.11")
+    implementation("no.nav.security:token-client-spring:6.0.11")
 
     // Test Dependencies
-    testImplementation("no.nav.security:token-validation-spring-test:6.0.10")
+    testImplementation("no.nav.security:token-validation-spring-test:6.0.11")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.4.0")
     testImplementation("com.ninja-squad:springmockk:5.0.1")
