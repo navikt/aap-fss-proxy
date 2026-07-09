@@ -24,7 +24,7 @@ jobs:
                 uses: actions/checkout@v7
 
             -   name: Sett opp Java
-                uses: actions/setup-java@v5.3.0
+                uses: actions/setup-java@v5.5.0
                 with:
                     java-version: 25
                     distribution: temurin
@@ -54,7 +54,7 @@ jobs:
                     ls .
                     echo "DIGEST=$(cat build/jib-image.digest)" >> $GITHUB_ENV
             - name: Attest and sign image
-              uses: nais/attest-sign@v2.0.13
+              uses: nais/attest-sign@v2.0.14
               with:
                 image_ref: ${{ env.IMAGE }}@${{ env.DIGEST }}
 
