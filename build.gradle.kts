@@ -7,8 +7,8 @@ plugins {
     id("org.springframework.boot") version "4.1.0"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("jvm")
-    kotlin("plugin.spring") version "2.4.0"
-    id("com.google.cloud.tools.jib") version "3.5.3"
+    kotlin("plugin.spring") version "2.4.10"
+    id("com.google.cloud.tools.jib") version "3.5.4"
 }
 
 group = "no.nav.aap"
@@ -97,7 +97,7 @@ dependencies {
     // Test Dependencies
     testImplementation("no.nav.security:token-validation-spring-test:6.0.11")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:2.4.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:2.4.10")
     testImplementation("com.ninja-squad:springmockk:5.0.1")
 }
 
