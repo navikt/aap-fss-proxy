@@ -9,9 +9,11 @@ on:
 jobs:
     bygg:
         permissions:
-            contents: read
+            contents: write # sumbit dependency-graph
             id-token: write
             packages: write
+            actions: read
+            checks: write
         runs-on: ubuntu-latest
         outputs:
             image: ${{ steps.docker-build-push.outputs.image }}
@@ -24,7 +26,12 @@ jobs:
                 with:
                     java-version: 25
                     distribution: temurin
-                    cache: gradle
+
+            -   name: Sett opp Gradle
+                uses: gradle/actions/setup-gradle@v6.2.0
+                with:
+                    dependency-graph: generate-and-submit
+                    gradle-version: wrapper
 
             -   name: Bygg fatjar
                 run: |
