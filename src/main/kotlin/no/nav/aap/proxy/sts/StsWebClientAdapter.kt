@@ -19,7 +19,7 @@ class StsWebClientAdapter(@Qualifier(STS) webClient : WebClient, private val cf 
             log.trace("Fornyer token")
             token = getTheToken()
         }
-        return token.accessToken?.tokenAsString!!
+        return token.accessToken?.encodedToken!!
     }
 
     private fun getTheToken() =

@@ -19,6 +19,7 @@ private class MDCAccessor : ThreadLocalAccessor<Map<String, String>> {
 
     override fun setValue(value : Map<String, String>) = setContextMap(value)
 
+    @Deprecated("Deprecated in Java")
     override fun reset() = clear()
 }
 
@@ -30,6 +31,7 @@ private class RequestAttributesAccessor : ThreadLocalAccessor<RequestAttributes>
 
     override fun setValue(value : RequestAttributes) = setRequestAttributes(value)
 
+    @Deprecated("Deprecated in Java")
     override fun reset() = resetRequestAttributes()
 }
 
