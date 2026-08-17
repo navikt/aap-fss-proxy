@@ -33,11 +33,6 @@ jobs:
                     dependency-graph: generate-and-submit
                     gradle-version: wrapper
 
-            -   name: Login GAR
-                uses: nais/login@v0
-                with:
-                    team: aap
-
             -   name: Bygg fatjar
                 run: |
                     ./gradlew clean build --continue
