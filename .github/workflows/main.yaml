@@ -5,9 +5,6 @@ on:
   push:
     branches:
       - main
-env:
-  IMAGE_BASE: europe-north1-docker.pkg.dev/nais-management-233d/aap/${{ github.event.repository.name }}
-
 jobs:
     bygg:
         permissions:
@@ -37,14 +34,12 @@ jobs:
 
             -   name: Login GAR
                 uses: nais/login@v0
-                with:
-                    team: aap
 
             -   name: Bygg og push image med Jib
                 id: kompiler
                 run: |
                     TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)
-                    export IMAGE="${{ env.IMAGE_BASE }}:${TAG}"
+                    export IMAGE="europe-north1-docker.pkg.dev/nais-management-233d/aap/${{ github.event.repository.name }}:${TAG}"
                     echo "image=${IMAGE}" >> $GITHUB_OUTPUT
                     ./gradlew -Drevision=${TAG} build jib
                     echo "DIGEST=$(cat build/jib-image.digest)" >> $GITHUB_ENV
