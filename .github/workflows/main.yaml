@@ -9,7 +9,7 @@ on:
 jobs:
     bygg:
         permissions:
-            contents: write # sumbit dependency-graph
+            contents: write # submit dependency-graph
             id-token: write
             packages: write
             actions: read
@@ -88,4 +88,3 @@ jobs:
                 with:
                     team: aap
             -   uses: nais/deploy/actions/deploy@v2
-
