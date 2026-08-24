@@ -10,7 +10,7 @@ metadata:
     namespace: aap
     labels:
         team: aap
-        systemkatalog.nav.no/system: TE-496
+        systemkatalog.nav.no/system: SK-268
 spec:
     accessPolicy:
         inbound:
