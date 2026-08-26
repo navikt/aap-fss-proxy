@@ -25,9 +25,9 @@ configurations {
 
 dependencies {
     // CXF code generation
-    add("cxfCodegen", "org.apache.cxf:cxf-codegen-plugin:4.2.2")
-    add("cxfCodegen", "org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:4.2.2")
-    add("cxfCodegen", "org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:4.2.2")
+    add("cxfCodegen", "org.apache.cxf:cxf-codegen-plugin:4.2.3")
+    add("cxfCodegen", "org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:4.2.3")
+    add("cxfCodegen", "org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:4.2.3")
     add("cxfCodegen", "jakarta.xml.ws:jakarta.xml.ws-api:4.0.3")
     add("cxfCodegen", "jakarta.xml.bind:jakarta.xml.bind-api:4.0.5")
 
@@ -43,14 +43,14 @@ dependencies {
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 
     // Apache CXF
-    implementation("org.apache.cxf:cxf-spring-boot-autoconfigure:4.2.2")
-    implementation("org.apache.cxf:cxf-spring-boot-starter-jaxws:4.2.2")
-    implementation("org.apache.cxf:cxf-rt-features-logging:4.2.2")
-    implementation("org.apache.cxf:cxf-rt-ws-security:4.2.2")
+    implementation("org.apache.cxf:cxf-spring-boot-autoconfigure:4.2.3")
+    implementation("org.apache.cxf:cxf-spring-boot-starter-jaxws:4.2.3")
+    implementation("org.apache.cxf:cxf-rt-features-logging:4.2.3")
+    implementation("org.apache.cxf:cxf-rt-ws-security:4.2.3")
 
     // SpringDoc OpenAPI
-    implementation("org.springdoc:springdoc-openapi-starter-common:3.0.3")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
+    implementation("org.springdoc:springdoc-openapi-starter-common:3.1.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.0")
 
     // Spring Web Services
     implementation("org.springframework.ws:spring-ws-security")
@@ -90,11 +90,11 @@ dependencies {
     implementation("no.nav.boot:boot-conditionals:6.0.7")
 
     // NAV Security
-    implementation("no.nav.security:token-validation-spring:6.0.11")
-    implementation("no.nav.security:token-client-spring:6.0.11")
+    implementation("no.nav.security:token-validation-spring:6.0.12")
+    implementation("no.nav.security:token-client-spring:6.0.12")
 
     // Test Dependencies
-    testImplementation("no.nav.security:token-validation-spring-test:6.0.11")
+    testImplementation("no.nav.security:token-validation-spring-test:6.0.12")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.4.10")
     testImplementation("com.ninja-squad:springmockk:5.0.1")
