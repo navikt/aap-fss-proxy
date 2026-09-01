@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-
 jobs:
     bygg:
         permissions:
@@ -16,7 +15,7 @@ jobs:
             checks: write
         runs-on: ubuntu-latest
         outputs:
-            image: ${{ steps.docker-build-push.outputs.image }}
+            image: ${{ steps.kompiler.outputs.image }}
         steps:
             -   name: Sjekk ut kode
                 uses: actions/checkout@v7
@@ -33,15 +32,26 @@ jobs:
                     dependency-graph: generate-and-submit
                     gradle-version: wrapper
 
-            -   name: Bygg fatjar
-                run: |
-                    ./gradlew clean build --continue
-
-            -   name: Bygg og push Docker-image
-                id: docker-build-push
-                uses: nais/docker-build-push@v0
+            -   name: Login GAR
+                uses: nais/login@v0
+                id: login
                 with:
                     team: aap
+
+            -   name: Bygg og push image med Jib
+                id: kompiler
+                run: |
+                    TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)
+                    export IMAGE="${{ steps.login.outputs.registry }}/${{ github.event.repository.name }}:${TAG}"
+                    echo "image=${IMAGE}" >> $GITHUB_OUTPUT
+                    ./gradlew -Drevision=${TAG} build jib
+                    echo "DIGEST=$(cat build/jib-image.digest)" >> $GITHUB_ENV
+                    echo "IMAGE=${IMAGE}" >> $GITHUB_ENV
+
+            -   name: Attest and sign image
+                uses: nais/attest-sign@v2.0.14
+                with:
+                    image_ref: ${{ env.IMAGE }}@${{ env.DIGEST }}
 
     deploy-dev:
         environment: dev-fss:aap
