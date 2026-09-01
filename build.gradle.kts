@@ -4,7 +4,7 @@
 plugins {
     id("aap.conventions")
 
-    id("org.springframework.boot") version "4.1.0"
+    id("org.springframework.boot") version "4.1.1"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("jvm")
     kotlin("plugin.spring") version "2.4.10"
@@ -67,7 +67,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-webclient")
 
     // Spring GraphQL (client only)
-    implementation("org.springframework.graphql:spring-graphql:2.0.4")
+    implementation("org.springframework.graphql:spring-graphql:2.0.5")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
 
