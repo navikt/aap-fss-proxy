@@ -7,7 +7,7 @@ plugins {
     id("org.springframework.boot") version "4.1.1"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("jvm")
-    kotlin("plugin.spring") version "2.4.10"
+    kotlin("plugin.spring") version "2.4.20"
 }
 
 group = "no.nav.aap"
@@ -49,8 +49,8 @@ dependencies {
     implementation("org.apache.cxf:cxf-rt-ws-security:4.2.3")
 
     // SpringDoc OpenAPI
-    implementation("org.springdoc:springdoc-openapi-starter-common:3.1.0")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.0")
+    implementation("org.springdoc:springdoc-openapi-starter-common:3.1.1")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.1")
 
     // Spring Web Services
     implementation("org.springframework.ws:spring-ws-security")
@@ -96,7 +96,7 @@ dependencies {
     // Test Dependencies
     testImplementation("no.nav.security:token-validation-spring-test:6.0.12")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:2.4.10")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:2.4.20")
     testImplementation("com.ninja-squad:springmockk:5.0.1")
 }
 
