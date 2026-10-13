@@ -1,0 +1,64 @@
+[versions]
+kotlin = "2.4.20"
+spring-boot = "4.1.1"
+spring-dependency-management = "1.1.7"
+cxf = "4.2.3"
+httpclient = "4.5.14"
+micrometer-context-propagation = "1.2.1"
+springdoc = "3.1.1"
+spring-graphql = "2.0.5"
+jakarta-inject = "2.0.1"
+coroutines = "1.11.0"
+logstash-logback-encoder = "9.0"
+nav-boot = "6.0.7"
+nav-security = "6.0.12"
+springmockk = "5.0.1"
+
+[libraries]
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+cxf-codegen-plugin = { module = "org.apache.cxf:cxf-codegen-plugin", version.ref = "cxf" }
+cxf-wsdlto-frontend-jaxws = { module = "org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws", version.ref = "cxf" }
+cxf-wsdlto-databinding-jaxb = { module = "org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb", version.ref = "cxf" }
+jakarta-xml-ws-api = { module = "jakarta.xml.ws:jakarta.xml.ws-api", version = "4.0.3" }
+jakarta-xml-bind-api = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version = "4.0.5" }
+httpclient-legacy = { module = "org.apache.httpcomponents:httpclient", version.ref = "httpclient" }
+httpclient5 = { module = "org.apache.httpcomponents.client5:httpclient5" }
+aspectj-weaver = { module = "org.aspectj:aspectjweaver" }
+micrometer-context-propagation = { module = "io.micrometer:context-propagation", version.ref = "micrometer-context-propagation" }
+micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
+cxf-spring-boot-autoconfigure = { module = "org.apache.cxf:cxf-spring-boot-autoconfigure", version.ref = "cxf" }
+cxf-spring-boot-starter-jaxws = { module = "org.apache.cxf:cxf-spring-boot-starter-jaxws", version.ref = "cxf" }
+cxf-rt-features-logging = { module = "org.apache.cxf:cxf-rt-features-logging", version.ref = "cxf" }
+cxf-rt-ws-security = { module = "org.apache.cxf:cxf-rt-ws-security", version.ref = "cxf" }
+springdoc-openapi-starter-common = { module = "org.springdoc:springdoc-openapi-starter-common", version.ref = "springdoc" }
+springdoc-openapi-starter-webmvc-ui = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
+spring-ws-security = { module = "org.springframework.ws:spring-ws-security" }
+spring-ws-core = { module = "org.springframework.ws:spring-ws-core" }
+spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-jetty = { module = "org.springframework.boot:spring-boot-starter-jetty" }
+spring-boot-starter-web-services = { module = "org.springframework.boot:spring-boot-starter-web-services" }
+spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
+spring-boot-starter-jackson = { module = "org.springframework.boot:spring-boot-starter-jackson" }
+spring-boot-webclient = { module = "org.springframework.boot:spring-boot-webclient" }
+spring-boot-configuration-processor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
+spring-graphql = { module = "org.springframework.graphql:spring-graphql", version.ref = "spring-graphql" }
+jakarta-inject = { module = "jakarta.inject:jakarta.inject-api", version.ref = "jakarta-inject" }
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-slf4j = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-slf4j", version.ref = "coroutines" }
+logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash-logback-encoder" }
+nav-boot-conditionals = { module = "no.nav.boot:boot-conditionals", version.ref = "nav-boot" }
+nav-token-validation-spring = { module = "no.nav.security:token-validation-spring", version.ref = "nav-security" }
+nav-token-client-spring = { module = "no.nav.security:token-client-spring", version.ref = "nav-security" }
+nav-token-validation-spring-test = { module = "no.nav.security:token-validation-spring-test", version.ref = "nav-security" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+springmockk = { module = "com.ninja-squad:springmockk", version.ref = "springmockk" }
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
