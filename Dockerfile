@@ -3,7 +3,7 @@
 FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/jdk:openjdk-25
 
 WORKDIR /app
-COPY /build/libs/app.jar /app/app.jar
+COPY /app/build/libs/app.jar /app/app.jar
 
 ENV LANG='nb_NO.UTF-8' LC_ALL='nb_NO.UTF-8' TZ="Europe/Oslo"
 # Kommentar til bruk av XX:ActiveProcessorCount:

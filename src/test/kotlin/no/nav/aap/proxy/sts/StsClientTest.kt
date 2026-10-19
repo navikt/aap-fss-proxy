@@ -42,9 +42,9 @@ class StsClientTest {
     @Test
     fun `deserialisering av snake case respons`() {
         val token = mapper.readValue(defaultToken, OidcToken::class.java)
-        assertEquals(token.tokenType, "Bearer")
-        assertEquals(token.expiresIn, 3600)
-        assertEquals(token.accessToken!!.tokenAsString, longLived)
+        assertEquals("Bearer", token.tokenType)
+        assertEquals(3600, token.expiresIn)
+        assertEquals(longLived, token.accessToken!!.encodedToken)
     }
 
     companion object {

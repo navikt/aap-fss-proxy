@@ -1,11 +1,43 @@
-rootProject.name = "aap-fss-proxy"
-
-dependencyResolutionManagement {
-    // Felles for alle gradle prosjekter i repoet
-    @Suppress("UnstableApiUsage")
+pluginManagement {
+    includeBuild("build-logic")
     repositories {
-        maven("https://github-package-registry-mirror.gc.nav.no/cached/maven-release")
+        gradlePluginPortal()
         mavenCentral()
-        mavenLocal()
     }
 }
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    @Suppress("UnstableApiUsage")
+    repositories {
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = "NavPackageRegistry"
+                    url = uri("https://github-package-registry-mirror.gc.nav.no/cached/maven-release")
+                }
+            }
+            filter {
+                includeGroupByRegex("no\\.nav(\\..*)?")
+            }
+        }
+        mavenCentral()
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = "Shibboleth"
+                    url = uri("https://build.shibboleth.net/maven/releases/")
+                }
+            }
+            filter {
+                includeGroupByRegex("org\\.opensaml(\\..*)?")
+                includeGroupByRegex("net\\.shibboleth(\\..*)?")
+            }
+        }
+    }
+}
+
+include(":app")
+
+rootProject.name = "aap-fss-proxy"
