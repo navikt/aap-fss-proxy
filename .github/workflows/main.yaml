@@ -63,7 +63,7 @@ jobs:
                 id: login
                 with:
                     team: aap
-            -   uses: nais/deploy/actions/deploy@v2
+            -   uses: nais/deploy/actions/deploy@v3
 
     deploy-prod:
         if: github.ref == 'refs/heads/main' # bare deploy til prod fra main
@@ -87,4 +87,4 @@ jobs:
                 id: login
                 with:
                     team: aap
-            -   uses: nais/deploy/actions/deploy@v2
+            -   uses: nais/deploy/actions/deploy@v3
