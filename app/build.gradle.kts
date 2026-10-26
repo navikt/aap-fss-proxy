@@ -21,6 +21,7 @@ version = System.getProperty("revision") ?: "0.0.1-SNAPSHOT"
 description = "Proxy for å kalle tjenester i FSS"
 
 extra["tomcat.version"] = libs.versions.tomcat.get()
+extra["freemarker.version"] = libs.versions.freemarker.get()
 
 val cxfCodegen = configurations.create("cxfCodegen") {
     isCanBeResolved = true
