@@ -20,6 +20,8 @@ group = "no.nav.aap"
 version = System.getProperty("revision") ?: "0.0.1-SNAPSHOT"
 description = "Proxy for å kalle tjenester i FSS"
 
+extra["tomcat.version"] = "11.0.25"
+
 val cxfCodegen = configurations.create("cxfCodegen") {
     isCanBeResolved = true
     isCanBeConsumed = false
