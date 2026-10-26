@@ -14,6 +14,7 @@ logstash-logback-encoder = "9.0"
 nav-boot = "6.0.7"
 nav-security = "6.0.12"
 springmockk = "5.0.1"
+bouncycastle = "1.85"
 
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -58,6 +59,7 @@ nav-token-client-spring = { module = "no.nav.security:token-client-spring", vers
 nav-token-validation-spring-test = { module = "no.nav.security:token-validation-spring-test", version.ref = "nav-security" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 springmockk = { module = "com.ninja-squad:springmockk", version.ref = "springmockk" }
+bouncycastle-provider = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

@@ -108,6 +108,9 @@ dependencies {
     implementation(libs.nav.token.client.spring)
 
     // Test Dependencies
+    constraints {
+        testRuntimeOnly(libs.bouncycastle.provider)
+    }
     testImplementation(libs.nav.token.validation.spring.test)
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.kotlin.test)
