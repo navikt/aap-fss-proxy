@@ -2,6 +2,7 @@
 kotlin = "2.4.20"
 spring-boot = "4.1.1"
 spring-dependency-management = "1.1.7"
+tomcat = "11.0.25"
 cxf = "4.2.3"
 httpclient = "4.5.14"
 micrometer-context-propagation = "1.2.1"
