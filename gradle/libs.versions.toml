@@ -15,6 +15,7 @@ nav-boot = "6.0.7"
 nav-security = "6.0.12"
 springmockk = "5.0.1"
 bouncycastle = "1.85"
+freemarker = "2.3.35"
 
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
